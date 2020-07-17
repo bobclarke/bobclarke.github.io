@@ -1,0 +1,32 @@
+---
+layout: post
+title: bash shell shorthand conditionals
+date: 2018-01-13 13:53:00.000000000 +00:00
+type: post
+parent_id: '0'
+published: true
+password: ''
+status: publish
+categories: []
+tags: []
+meta:
+  _publicize_job_id: '21247950447'
+  restapi_import_id: 5b6f197fa2b75
+author:
+  login: bobmclarke915800472
+  email: bob.mclarke@gmail.com
+  display_name: Bob Clarke
+  first_name: ''
+  last_name: ''
+permalink: "/2018/01/13/bash-shell-shorthand-conditionals/"
+---
+<p><!-- HTML for divs generated using hilite.me --> This is a neat way in bash scripts to use conditionals. The basic syntax is:</p>
+<pre>[ condition ] &amp;&amp; action
+[ condition ] || action</pre>
+<p>counting files in a directory</p>
+<pre>[ $(ls -1 | wc -l) -ne 1 ] &amp;&amp; echo “More than one file in this directory”</pre>
+<p>checking the number of args passed</p>
+<pre>[ $# -eq 1 ] || expecting "Expecting one argument"</pre>
+<p>you can also group multiple actions together as follows:</p>
+<pre>[ $# -eq 1 ] || { echo "Expecting one argument"; exit 1; }</pre>
+<p>&nbsp;</p>

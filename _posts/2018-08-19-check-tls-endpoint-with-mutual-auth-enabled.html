@@ -1,0 +1,65 @@
+---
+layout: post
+title: check TLS endpoint with mutual auth enabled
+date: 2018-08-19 20:40:34.000000000 +01:00
+type: post
+parent_id: '0'
+published: true
+password: ''
+status: publish
+categories: []
+tags: []
+meta:
+  _rest_api_published: '1'
+  _rest_api_client_id: "-1"
+  _publicize_job_id: '21252516356'
+  timeline_notification: '1534711235'
+author:
+  login: bobmclarke915800472
+  email: bob.mclarke@gmail.com
+  display_name: Bob Clarke
+  first_name: ''
+  last_name: ''
+permalink: "/2018/08/19/check-tls-endpoint-with-mutual-auth-enabled/"
+---
+<pre>#!/bin/bash
+
+script_path=$(dirname $0)
+log_owner=jxadmin
+log_group=wasadmin
+
+apps=$(find /usr/websphere/liberty/*/*/wlp/usr/servers/myproject*/apps/expanded -name '*.war' | grep -v sample | awk -F/ '{print $(NF)}')
+
+this_host=$(hostname -f)
+
+for app in $apps
+
+do
+
+    path=$(find /usr/websphere/liberty/*/*/wlp/usr/servers/myproject*/apps/expanded -name $app)
+    basepath=$(dirname $path)
+    bootstrap_props=${basepath}/../../bootstrap.properties
+    standard_overrides=${basepath}/../../configDropins/overrides/standard_overrides.xml
+    https_port=$(cat $standard_overrides | grep httpPort | awk -FhttpsPort=\" '{print $2}' | cut -d \" -f 1)
+    context_root=$(cat $bootstrap_props | grep context-root | cut -d = -f 2)
+    log_dir=$(cat $bootstrap_props | grep applicationLogDir |grep -v \# | cut -d = -f 2)
+    log_file=${log_dir}/check_endpoints.log
+    touch $log_file
+    chown ${log_owner}:${log_group} $log_file
+    timestamp=$(date +%d/%h/%y_%H:%M:%S)
+    {
+        echo -e "${timestamp}\nAPP: ${app}\nPORT: $https_port\nCONTEXT ROOT: $context_root";
+        echo -e "Requesting https://${this_host}:${https_port}${context_root}/info";
+        curl -q -k https://${this_host}:${https_port}${context_root}/info --cert ${script_path}/cert.pem --key ${script_path}/key.pem;
+        echo -e "\n";
+    } &gt;&gt; $log_file 2&gt;&amp;1
+done
+
+</pre>
+<p>to extract the certs</p>
+<pre>/usr/websphere/his/java/8.0/jre/bin/ikeycmd  \
+  -DADD_CMS_SERVICE_PROVIDER_ENABLED=true -cert -export -label \
+  default -db plugin-key.kdb -stashed -target \
+  /tmp/key.pkcs12 -target_pw password -target_type pkcs12</pre>
+<p>to convert to PEM format using openssl</p>
+<pre>openssl pkcs12 -in key.pkcs12 -clcerts -nodes &gt; all.pem</pre>

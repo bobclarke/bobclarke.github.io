@@ -1,0 +1,100 @@
+---
+layout: post
+title: Terraform and GCP
+date: 
+type: post
+parent_id: '0'
+published: false
+password: ''
+status: draft
+categories: []
+tags: []
+meta:
+  _rest_api_published: '1'
+  _rest_api_client_id: "-1"
+  _publicize_job_id: '23437371919'
+  timeline_notification: '1540155776'
+author:
+  login: bobmclarke915800472
+  email: bob.mclarke@gmail.com
+  display_name: Bob Clarke
+  first_name: ''
+  last_name: ''
+permalink: "/"
+---
+<p>This article covers Terraform Modules, Workspaces, Dependancies and Outputs.</p>
+<p>Before starting, you'll need to create a gcp project and create and configure a gcp service account for terraform to use with the following steps:</p>
+<p>In the GCP console, create a new project by navigating to Select a project &gt; New project</p>
+<p>Set the default google project for the gcloud cli:</p>
+<pre>gcloud config set project learning-terraform-01</pre>
+<p>&nbsp;</p>
+<p>Next, Create service account for project for terraform can use by navigating to <strong>IAM &gt; Service Accounts &gt; Create service account</strong></p>
+<p>&nbsp;</p>
+<p>Select a role (because this account will be used by terraform it will need permissions to create, modify and delete resources)</p>
+<p>&nbsp;</p>
+<p>Create a key</p>
+<p>&nbsp;</p>
+<p>Activate the service account using the key:</p>
+<pre>gcloud auth activate-service-account --key-file=/vagrant/learning-terraform-01-c22158178b5d.json</pre>
+<p>&nbsp;</p>
+<p>Or, If you already have a service account, select it:</p>
+<pre>gcloud config set account terraform-access@learning-terraform-01.iam.gserviceaccount.com</pre>
+<p>&nbsp;</p>
+<p>Now we're all set to start using Terraform.</p>
+<p>As a starting point, let's create a gcp compute instance in the standard way (i.e no modules and using the default workspace)...</p>
+<p>Create the following <strong>~/terraform/main.tf </strong>which enables a bunch of gcp services and then creates a compute instance.</p>
+<p>Notice the <strong>depends_on</strong> in the google_compute_instance resource. This ensures that the google_project_services resource is added before terraform attempts to add the google_compute_instance resource:</p>
+<pre>resource "google_project_services" "main" {
+  project  = "learning-terraform-01"
+  services = [
+      "cloudresourcemanager.googleapis.com",
+      "cloudbuild.googleapis.com",
+      "cloudapis.googleapis.com",
+      "compute.googleapis.com",
+      "container.googleapis.com",
+      "containerregistry.googleapis.com",
+      "deploymentmanager.googleapis.com"
+  ]
+}
+
+resource "google_compute_instance" "instance01" {
+  name         = "instance01"
+  machine_type = "n1-standard-1"
+  zone         = "us-central1-a"
+  project      = "learning-terraform-01"
+
+  boot_disk {
+    initialize_params {
+      image = "debian-cloud/debian-9"
+    }
+  }
+
+  network_interface {
+    network = "default"
+    access_config {
+      // Ephemeral IP
+    }
+  }
+
+  service_account {
+    scopes = ["userinfo-email", "compute-ro", "storage-ro"]
+  }
+  depends_on = ["google_project_services.main"]
+}</pre>
+<p>&nbsp;</p>
+<p>Initialise terraform:</p>
+<pre>terraform init</pre>
+<p>&nbsp;</p>
+<p>It might be useful to enable terraform debug (options are <code>TRACE</code>, <code>DEBUG</code>, <code>INFO</code>, <code>WARN</code> or <code>ERROR</code>)</p>
+<pre>export TF_LOG=TRACE</pre>
+<p>&nbsp;</p>
+<p>Now check what's going to be built:</p>
+<pre>terraform plan</pre>
+<p>&nbsp;</p>
+<p>If all looks good, build it</p>
+<pre>terraform apply --auto-approve</pre>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>

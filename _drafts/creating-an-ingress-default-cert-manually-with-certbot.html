@@ -1,0 +1,30 @@
+---
+layout: post
+title: Creating an ingress default cert manually with certbot
+date: 
+type: post
+parent_id: '0'
+published: false
+password: ''
+status: draft
+categories: []
+tags: []
+meta: {}
+author:
+  login: bobmclarke915800472
+  email: bob.mclarke@gmail.com
+  display_name: Bob Clarke
+  first_name: ''
+  last_name: ''
+permalink: "/"
+---
+<p>An example:</p>
+<p>This assumes you ingress controller's spec.containers.args element has a prop as follows:</p>
+<p>&nbsp;</p>
+<ul class="Apple-dash-list">
+<li>sudo certbot certonly --manual -d *.stack1.com --agree-tos --manual-public-ip-logging-ok --preferred-challenges dns-01 --server https://acme-v02.api.letsencrypt.org/directory</li>
+<li>sudo cp -r /etc/letsencrypt/live/stack1.com /tmp &amp;&amp; cd /tmp</li>
+<li>sudo chown -R clarkeb:staff stack1.com</li>
+<li>cd stack1.com</li>
+<li>kubectl create secret tls wildcard-stack1-tls --key privkey.pem --cert fullchain.pem -n ingress</li>
+</ul>

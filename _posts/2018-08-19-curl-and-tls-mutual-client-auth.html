@@ -1,0 +1,30 @@
+---
+layout: post
+title: curl tips
+date: 2018-08-19 21:03:31.000000000 +01:00
+type: post
+parent_id: '0'
+published: true
+password: ''
+status: publish
+categories: []
+tags: []
+meta:
+  _rest_api_published: '1'
+  _rest_api_client_id: "-1"
+  _publicize_job_id: '21253010869'
+  timeline_notification: '1534712612'
+author:
+  login: bobmclarke915800472
+  email: bob.mclarke@gmail.com
+  display_name: Bob Clarke
+  first_name: ''
+  last_name: ''
+permalink: "/2018/08/19/curl-and-tls-mutual-client-auth/"
+---
+<h3>TLS mutual/client auth</h3>
+<pre>curl -k <a class="contentLink" href="https://10.1.1.101/" target="_blank" rel="noopener noreferrer">https://10.1.1.101</a> -v --cert ./cert.pem --key ./key.pem</pre>
+<p><strong>NOTE</strong>: you need to specify the relative (./) or absolute paths to the pem files)</p>
+<h3>display information after a completed transfer</h3>
+<pre>curl -w "dns_resolution: %{time_namelookup}, tcp_established: %{time_connect}\n" -o /dev/null -s "http://google.co.uk"</pre>
+<p>&nbsp;</p>

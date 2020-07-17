@@ -1,0 +1,26 @@
+---
+layout: post
+title: show progress when uploading with curl
+date: 2018-02-04 15:14:00.000000000 +00:00
+type: post
+parent_id: '0'
+published: true
+password: ''
+status: publish
+categories: []
+tags:
+- curl
+meta:
+  restapi_import_id: 5b6f197fa2b75
+  _publicize_job_id: '21247573206'
+author:
+  login: bobmclarke915800472
+  email: bob.mclarke@gmail.com
+  display_name: Bob Clarke
+  first_name: ''
+  last_name: ''
+permalink: "/2018/02/04/show-progress-when-uploading-with-curl/"
+---
+<p>curl has a --progress-bar option, however it appears that STDOUT overwrites it's output. A workaround for this is to redirect STDOUT to /dev/null as shown in the following example:</p>
+<pre class="code">curl -v -u 'my_username:my_pass' --upload-file myfile.tar.gz \
+  http://nexus.stack1.com/content/sites/binaries/golang/ --progress-bar  &gt; /dev/null</pre>

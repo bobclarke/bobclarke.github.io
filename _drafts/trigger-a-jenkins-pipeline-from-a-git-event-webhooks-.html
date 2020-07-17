@@ -1,0 +1,30 @@
+---
+layout: post
+title: Trigger a Jenkins pipeline from a Git event (webhooks)
+date: 
+type: post
+parent_id: '0'
+published: false
+password: ''
+status: draft
+categories: []
+tags: []
+meta:
+  restapi_import_id: 5b6f197fa2b75
+author:
+  login: bobmclarke915800472
+  email: bob.mclarke@gmail.com
+  display_name: Bob Clarke
+  first_name: ''
+  last_name: ''
+permalink: "/"
+---
+<p><span style="font-family:Helvetica Neue, Arial, Helvetica, sans-serif;">Scenario:</span><br /><span style="font-family:Helvetica Neue, Arial, Helvetica, sans-serif;">You have a Jenkins workflow pipeline job (i.e. a job that uses a Jenkinsfile) which you want to trigger on specific Git events. You also wish to parse the payload from the Git event and depending on what type of Git event it was, run different parts of your Jenkinsfile pipeline.</span><br /><span style="font-family:Helvetica Neue, Arial, Helvetica, sans-serif;"><br /></span><span style="font-family:Helvetica Neue, Arial, Helvetica, sans-serif;">Steps:</span></p>
+<p>Set up a Jenkins <b>Pipeline</b> Job
+<div class="separator" style="clear:both;text-align:left;"><a href="https://2.bp.blogspot.com/-3d4HctzpOZM/WUVtBjKLLuI/AAAAAAAAPoQ/eR3PZwNNN4AqbtY5C-MDXzGRxxhFmJAqACLcBGAs/s1600/Screen%2BShot%2B2017-06-17%2Bat%2B18.53.46.png" style="margin-left:1em;margin-right:1em;"><img border="0" height="267" src="{{ site.baseurl }}/assets/Screen%2BShot%2B2017-06-17%2Bat%2B18.53.46.png" width="640" /></a></div>
+<p>In the job configuration, select "This build is parameterized" and add a String parameter. In this case I've named the parameter payload (this parameter will be populated with the JSON representation of the Git event):
+<div class="separator" style="clear:both;text-align:left;"><a href="https://3.bp.blogspot.com/-R0-p848n5kU/WUWjNWfxohI/AAAAAAAAPos/pDa-vNDZYfUHzXex4qWTRkgzyu36hxMKACLcBGAs/s1600/Screen%2BShot%2B2017-06-17%2Bat%2B22.45.06.png" style="margin-left:1em;margin-right:1em;"><img border="0" height="438" src="{{ site.baseurl }}/assets/Screen%2BShot%2B2017-06-17%2Bat%2B22.45.06.png" width="640" /></a></div>
+<p>Under build triggers, select "<span style="background-color:#f9f9f9;color:#333333;font-family:Helvetica, Arial, sans-serif;font-size:14px;"><b>Trigger builds remotely (e.g., from scripts)</b>" and add a string of your choice for the <b>Authentication Token</b>. This string can be anything you like, it will for part of the URL that Git will use to trigger this pipeline. For example </span><span style="color:#333333;font-family:Helvetica, Arial, sans-serif;"><span style="font-size:14px;"><b>http://user:api_token@host:port/job/pipeline/buildWithParameters?token=my_pipeline_token</b></span></span>
+<div class="separator" style="clear:both;text-align:left;"><a href="https://3.bp.blogspot.com/-ilFrtia4CSs/WUVva8QT-zI/AAAAAAAAPoc/uROSnJjJvgElJ3Z4mQvs_tn_QVZux0tZgCLcBGAs/s1600/Screen%2BShot%2B2017-06-17%2Bat%2B19.05.07.png" style="margin-left:1em;margin-right:1em;"><img border="0" height="224" src="{{ site.baseurl }}/assets/Screen%2BShot%2B2017-06-17%2Bat%2B19.05.07.png" width="640" /></a></div>
+<p><span style="background-color:#f9f9f9;color:#333333;font-family:Helvetica, Arial, sans-serif;font-size:14px;"><br /></span><br />Under the pipeline section, set <b>Definition</b> to <b>Pipeline script from SCM</b>, add the URL of the git repo containing your Jenkinsfile and leave the <b>Branches to build</b> section blank:
+<div class="separator" style="clear:both;text-align:left;"><a href="https://1.bp.blogspot.com/-09rElWAiA20/WUWoQZFrx2I/AAAAAAAAPo8/8Onvah-E87syopBimTBx0qsiCcmj3GOSgCLcBGAs/s1600/Screen%2BShot%2B2017-06-17%2Bat%2B23.07.19.png" style="margin-left:1em;margin-right:1em;"><img border="0" height="390" src="{{ site.baseurl }}/assets/Screen%2BShot%2B2017-06-17%2Bat%2B23.07.19.png" width="640" /></a></div>

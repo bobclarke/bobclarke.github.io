@@ -1,0 +1,26 @@
+---
+layout: post
+title: Adding Linux users via ssh
+date: 2017-06-09 16:49:00.000000000 +01:00
+type: post
+parent_id: '0'
+published: true
+password: ''
+status: publish
+categories: []
+tags: []
+meta:
+  _publicize_pending: '1'
+  restapi_import_id: 5b6f197fa2b75
+author:
+  login: bobmclarke915800472
+  email: bob.mclarke@gmail.com
+  display_name: Bob Clarke
+  first_name: ''
+  last_name: ''
+permalink: "/2017/06/09/adding-linux-users-via-ssh/"
+---
+<p><!-- HTML generated using hilite.me --><br />bash script to add users via and set password via ssh
+<div style="background:#f8f8f8;border-width:.1em .1em .1em .8em;border:solid gray;overflow:auto;padding:.2em .6em;width:auto;">
+<pre style="line-height:125%;margin:0;"><span style="color:#408080;font-style:italic;">#!/bin/bash</span><br /> <br /><span style="color:#19177c;">USER_TO_ADD</span><span style="color:#666666;">=</span>ansible<br /><span style="color:#19177c;">USER_TO_ADD_UID</span><span style="color:#666666;">=</span>30000<br /><span style="color:#19177c;">USER_TO_ADD_GID</span><span style="color:#666666;">=</span>30000<br /> <br /><span style="color:#666666;">[</span> <span style="color:#19177c;">$# </span>-eq 1 <span style="color:#666666;">]</span> <span style="color:#666666;">||</span> <span style="color:#666666;">{</span><br />        <span style="color:green;">echo</span> <span style="color:#ba2121;">"please provide target host"</span><br />        <span style="color:green;">exit </span>1<br /><span style="color:#666666;">}</span><br /> <br /><span style="color:#19177c;">TARGET_HOST</span><span style="color:#666666;">=</span><span style="color:#19177c;">$1</span><br /><span style="color:#19177c;">R</span><span style="color:#666666;">=</span><span style="color:green;font-weight:bold;">$(</span>ping <span style="color:green;font-weight:bold;">${</span><span style="color:#19177c;">TARGET_HOST</span><span style="color:green;font-weight:bold;">}</span> 2&gt;&amp;1<span style="color:green;font-weight:bold;">)</span><br /><span style="color:#666666;">[</span> <span style="color:#19177c;">$?</span> -eq 0 <span style="color:#666666;">]</span> <span style="color:#666666;">||</span> <span style="color:#666666;">{</span><br />        <span style="color:green;">echo</span> <span style="color:#ba2121;">"Unable to ping  ${TARGET_HOST}. Error is $R"</span><br />        <span style="color:green;">exit </span>1<br /><span style="color:#666666;">}</span><br />  <br />ssh -t <span style="color:green;font-weight:bold;">${</span><span style="color:#19177c;">TARGET_HOST</span><span style="color:green;font-weight:bold;">}</span> <span style="color:#ba2121;">"sudo groupadd ${USER_TO_ADD} --gid ${USER_TO_ADD_GID}" &amp;&amp; \</span><br /> <span style="color:#ba2121;">"sudo useradd -m ${USER_TO_ADD} --uid ${USER_TO_ADD_GID} --gid ${USER_TO_ADD_GID}" &amp;&amp; \</span><br /> <span style="color:#ba2121;">"getent passwd ${USER_TO_ADD}" &amp;&amp; \</span><br /> <span style="color:#ba2121;">"usermod --groups wheel ${USER_TO_ADD}" &amp;&amp; \</span><br /> <span style="color:#ba2121;">"echo -e '${USER_TO_ADD}\n${USER_TO_ADD}\n' | sudo passwd ${USER_TO_ADD}"</span><br /></pre>
+</div>

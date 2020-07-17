@@ -1,0 +1,40 @@
+---
+layout: post
+title: Nginx - alias vs root
+date: 2017-07-13 19:58:00.000000000 +01:00
+type: post
+parent_id: '0'
+published: true
+password: ''
+status: publish
+categories: []
+tags: []
+meta:
+  _publicize_pending: '1'
+  restapi_import_id: 5b6f197fa2b75
+author:
+  login: bobmclarke915800472
+  email: bob.mclarke@gmail.com
+  display_name: Bob Clarke
+  first_name: ''
+  last_name: ''
+permalink: "/2017/07/13/nginx-alias-vs-root/"
+---
+<div class="MsoNormal" style="background-color:white;color:#222222;font-family:arial, sans-serif;font-size:16px;"></div>
+<div class="MsoNormal" style="background-color:white;color:#222222;font-size:16px;">
+<div class="MsoNormal" style="background-color:white;color:#222222;font-size:16px;font-style:normal;font-variant-caps:normal;font-variant-ligatures:normal;font-weight:normal;letter-spacing:normal;orphans:2;text-align:start;text-decoration-color:initial;text-decoration-style:initial;text-indent:0;text-transform:none;white-space:normal;widows:2;word-spacing:0;">
+<div style="margin:0;"><span>Consider the following nginx config snippet:</span></div>
+</div>
+<p><!-- HTML generated using hilite.me -->
+<div style="background:#ffffff;border-width:.1em .1em .1em .8em;border:solid gray;overflow:auto;padding:.2em .6em;width:auto;">
+<pre style="line-height:125%;margin:0;">server <span style="color:#333333;">{</span><br />    listen       80;<br />    server_name  my_server;<br /><br />    location /foo <span style="color:#333333;">{</span><br />        root         /var/html;<br />        autoindex on;<br />        allow all;<br />    <span style="color:#333333;">}</span><br />    location /bar <span style="color:#333333;">{</span><br />        <span style="color:#007020;">alias</span>         /var/html;<br />        autoindex on;<br />        allow all;<br />    <span style="color:#333333;">}</span><br /><span style="color:#333333;">}</span><br /></pre>
+</div>
+<p></div>
+<div class="MsoNormal" style="background-color:white;color:#222222;font-size:16px;"><span><u></u></span></div>
+<div class="MsoNormal" style="background-color:white;color:#222222;font-size:16px;"><span>The <b>root</b> directive will map a request for <b>http://myserver.stack1.com/foo</b> to a directory <b>/var/html/foo</b><u></u></span></div>
+<div class="MsoNormal" style="background-color:white;color:#222222;font-size:16px;"><span><br /></span></div>
+<div class="MsoNormal" style="background-color:white;color:#222222;font-size:16px;"><span>The <b>alias</b> directive will map a request for </span><b style="font-family:Verdana, sans-serif;font-size:16px;">http://myserver.stack1.com/</b><span><b>bar</b> to a directory <b>/var/html </b> </span></div>
+<div class="MsoNormal" style="background-color:white;color:#222222;font-size:16px;"><span>(i.e. The rested URI is not appended to the file system location)</span></div>
+<div class="MsoNormal" style="background-color:white;color:#222222;font-family:arial, sans-serif;font-size:16px;"></div>
+<div class="MsoNormal" style="background-color:white;color:#222222;font-family:arial, sans-serif;font-size:16px;"></div>
+<div class="MsoNormal" style="background-color:white;color:#222222;font-family:arial, sans-serif;font-size:16px;"></div>

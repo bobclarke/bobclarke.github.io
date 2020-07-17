@@ -1,0 +1,25 @@
+---
+layout: post
+title: View Kubenetes events in time order
+date: 2019-04-01 17:51:26.000000000 +01:00
+type: post
+parent_id: '0'
+published: true
+password: ''
+status: publish
+categories: []
+tags: []
+meta:
+  _publicize_job_id: '29283151680'
+  timeline_notification: '1554141089'
+author:
+  login: bobmclarke915800472
+  email: bob.mclarke@gmail.com
+  display_name: Bob Clarke
+  first_name: ''
+  last_name: ''
+permalink: "/2019/04/01/view-kubenetes-events-in-time-order/"
+---
+<p><!-- wp:preformatted --></p>
+<pre class="wp-block-preformatted">kubectl get events --sort-by='{.lastTimestamp}' -n &lt;namespace&gt;</pre>
+<p><!-- /wp:preformatted --></p>

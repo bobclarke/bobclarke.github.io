@@ -1,0 +1,27 @@
+---
+layout: post
+title: Accurately determine the number of CPU cores for a Linux machine
+date: 2017-08-20 21:38:00.000000000 +01:00
+type: post
+parent_id: '0'
+published: true
+password: ''
+status: publish
+categories: []
+tags: []
+meta:
+  _publicize_pending: '1'
+  restapi_import_id: 5b6f197fa2b75
+author:
+  login: bobmclarke915800472
+  email: bob.mclarke@gmail.com
+  display_name: Bob Clarke
+  first_name: ''
+  last_name: ''
+permalink: "/2017/08/20/accurately-determine-the-number-of-cpu-cores-for-a-linux-machine/"
+---
+<p><span><br /></span><span style="background-color:white;color:#666666;white-space:pre-wrap;"><span>The number of processors shown by /proc/cpuinfo might not be the actual number of cores on the processor. For example a processor with 2 cores and hyperthreading would be reported as a processor with 4 cores. To get the actual number of cores, check the core id for unique values as follows:</span></span><br /><!-- HTML generated using hilite.me -->
+<div style="background:#f8f8f8;border-width:.1em .1em .1em .8em;border:solid gray;overflow:auto;padding:.2em .6em;width:auto;">
+<pre style="line-height:125%;margin:0;"><span style="font-family:Verdana, sans-serif;"><span style="font-size:large;">cat /proc/cpuinfo | grep <span style="color:#ba2121;">"core id"</span> | sort -u </span><br /></span></pre>
+</div>
+<p></p>

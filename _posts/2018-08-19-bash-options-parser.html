@@ -1,0 +1,52 @@
+---
+layout: post
+title: bash options parser
+date: 2018-08-19 20:56:24.000000000 +01:00
+type: post
+parent_id: '0'
+published: true
+password: ''
+status: publish
+categories: []
+tags: []
+meta:
+  _rest_api_published: '1'
+  _rest_api_client_id: "-1"
+  _publicize_job_id: '21252853374'
+  timeline_notification: '1534712185'
+author:
+  login: bobmclarke915800472
+  email: bob.mclarke@gmail.com
+  display_name: Bob Clarke
+  first_name: ''
+  last_name: ''
+permalink: "/2018/08/19/bash-options-parser/"
+---
+<pre>#!/bin/bash
+for i in "$@"
+do
+case $i in
+    -p=*|--prefix=*)
+    PREFIX="${i#*=}"
+    ;;
+ 
+    -s=*|--searchpath=*)
+    SEARCHPATH="${i#*=}"
+    ;;
+ 
+    -l=*|--lib=*)
+    DIR="${i#*=}"
+    ;;
+ 
+    --default)
+    DEFAULT=YES
+    ;;
+ 
+    *)
+    ;;
+esac
+done
+echo PREFIX = ${PREFIX}
+echo SEARCH PATH = ${SEARCHPATH}
+echo DIRS = ${DIR}
+echo DEFAULT = ${DEFAULT}</pre>

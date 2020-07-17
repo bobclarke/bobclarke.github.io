@@ -1,0 +1,48 @@
+---
+layout: post
+title: Terraform outputs
+date: 
+type: post
+parent_id: '0'
+published: false
+password: ''
+status: draft
+categories: []
+tags: []
+meta:
+  timeline_notification: '1553354151'
+  _publicize_job_id: '28958428904'
+author:
+  login: bobmclarke915800472
+  email: bob.mclarke@gmail.com
+  display_name: Bob Clarke
+  first_name: ''
+  last_name: ''
+permalink: "/"
+---
+<p><!-- wp:paragraph --></p>
+<p>Let's say I'm building a GKE Cluster.  If the Terraform module I write for this, I may want to capture the endpoint of the K8s API. So I check the terraform docs and in the attributes section I see the following :</p>
+<p><!-- /wp:paragraph --></p>
+<p><!-- wp:html --></p>
+<div class="div.foo">
+<figure class="aligncenter">
+<figure>
+<figure><img src="{{ site.baseurl }}/assets/image.png" alt="" class="wp-image-419" /></figure>
+</figure>
+</figure>
+</div>
+<p><!-- /wp:html --></p>
+<p><!-- wp:paragraph --></p>
+<p>To capture this attribute and store it in my terraform state I need to use an Output as follows:</p>
+<p><!-- /wp:paragraph --></p>
+<p><!-- wp:image {"id":420,"width":502,"height":69} --></p>
+<figure class="wp-block-image is-resized"><img src="{{ site.baseurl }}/assets/image-1.png" alt="" class="wp-image-420" width="502" height="69" /></figure>
+<p><!-- /wp:image --></p>
+<p><!-- wp:paragraph --></p>
+<p>The value of this output will be computed and will end up in my terraform state (see below):</p>
+<p><!-- /wp:paragraph --></p>
+<p><!-- wp:image {"id":422,"width":494,"height":564} --></p>
+<figure class="wp-block-image is-resized"><img src="{{ site.baseurl }}/assets/image-2.png" alt="" class="wp-image-422" width="494" height="564" /></figure>
+<p><!-- /wp:image --></p>
+<p><!-- wp:paragraph --></p>
+<p><!-- /wp:paragraph --></p>

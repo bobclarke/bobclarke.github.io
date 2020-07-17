@@ -1,0 +1,81 @@
+---
+layout: post
+title: Golang Receivers - what the heck!
+date: 
+type: post
+parent_id: '0'
+published: false
+password: ''
+status: draft
+categories: []
+tags: []
+meta: {}
+author:
+  login: bobmclarke915800472
+  email: bob.mclarke@gmail.com
+  display_name: Bob Clarke
+  first_name: ''
+  last_name: ''
+permalink: "/"
+---
+<p><!-- wp:paragraph --></p>
+<p>I spend a few days being pretty confused about Golang receivers. I finally worked it out and wanted to share what I learned.</p>
+<p>The following commented code will probably explain things pretty well so take a look. </p>
+<p><!-- /wp:paragraph --></p>
+<p><!-- wp:preformatted --></p>
+<pre class="wp-block-preformatted">package main
+
+import "fmt"
+
+// Define the Database type
+type Database struct {
+   DBLogin    string
+   DBPassword string
+   DBName     string
+   DBHost     string
+   DBPort     int64
+   DBTables   []string
+}
+
+func main() {
+
+   // Create an empty databse "instance"
+   database := &amp;Database{}
+ 
+   // Set the database credentials and endpoint
+   database.DBLogin = "admin"
+   database.DBPassword = "admin123"
+   database.DBName = "books"
+   database.DBHost = "nuptune"
+   database.DBPort = 6000
+
+   // Domonstrate connecting using the method approach
+   database.connectMethod()
+   // Domonstrate connecting using the function approach
+   connectFunction(database)
+
+}
+
+func (d Database) connectMethod() {
+
+   fmt.Printf("connecMethod: The database connection details are: %v\n", d)
+   // ToDo: connect to the database
+
+ }
+
+func connectFunction(d *Database) {
+
+   fmt.Printf("connectFuntion: The database connection details are: %v\n", d)
+   // ToDo: connect to the database
+
+}</pre>
+<p><!-- /wp:preformatted --></p>
+<p><!-- wp:paragraph --></p>
+<p>To explain further,  the two functions name connectMethod and connectFunction provide the same result.  If you run this code that will be evident.  The difference is that using the Receiver approach as I am in the connectMethod function means that this function is attached to that receiver. Therefore when you call the connectMethod function, you would call it like this:</p>
+<p><!-- /wp:paragraph --></p>
+<p><!-- wp:preformatted --></p>
+<pre class="wp-block-preformatted">database.connectMethod()</pre>
+<p><!-- /wp:preformatted --></p>
+<p><!-- wp:paragraph --></p>
+<p>Looks a bit like an OO language right?... just like calling connectMethod on an object named database </p>
+<p><!-- /wp:paragraph --></p>

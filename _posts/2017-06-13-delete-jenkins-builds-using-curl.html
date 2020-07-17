@@ -1,0 +1,38 @@
+---
+layout: post
+title: Delete jenkins builds using curl
+date: 2017-06-13 15:31:00.000000000 +01:00
+type: post
+parent_id: '0'
+published: true
+password: ''
+status: publish
+categories: []
+tags:
+- git
+- jenkins
+- pipeline
+meta:
+  _publicize_pending: '1'
+  restapi_import_id: 5b6f197fa2b75
+author:
+  login: bobmclarke915800472
+  email: bob.mclarke@gmail.com
+  display_name: Bob Clarke
+  first_name: ''
+  last_name: ''
+permalink: "/2017/06/13/delete-jenkins-builds-using-curl/"
+---
+<p><span>To delete a single job: </span><!-- HTML generated using hilite.me -->
+<div style="background:#f8f8f8;border-width:.1em .1em .1em .8em;border:solid gray;overflow:auto;padding:.2em .6em;width:auto;">
+<pre style="line-height:125%;margin:0;"><span style="font-size:large;">curl -X POST http://jenkins-user:jenkins-token@hostname:port/job/execute-pipeline/26/doDelete<br /></span></pre>
+</div>
+<p><span>To delete a range of jobs: </span><!-- HTML generated using hilite.me -->
+<div style="background:#f8f8f8;border-width:.1em .1em .1em .8em;border:solid gray;overflow:auto;padding:.2em .6em;width:auto;">
+<pre style="line-height:125%;margin:0;"><span style="font-size:large;">curl -X POST http://jenkins-user:jenkins-token@hostname:port/job/execute-pipeline/<span style="color:#666666;">[</span>20-30<span style="color:#666666;">]</span>/doDelete<br /></span></pre>
+</div>
+<p><span>This is handy for deleting a build arising from a git event you’ve chosen to ignore in your Jenkinsfile:</span>
+<div style="background:#ffffff;border-width:.1em .1em .1em .8em;border:solid gray;overflow:auto;padding:.2em .6em;width:auto;">
+<pre style="line-height:125%;margin:0;"><span style="font-size:large;">def <span style="color:#996633;">buildId</span> <span style="color:#333333;">=</span> env.BUILD_ID<br />node <span style="color:#333333;">{</span><br />    sh <span style="background-color:#fff0f0;">"curl -X POST http://my_user:my_token@my_host:8080/job/execute-pipeline/${buildId}/doDelete"</span><br /><span style="color:#333333;">}</span></span><br /></pre>
+</div>
+<p></p>

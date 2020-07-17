@@ -1,0 +1,49 @@
+---
+layout: post
+title: Providing read only kubectl access on AKS
+date: 
+type: post
+parent_id: '0'
+published: false
+password: ''
+status: draft
+categories: []
+tags: []
+meta: {}
+author:
+  login: bobmclarke915800472
+  email: bob.mclarke@gmail.com
+  display_name: Bob Clarke
+  first_name: ''
+  last_name: ''
+permalink: "/"
+---
+<p><!-- wp:paragraph --></p>
+<p>This article describes how to provide read-only access to all namespaces of a cluster. Here we'll be looking at cluster wide access control using ClusterRole and ClsuterRoleBinding. If access control to specific namespaces is required then Roles and RoleBinding should be used.  </p>
+<p><!-- /wp:paragraph --></p>
+<p><!-- wp:paragraph --></p>
+<p>Pre-requisites:<br />- RBAC is enabled</p>
+<p><!-- /wp:paragraph --></p>
+<p><!-- wp:paragraph --></p>
+<p>Create a cluster role</p>
+<p><!-- /wp:paragraph --></p>
+<p><!-- wp:preformatted --></p>
+<pre class="wp-block-preformatted">cat &lt;&lt;EOF | kubectl create -f -
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: reader-role
+rules:
+- apiGroups:
+  - ""
+  - extensions
+  - apps
+  - batch
+  resources:
+  - '*'
+  verbs:
+  - get
+  - watch
+  - list
+EOF</pre>
+<p><!-- /wp:preformatted --></p>

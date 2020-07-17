@@ -1,0 +1,31 @@
+---
+layout: post
+title: Terraform - build a GKE Kubernetes cluster
+date: 
+type: post
+parent_id: '0'
+published: false
+password: ''
+status: draft
+categories: []
+tags:
+- kubernetes
+- terraform
+meta: {}
+author:
+  login: bobmclarke915800472
+  email: bob.mclarke@gmail.com
+  display_name: Bob Clarke
+  first_name: ''
+  last_name: ''
+permalink: "/"
+---
+<p><!-- wp:paragraph --></p>
+<p><strong>Assumptions:<br /></strong>- You have the gcloud CLI installed and configured <br />- You have a GCP project set up<br />- You've logged in via gcloud (gcloud auth login) as an admin user</p>
+<p><!-- /wp:paragraph --></p>
+<p><!-- wp:heading {"level":4} --></p>
+<h4>Create a service account:</h4>
+<p><!-- /wp:heading --></p>
+<p><!-- wp:code --></p>
+<pre class="wp-block-code"><code>gcloud iam service-accounts create terraform-learning-sa</code></pre>
+<p><!-- /wp:code --></p>

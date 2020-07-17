@@ -1,0 +1,86 @@
+---
+layout: post
+title: Here documents (heredoc) tips
+date: 2018-08-19 20:28:21.000000000 +01:00
+type: post
+parent_id: '0'
+published: true
+password: ''
+status: publish
+categories: []
+tags: []
+meta:
+  _rest_api_published: '1'
+  _rest_api_client_id: "-1"
+  _publicize_job_id: '21252238158'
+  timeline_notification: '1534710501'
+author:
+  login: bobmclarke915800472
+  email: bob.mclarke@gmail.com
+  display_name: Bob Clarke
+  first_name: ''
+  last_name: ''
+permalink: "/2018/08/19/using-here-documents-with-sudo/"
+---
+<pre>cat &lt;&lt;EOF &gt; config.props
+url=http://stack1.com
+component=123
+name=config
+timeout=10
+EOF</pre>
+<p><strong>Creates config.props with the contents:</strong><br />
+url=http://stack1.com<br />
+component=123<br />
+name=config<br />
+timeout=10</p>
+<pre>tr [a-z] [A-Z] &lt;&lt; EOF
+The cat sat on the mat
+The cow jumped over the moon
+EOF</pre>
+<p><strong>Gives the output:</strong><br />
+THE CAT SAT ON THE MAT<br />
+THE COW JUMPED OVER THE MOON</p>
+<p>&nbsp;</p>
+<pre>cat &lt;&lt; END_TEXT | awk '{print $3 " " $2 " " $1}'
+one two three 
+three two one
+END_TEXT</pre>
+<p><strong>Gives the output:</strong><br />
+three two one<br />
+one two three</p>
+<p>&nbsp;</p>
+<pre>cat &lt;&lt;EOF | kubectl create -f -
+apiVersion: v1
+kind: Pod
+metadata:
+  name: test-pod
+spec:
+  containers:
+    - name: test-container
+      image: k8s.gcr.io/busybox
+      command: [ "/bin/sh", "-c", "env" ]
+      envFrom:
+      - configMapRef:
+          name: env-config
+  restartPolicy: Never
+EOF</pre>
+<p>Creates a kubernetes busybox Pod</p>
+<p>&nbsp;</p>
+<h3>Using heredocs with sudo</h3>
+<p>example 1:</p>
+<pre>sudo bash -c "cat &gt;&gt; /etc/hosts" &lt;&lt; "EOF"
+10.0.1.100  ansible
+10.0.1.101  kube_controller
+10.0.1.102  kube_node_1
+10.0.1.103  kube_node_2
+10.0.1.104  kube_node_3
+EOF</pre>
+<p>example 2:</p>
+<pre>cat &lt;&lt;EOF | sudo tee /etc/yum.repos.d/influxdb.repo
+[influxdb]
+name = InfluxDB Repository - RHEL \$releasever
+baseurl = https://repos.influxdata.com/rhel/\$releasever/\$basearch/stable
+enabled = 1
+gpgcheck = 1
+gpgkey = https://repos.influxdata.com/influxdb.key
+EOF</pre>

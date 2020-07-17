@@ -1,0 +1,38 @@
+---
+layout: post
+title: Escaping quotes in Terraform
+date: 2020-05-17 13:33:20.000000000 +01:00
+type: post
+parent_id: '0'
+published: true
+password: ''
+status: publish
+categories: []
+tags:
+- jq
+- terraform
+meta:
+  _publicize_job_id: '44352557969'
+  timeline_notification: '1589722400'
+author:
+  login: bobmclarke915800472
+  email: bob.mclarke@gmail.com
+  display_name: Bob Clarke
+  first_name: ''
+  last_name: ''
+permalink: "/2020/05/17/escaping-quotes-in-terraform/"
+---
+<p><!-- wp:paragraph --></p>
+<p>I had a slightly tricky issue recently whereby I needed to use a JQ expression as part of a local-exec.  The JQ expression needed quotes however Terraform wasn't happy with them.  It was a simple case of escaping with backslashes (see red text below)</p>
+<p><!-- /wp:paragraph --></p>
+<p><!-- wp:preformatted --></p>
+<pre class="wp-block-preformatted">resource "null_resource" "confluent-kafka-env" {
+  provisioner "local-exec" {
+  when = "destroy"
+    command = "ccloud environment list -o json | jq '.[] | select(.name | contains(<strong><span class="has-inline-color has-vivid-red-color">\"${var.env-name}\"</span></strong>)) .id'"
+  }
+  provisioner "local-exec" {
+    command = "ccloud environment create ${var.env-name} -o json &gt;&gt; env_id.json"
+  }
+}</pre>
+<p><!-- /wp:preformatted --></p>

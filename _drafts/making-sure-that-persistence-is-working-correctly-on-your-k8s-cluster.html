@@ -1,0 +1,26 @@
+---
+layout: post
+title: Making sure that persistence is working correctly on your k8s cluster
+date: 
+type: post
+parent_id: '0'
+published: false
+password: ''
+status: draft
+categories: []
+tags: []
+meta: {}
+author:
+  login: bobmclarke915800472
+  email: bob.mclarke@gmail.com
+  display_name: Bob Clarke
+  first_name: ''
+  last_name: ''
+permalink: "/"
+---
+<p><!-- wp:paragraph --></p>
+<p>The Postgres Helm chart is an easy way to check this:</p>
+<p><!-- /wp:paragraph --></p>
+<p><!-- wp:preformatted --></p>
+<pre class="wp-block-preformatted">helm install --name test-postgres stable/postgresql --set persistence.enabled=true --namespace test</pre>
+<p><!-- /wp:preformatted --></p>

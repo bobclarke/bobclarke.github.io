@@ -1,0 +1,49 @@
+---
+layout: post
+title: using etcdctl
+date: 2018-08-18 15:15:36.000000000 +01:00
+type: post
+parent_id: '0'
+published: true
+password: ''
+status: publish
+categories: []
+tags: []
+meta:
+  _rest_api_published: '1'
+  _rest_api_client_id: "-1"
+  _publicize_job_id: '21215275403'
+  timeline_notification: '1534605336'
+author:
+  login: bobmclarke915800472
+  email: bob.mclarke@gmail.com
+  display_name: Bob Clarke
+  first_name: ''
+  last_name: ''
+permalink: "/2018/08/18/using-etcdctl/"
+---
+<p>API V3 examples</p>
+<pre>etcdctl --cacert="/etc/kubernetes/certs/ca.crt" \
+  --cert="/etc/kubernetes/certs/etcdclient.crt" \
+  --key="/etc/kubernetes/certs/etcdclient.key"  \
+  get /registry/pods/ --prefix --keys-only
+
+etcdctl --endpoint='https://127.0.0.1:6666' \
+  --cert-file=/etc/etcd_networking/etcd.pem \
+  --key-file=/etc/etcd_networking/etcd-key.pem \
+  --ca-file=/etc/etcd_networking/ca.pem \
+  get /calico/v1/ipam/v4/pool/172.16.0.0-16
+
+etcdctl --endpoint='https://127.0.0.1:2379' \
+  --cacert="/etc/kubernetes/certs/ca.crt" \
+  --cert="/etc/kubernetes/certs/etcdclient.crt" \
+  --key="/etc/kubernetes/certs/etcdclient.key" \
+  --debug \
+  get / --prefix --keys-only</pre>
+<p>&nbsp;</p>
+<p>API V2 example</p>
+<pre>etcdctl --endpoint='<a class="contentLink" href="https://127.0.0.1:2379'/" target="_blank" rel="noopener noreferrer">https://127.0.0.1:2379'</a> \
+  --cert-file=/etc/etcd_networking/etcd.pem \
+  --key-file=/etc/etcd_networking/etcd-key.pem \
+  --ca-file=/etc/etcd_networking/ca.pem \
+  ls  / --recursive</pre>

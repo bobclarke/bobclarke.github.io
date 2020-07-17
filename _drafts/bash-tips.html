@@ -1,0 +1,67 @@
+---
+layout: post
+title: Bash tips
+date: 
+type: post
+parent_id: '0'
+published: false
+password: ''
+status: draft
+categories: []
+tags: []
+meta: {}
+author:
+  login: bobmclarke915800472
+  email: bob.mclarke@gmail.com
+  display_name: Bob Clarke
+  first_name: ''
+  last_name: ''
+permalink: "/"
+---
+<p><!-- wp:heading --></p>
+<h2>One liner bash condition checking</h2>
+<p><!-- /wp:heading --></p>
+<p><!-- wp:preformatted --></p>
+<pre class="wp-block-preformatted">[ $# -eq 1 ] || { echo "Expecting one argument"; exit 1; }</pre>
+<p><!-- /wp:preformatted --></p>
+<p><!-- wp:paragraph --></p>
+<p>You can also use this technique directly on the command line, for example </p>
+<p><!-- /wp:paragraph --></p>
+<p><!-- wp:preformatted --></p>
+<pre class="wp-block-preformatted">[ -f myFile ] || echo "file not found"</pre>
+<p><!-- /wp:preformatted --></p>
+<p><!-- wp:paragraph --></p>
+<p><!-- /wp:paragraph --></p>
+<p><!-- wp:heading --></p>
+<h2>Options parser</h2>
+<p><!-- /wp:heading --></p>
+<p><!-- wp:syntaxhighlighter/code {"language":"bash"} --></p>
+<pre class="wp-block-syntaxhighlighter-code brush: bash; notranslate">#!/bin/bash
+for i in "$@"
+do
+case $i in
+    -p=*|--prefix=*)
+    PREFIX="${i#*=}"
+    ;;
+ 
+    -s=*|--searchpath=*)
+    SEARCHPATH="${i#*=}"
+    ;;
+ 
+    -l=*|--lib=*)
+    DIR="${i#*=}"
+    ;;
+ 
+    --default)
+    DEFAULT=YES
+    ;;
+ 
+    *)
+    ;;
+esac
+done
+echo PREFIX = ${PREFIX}
+echo SEARCH PATH = ${SEARCHPATH}
+echo DIRS = ${DIR}
+echo DEFAULT = ${DEFAULT}</pre>
+<p><!-- /wp:syntaxhighlighter/code --></p>

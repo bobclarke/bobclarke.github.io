@@ -1,0 +1,71 @@
+---
+layout: post
+title: Kubernetes ConfigMaps
+date: 
+type: post
+parent_id: '0'
+published: false
+password: ''
+status: draft
+categories: []
+tags:
+- kubernetes
+meta:
+  restapi_import_id: 5b6f197fa2b75
+  _publicize_job_id: '21122723896'
+author:
+  login: bobmclarke915800472
+  email: bob.mclarke@gmail.com
+  display_name: Bob Clarke
+  first_name: ''
+  last_name: ''
+permalink: "/"
+---
+<p>Create a configMap:</p>
+<p>kubectl create configmap <b>env-config</b> --from-literal=<b>ENV_VAR_1=FOO</b> --from-literal=<b>ENV_VAR_2=BAR</b></p>
+<pre class="text"></pre>
+<p>&nbsp;</p>
+<pre class="code"></pre>
+<pre class="text">you can view the result with</pre>
+<pre class="code">kubectl get  configmap env-config -o yaml</pre>
+<pre class="text">Create a pod to use this configMap</pre>
+<pre class="code">apiVersion: v1
+kind: Pod
+metadata:
+  name: test-pod
+spec:
+  containers:
+    - name: test-container
+      image: k8s.gcr.io/busybox
+      command: [ "/bin/sh", "-c", "env" ]
+      <b>envFrom:
+      - configMapRef:
+          name: env-config</b>
+  restartPolicy: Never</pre>
+<pre class="code">kubectl create -f test-pod.yaml</pre>
+<pre class="text">This pod will print it's env and then exit. You can view the output as follows</pre>
+<pre class="code">kubectl logs test-pod -c test-container</pre>
+<pre class="text">You should see something like...</pre>
+<pre class="code">KUBERNETES_PORT=tcp://10.96.0.1:443
+KUBERNETES_SERVICE_PORT=443
+HOSTNAME=test-pod
+SHLVL=1
+HOME=/root
+EXAMPLE_SERVICE_PORT_8080_TCP_ADDR=10.100.105.233
+EXAMPLE_SERVICE_SERVICE_HOST=10.100.105.233
+EXAMPLE_SERVICE_PORT_8080_TCP_PORT=8080
+<b>ENV_VAR_1=FOO</b>
+<b>ENV_VAR_2=BAR</b>
+EXAMPLE_SERVICE_PORT_8080_TCP_PROTO=tcp
+KUBERNETES_PORT_443_TCP_ADDR=10.96.0.1
+EXAMPLE_SERVICE_PORT=tcp://10.100.105.233:8080
+EXAMPLE_SERVICE_SERVICE_PORT=8080
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+KUBERNETES_PORT_443_TCP_PORT=443
+KUBERNETES_PORT_443_TCP_PROTO=tcp
+EXAMPLE_SERVICE_PORT_8080_TCP=tcp://10.100.105.233:8080
+KUBERNETES_SERVICE_PORT_HTTPS=443
+KUBERNETES_PORT_443_TCP=tcp://10.96.0.1:443
+PWD=/
+KUBERNETES_SERVICE_HOST=10.96.0.1</pre>
+<p>&nbsp;</p>

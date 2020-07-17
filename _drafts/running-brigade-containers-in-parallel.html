@@ -1,0 +1,51 @@
+---
+layout: post
+title: Running brigade containers in parallel
+date: 
+type: post
+parent_id: '0'
+published: false
+password: ''
+status: draft
+categories: []
+tags: []
+meta: {}
+author:
+  login: bobmclarke915800472
+  email: bob.mclarke@gmail.com
+  display_name: Bob Clarke
+  first_name: ''
+  last_name: ''
+permalink: "/"
+---
+<p>Create an array of folders containing BDD scenarios</p>
+<pre>testFolderArray = [
+"src/test/features/feature_1",
+"src/test/features/feature_2",
+"src/test/features/feature_3",
+];</pre>
+<p>var integJobArray = [];</p>
+<p>for (i = 0, len = testFolderArray.length; i &lt; len; i++) {</p>
+<p>testName = testFolderArray[i].split('/').pop()</p>
+<p>let integTest = new Job( "integ-" + testName + "-" +i )</p>
+<p>integTest.image = "tvstackreg.azurecr.io/tvstack_bdd:v1.0.3"<br />
+integTest.storage.enabled = true</p>
+<p>integTest.env = {<br />
+"BDD_REPO": project.secrets.bdd_repo,<br />
+"GITEA_TOKEN": project.secrets.gitea_token,<br />
+"AZURE_CLIENT_ID": project.secrets.azure_client_id,<br />
+"AZURE_CLIENT_SECRET": project.secrets.azure_client_secret,<br />
+"AZURE_TENANT_ID": project.secrets.azure_tenant_id,<br />
+"TEST_FOLDER": testFolderArray[i],<br />
+"TEST_NAME": testName,<br />
+"APP_NAME": project.secrets.app_name,<br />
+"TEAM_NAME": project.secrets.team_name,<br />
+"DEPLOY_ENV": "dev",<br />
+"BDD_CONFIG": "src/test/resources/env.conf",<br />
+}<br />
+integTest.tasks = [<br />
+"cd /src",<br />
+"./integ_tests.sh ${BDD_REPO} ${GITEA_TOKEN} ${AZURE_CLIENT_ID} ${AZURE_CLIENT_SECRET} ${AZURE_TENANT_ID} ${TEST_FOLDER} ${TEAM_NAME} ${DEPLOY_ENV} ${BDD_CONFIG}"<br />
+]</p>
+<p>integJobArray.push(integTest);</p>
+<p>}</p>

@@ -1,0 +1,38 @@
+---
+layout: post
+title: Gitflow workflow
+date: 2017-06-28 16:03:00.000000000 +01:00
+type: post
+parent_id: '0'
+published: true
+password: ''
+status: publish
+categories: []
+tags: []
+meta:
+  _publicize_pending: '1'
+  restapi_import_id: 5b6f197fa2b75
+author:
+  login: bobmclarke915800472
+  email: bob.mclarke@gmail.com
+  display_name: Bob Clarke
+  first_name: ''
+  last_name: ''
+permalink: "/2017/06/28/gitflow-workflow/"
+---
+<p><span>My understanding of how this differs from simple feature branches:</span>
+<ol>
+<li><span>To start with, two branches exist named <b>master</b> and <b>develop</b> (the dev branch is derived from master)</span></li>
+<li><span>Developers create and work on <b>feature</b> branches from the <b>develop</b> branch in the usual way and these are merged back into the <b>develop</b> branch regularly via pull requests.</span></li>
+<li><span>If using semantic versioning, the minor number (2nd field) is incremented each time a backwards compatible feature is added. A non backwards compatible feature (breaking feature) would result in the major number (1st field) being incremented. </span></li>
+<li><span>When it is decided that a release is due, a <b>release</b> branch is created from the <b>develop</b> branch. New features can still be added to the <b>develop</b> branch via feature branches in the usual way.</span></li>
+<li><span>A deployable artifact is built from the <b>release</b> branch and the artifact is deployed to the appropriate test environments.</span></li>
+<li><span>The deployed artifact is tested and any bug fixes are carried out on the release branch. Bug fixes increment the patch number (3rd field) of the semantic version number. <b>NOTE</b>: Only bug fixes can be carried out in the release branch. No features can be added to the release branch.</span></li>
+<li><span>When all bugs are resolved and the release is finalised, the release branch is merged into both <b>develop</b> and <b>master</b> branches and <b>master</b> is also tagged with the semantic version number.</span></li>
+</ol>
+<div><span>Official doc:  <a href="https://www.atlassian.com/git/tutorials/comparing-workflows">https://www.atlassian.com/git/tutorials/comparing-workflows</a></span></div>
+<div><span><br /></span></div>
+<div><span><br /></span></div>
+<div><span><br /></span></div>
+<div><span><br /></span></div>
+<div><span><br /></span></div>

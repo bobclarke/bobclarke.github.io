@@ -1,0 +1,36 @@
+---
+layout: post
+title: Authenticate to an internal npm repository
+date: 2017-06-09 17:08:00.000000000 +01:00
+type: post
+parent_id: '0'
+published: true
+password: ''
+status: publish
+categories: []
+tags:
+- npm
+meta:
+  _publicize_pending: '1'
+  restapi_import_id: 5b6f197fa2b75
+author:
+  login: bobmclarke915800472
+  email: bob.mclarke@gmail.com
+  display_name: Bob Clarke
+  first_name: ''
+  last_name: ''
+permalink: "/2017/06/09/authenticate-to-an-internal-npm-repository/"
+---
+<p>Run the following commands:
+<div style="background:#ffffff;border-width:.1em .1em .1em .8em;border:solid gray;overflow:auto;padding:.2em .6em;width:auto;">
+<pre style="line-height:125%;margin:0;">npm config <span style="color:#007020;">set </span>registry https://my_nexus_server/repositories/npm/<br />npm config <span style="color:#007020;">set </span>strict-ssl <span style="color:#007020;">false</span><br />npm config <span style="color:#007020;">set </span>always-auth <span style="color:#007020;">true</span><br />npm config <span style="color:#007020;">set </span>_auth bXktdXNlcjpteS1wYXNzd29yZA==<br /></pre>
+</div>
+<p>Generate the base64 as follows (don't forget the -n otherwise the newline character will be added to the base64 string:
+<div style="background:#ffffff;border-width:.1em .1em .1em .8em;border:solid gray;overflow:auto;padding:.2em .6em;width:auto;">
+<pre style="line-height:125%;margin:0;"><span style="color:#007020;">echo</span> -n <span style="background-color:#fff0f0;">'my-user:my-password'</span> | openssl base64<br /></pre>
+</div>
+<p>Alternatively you can just create a ~/.npmrc file as follows:
+<div style="background:#ffffff;border-width:.1em .1em .1em .8em;border:solid gray;overflow:auto;padding:.2em .6em;width:auto;">
+<pre style="line-height:125%;margin:0;"><span style="color:#996633;">registry</span><span style="color:#333333;">=</span>https://my_nexus_server/repositories/npm/<br />strict-ssl<span style="color:#333333;">=</span><span style="color:#007020;">false</span><br />always-auth<span style="color:#333333;">=</span><span style="color:#007020;">true</span><br /><span style="color:#996633;">_auth</span><span style="color:#333333;">=</span><span style="background-color:#fff0f0;">"bXktdXNlcjpteS1wYXNzd29yZA=="</span><br /></pre>
+</div>
+<p><b>NOTE</b>: any config keys starting with an underscore are hidden, therefore they will not be echoed to the screen when running <span> <b>npm config --list</b></span><br /><span><b><br /></b></span><span><b><br /></b></span><span><b><br /></b></span><span><b><br /></b></span><span><b><br /></b></span><span><b><br /></b></span><span><b><br /></b></span><span><b><br /></b></span><span><b><br /></b></span><span><br /></span><span><br /></span></p>
