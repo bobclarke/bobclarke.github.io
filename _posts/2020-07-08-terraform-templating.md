@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Terraform Templating"
+title:  "Terraform 0.12 Templating"
 date:   2020-07-08 23:08:51 +0100
 categories: terraform
 ---
