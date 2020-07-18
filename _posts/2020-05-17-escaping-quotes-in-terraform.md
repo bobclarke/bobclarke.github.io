@@ -17,3 +17,6 @@ resource "null_resource" "confluent-kafka-env" {
   }
 }
 {% endhighlight %}
+<!--stackedit_data:
+eyJoaXN0b3J5IjpbLTM4NDI1NjUwOV19
+-->
