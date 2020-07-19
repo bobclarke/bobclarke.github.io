@@ -4,3 +4,6 @@
 
 layout: home
 ---
+___These are my technical notes which I’m sharing in the event they may be helpful___ - Bob Clarke
+
+
