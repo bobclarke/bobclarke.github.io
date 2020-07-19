@@ -3,51 +3,35 @@ layout: post
 title: Go interfaces
 date: 2019-12-29 15:09:21.000000000 +00:00
 type: post
-parent_id: '0'
-published: true
-password: ''
-status: publish
-categories: []
-tags:
-- go
-meta:
-  _publicize_job_id: '38967679955'
-  timeline_notification: '1577632162'
-  _oembed_98dc7281787b602ecb2e4f40a99f115b: "{{unknown}}"
-author:
-  login: bobmclarke915800472
-  email: bob.mclarke@gmail.com
-  display_name: Bob Clarke
-  first_name: ''
-  last_name: ''
-permalink: "/2019/12/29/go-interfaces/"
 ---
-<p><!-- wp:paragraph --></p>
-<p>My traditional understanding of interfaces was for Polymorphism, i.e where a object of a certain type (as determined by it’s class inheritance) could also be a different type as determined by an interface so long as it implemented the methods in that interface. The concept is similar in golang albeit more lightweight. For example, let’s say I declare two struct types called Circle and Square as follows:</p>
-<p><!-- /wp:paragraph --></p>
-<p><!-- wp:preformatted --></p>
-<pre class="wp-block-preformatted">package main
+<My traditional understanding of interfaces was for Polymorphism, i.e where a object of a certain type (as determined by it’s class inheritance) could also be a different type as determined by an interface so long as it implemented the methods in that interface. The concept is similar in golang albeit more lightweight. For example, let’s say I declare two struct types called Circle and Square as follows:
+
+{%highlight go%}
+package main
 
 type Square struct { 
-&nbsp;&nbsp; &nbsp;Length float64 
-&nbsp;&nbsp; &nbsp;Width float64 
+  Length float64 
+  Width float64 
 } 
 
 type Circle struct { 
-&nbsp;&nbsp; &nbsp;Radius float64 
-} </pre>
-<p><!-- /wp:preformatted --></p>
-<p><!-- wp:paragraph --></p>
-<p>I need a function for each of these types to calculate their area. Because calculating the area of a square is different from calculating the area of a circle these functions are specific to each type, so we’ll use receiver functions to attach an Area to each type.</p>
-<p><!-- /wp:paragraph --></p>
-<p><!-- wp:preformatted --></p>
-<pre class="wp-block-preformatted">func (c *Circle) Area() float64 { 
-&nbsp;&nbsp;return math.Pi * c.Radius * c.Radius 
-} 
+  Radius float64 
+}
+{%endhighlight%}
+
+I need a function for each of these types to calculate their area. Because calculating the area of a square is different from calculating the area of a circle these functions are specific to each type, so we’ll use receiver functions to attach an Area to each type.
+
+{%highlight go%}
+func (c *Circle) Area() float64 { 
+  return math.Pi * c.Radius * c.Radius 
+}
+
 
 func (s *Square) Area() float64 { 
-&nbsp;&nbsp;return s.Length * s.Width 
-} </pre>
+  return s.Length * s.Width 
+} 
+{%endhighlight%}
+
 <p><!-- /wp:preformatted --></p>
 <p><!-- wp:paragraph --></p>
 <p>I can call each function to calculate the area as follows:</p>

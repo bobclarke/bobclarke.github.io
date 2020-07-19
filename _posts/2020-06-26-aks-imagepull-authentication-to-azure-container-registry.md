@@ -30,6 +30,7 @@ ACR_ID=$(az acr show --name <your acr name> \
   --output tsv \
   --subscription <your acr subscription id>)
 {% endhighlight %}
+
 <br>
 Now grant your AKS cluster SP Reader rights on your ACR:
 {% highlight bash %}
