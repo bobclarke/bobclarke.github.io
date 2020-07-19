@@ -4,7 +4,7 @@ title: Go interfaces
 date: 2019-12-29 15:09:21.000000000 +00:00
 type: post
 ---
-<My traditional understanding of interfaces was for Polymorphism, i.e where a object of a certain type (as determined by it’s class inheritance) could also be a different type as determined by an interface so long as it implemented the methods in that interface. The concept is similar in golang albeit more lightweight. For example, let’s say I declare two struct types called Circle and Square as follows:
+My traditional understanding of interfaces was for Polymorphism, i.e where a object of a certain type (as determined by it’s class inheritance) could also be a different type as determined by an interface so long as it implemented the methods in that interface. The concept is similar in golang albeit more lightweight. For example, let’s say I declare two struct types called Circle and Square as follows:
 
 {%highlight go%}
 package main
