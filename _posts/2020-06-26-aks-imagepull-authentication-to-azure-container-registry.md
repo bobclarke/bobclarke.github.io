@@ -19,22 +19,24 @@ AKS_SP_ID=$(az aks show \
   --output tsv \
   --subscription <your aks subscription id>)
 {% endhighlight %}
-    
+
 <br>
 Now get the ID of your Azure Container Registry:
 {% highlight bash %}
+
 ACR_ID=$(az acr show --name <your acr name> \
   --resource-group <your acr resource group> \
   --query "id" \
   --output tsv \
   --subscription <your acr subscription id>)
 {% endhighlight %}
-
-
+<br>
 Now grant your AKS cluster SP Reader rights on your ACR:
+{% highlight bash %}
+az role assignment create --assignee $AKS_SP_ID --role Reader \
+  --scope $ACR_ID --subscription <your acr subscription id>
+{% endhighlight %}
 
-
-az role assignment create --assignee $AKS_SP_ID --role Reader --scope $ACR_ID --subscription &lt;your acr subscription id&gt;
-NOTE:  Trying to pull a non existent tag can result in an authentication error (e.g. myreg.azurecr.io/docker-camunda:latest as opposed to myreg.azurecr.io/docker-camunda:myreg.azurecr.io/docker-camunda:0.0.10)
+NOTE: Trying to pull a non existent tag can result in an authentication error (e.g. myreg.azurecr.io/docker-camunda:latest as opposed to myreg.azurecr.io/docker-camunda:myreg.azurecr.io/docker-camunda:0.0.10)
 
 
