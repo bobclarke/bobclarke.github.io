@@ -4,6 +4,6 @@
 
 layout: home
 ---
-___These are my technical notes which I’m sharing in the event they may be helpful___ - Bob Clarke
+___These are my technical notes about interesting chalenges with running containers at scale, automation, networking, encryption, monitoring, testing and generally trying to build and run production systems reliably.___ - Bob Clarke
 
 
