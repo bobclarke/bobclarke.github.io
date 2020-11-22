@@ -6,11 +6,12 @@ type: post
 ---
 
 
-A pod running in an AKS cluster and trying to pull an image from ACR needs Reader writes on that ACR. 
+A pod running in an AKS cluster and trying to pull an image from ACR needs Reader permissions on that ACR. 
 
-The simplest way to do this is give the AKS cluster service principal Reader access on the ACR. First, get the ID of the AKS cluster service principal (note, when you create an AKS cluster an SP is automatically generated):
+The simplest way to do this is give the AKS cluster service principal Reader access on the ACR as follows: 
 
 
+First, get the ID of the AKS cluster service principal (note, when you create an AKS cluster an SP is automatically generated):
 {% highlight bash %}
 AKS_SP_ID=$(az aks show \
   --resource-group <your aks resource group> \
