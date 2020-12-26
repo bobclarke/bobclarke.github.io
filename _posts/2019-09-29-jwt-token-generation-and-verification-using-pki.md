@@ -75,8 +75,6 @@ And here’s the result in window2 with the signature verified and therefore mes
 
 <br>
 
-<br>
-REF: https://www.toptal.com/devops
-</br>
+<a href="https://www.toptal.com/devops">Toptal ref</a>
 
 
