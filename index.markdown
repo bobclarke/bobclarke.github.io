@@ -5,7 +5,7 @@
 layout: home
 ---
 
-| **Technical notes about interesting challenges I've experienced in relation to: containers at scale, automation, networking, encryption, monitoring, testing and generally trying to build and run production systems reliably.** - Bob Clarke   | **To Search:** all posts are on one page so please use cmd-f / ctrl-f  |
+| **Technical notes about interesting challenges I've experienced in relation to: containers at scale, automation, networking, encryption, monitoring, testing and generally trying to build and run production systems reliably.**   | **To Search:** all posts are on one page so please use cmd-f / ctrl-f  |
 
 
 
