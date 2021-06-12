@@ -5,7 +5,7 @@
 layout: home
 ---
 
-| **Technical notes about interesting challenges I've experienced in relation to: containers at scale, automation, networking, encryption, monitoring, testing and generally trying to build and run production systems reliably.**   | **To Search:** all posts are on one page so please use cmd-f / ctrl-f  |
+| **Notes about interesting challenges I've experienced in relation to...** <br>containers at scale, automation, networking, encryption, monitoring, testing and generally trying to build and run production systems reliably.   | **To Search:** <br>all posts are on one page so please use cmd-f/ctrl-f  |
 
 
 
