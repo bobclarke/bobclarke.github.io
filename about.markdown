@@ -4,7 +4,7 @@ title: About
 permalink: /about/
 ---
 
-bobmclarke@gmail.com
+<bobmclarke@gmail.com>
 
-[https://uk.linkedin.com/in/bobmclarke]
+[My linkied-in profile](https://uk.linkedin.com/in/bobmclarke)
 
