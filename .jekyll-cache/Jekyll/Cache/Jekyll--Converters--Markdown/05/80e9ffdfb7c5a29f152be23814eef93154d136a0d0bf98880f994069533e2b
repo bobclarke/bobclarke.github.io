@@ -1,0 +1,10 @@
+I"¶<p><!-- HTML for divs generated using hilite.me --> <span style="color:#444444;font-family:verdana;font-size:16px;"> 1.) Clear arp cache </span>
+<div style="background:#f8f8f8;overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;font-size:18px;"> sudo arp -ad </div>
+<p> <span style="color:#444444;font-family:verdana;font-size:16px;"> 2.) Ping your subnet, for example... </span>
+<div style="background:#f8f8f8;overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;font-size:18px;">        ping 10.1.1.255 </div>
+<p> <span style="color:#444444;font-family:verdana;font-size:16px;"> 3.) Now look at arp entries </span>
+<div style="background:#f8f8f8;overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;font-size:18px;"> arp -a </div>
+<p> <span style="color:#444444;font-family:verdana;font-size:16px;"> Alternatively carry out an nmap ping scan (nmap uses ARP under the covers for this) </span>
+<div style="background:#f8f8f8;overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;font-size:18px;"> nmap -sn 10.1.1.0/24 </div>
+</p></p></p></p>
+:ET

@@ -1,0 +1,73 @@
+---
+layout: post
+title: Pod environment vars from configmap
+date: 2018-08-18 14:52:45.000000000 +01:00
+type: post
+parent_id: '0'
+published: true
+password: ''
+status: publish
+categories: []
+tags: []
+meta:
+  _rest_api_published: '1'
+  _rest_api_client_id: "-1"
+  _publicize_job_id: '21214742647'
+  timeline_notification: '1534603966'
+author:
+  login: bobmclarke915800472
+  email: bob.mclarke@gmail.com
+  display_name: Bob Clarke
+  first_name: ''
+  last_name: ''
+permalink: "/2018/08/18/pod-environment-vars-from-configmap/"
+---
+<p><span class="contentBold">C</span><span class="contentBold">r</span><span class="contentBold">e</span><span class="contentBold">a</span><span class="contentBold">t</span><span class="contentBold">e</span> <span class="contentBold">a</span> <span class="contentBold">c</span><span class="contentBold">o</span><span class="contentBold">n</span><span class="contentBold">f</span><span class="contentBold">i</span><span class="contentBold">gm</span><span class="contentBold">a</span><span class="contentBold">p</span><span class="contentBold">:</span></p>
+<pre>kubectl create configmap env-config \
+  --from-literal=ENV_VAR_1=FOO --from-literal=ENV_VAR_2=BAR</pre>
+<p>Create a pod to use this config map</p>
+<pre>cat &lt;&lt;EOF | kubectl create -f -
+apiVersion: v1
+kind: Pod
+metadata:
+  name: test-pod
+spec:
+  containers:
+    - name: test-container
+      image: k8s.gcr.io/busybox
+      command: [ "/bin/sh", "-c", "env" ]
+      envFrom:
+      - configMapRef:
+          name: env-config
+  restartPolicy: Never
+EOF</pre>
+<p>This pod will print it's env and then exit</p>
+<p><span class="contentBold">V</span><span class="contentBold">i</span><span class="contentBold">e</span><span class="contentBold">w</span> <span class="contentBold">t</span><span class="contentBold">h</span><span class="contentBold">e</span> <span class="contentBold">p</span><span class="contentBold">o</span><span class="contentBold">d</span> <span class="contentBold">e</span><span class="contentBold">n</span><span class="contentBold">v</span> <span class="contentBold">v</span><span class="contentBold">a</span><span class="contentBold">r</span><span class="contentBold">i</span><span class="contentBold">a</span><span class="contentBold">b</span><span class="contentBold">l</span><span class="contentBold">e</span><span class="contentBold">s with:</span></p>
+<pre><span class="contentBold">kubectl logs test-pod -c test-container</span></pre>
+<p>This will provide something similar to the following output:</p>
+<pre>KUBERNETES_PORT=tcp://10.96.0.1:443
+KUBERNETES_SERVICE_PORT=443
+HOSTNAME=test-pod
+SHLVL=1
+HOME=/root
+EXAMPLE_SERVICE_PORT_8080_TCP_ADDR=10.100.105.233
+EXAMPLE_SERVICE_SERVICE_HOST=10.100.105.233
+EXAMPLE_SERVICE_PORT_8080_TCP_PORT=8080
+ENV_VAR_1=FOO
+ENV_VAR_2=BAR
+EXAMPLE_SERVICE_PORT_8080_TCP_PROTO=tcp
+KUBERNETES_PORT_443_TCP_ADDR=10.96.0.1
+EXAMPLE_SERVICE_PORT=tcp://10.100.105.233:8080
+EXAMPLE_SERVICE_SERVICE_PORT=8080
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+KUBERNETES_PORT_443_TCP_PORT=443
+KUBERNETES_PORT_443_TCP_PROTO=tcp
+EXAMPLE_SERVICE_PORT_8080_TCP=tcp://10.100.105.233:8080
+KUBERNETES_SERVICE_PORT_HTTPS=443
+KUBERNETES_PORT_443_TCP=tcp://10.96.0.1:443
+PWD=/
+KUBERNETES_SERVICE_HOST=10.96.0.1</pre>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>

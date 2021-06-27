@@ -1,0 +1,33 @@
+---
+layout: post
+title: split a tar archive
+date: 2018-08-19 20:09:02.000000000 +01:00
+type: post
+parent_id: '0'
+published: true
+password: ''
+status: publish
+categories: []
+tags: []
+meta:
+  _rest_api_published: '1'
+  _rest_api_client_id: "-1"
+  _publicize_job_id: '21251797679'
+  timeline_notification: '1534709343'
+author:
+  login: bobmclarke915800472
+  email: bob.mclarke@gmail.com
+  display_name: Bob Clarke
+  first_name: ''
+  last_name: ''
+permalink: "/2018/08/19/split-a-tar-archive/"
+---
+<pre>split -b 2m node-v5.11.1-linux-x64.tar part_</pre>
+<p>Will produce:</p>
+<pre>part_aa
+part_ab
+part_ac
+etc etc (in this case each file above will be 2MB in size)</pre>
+<p>Now concatenate the parts:</p>
+<pre>cat part*  &gt;  node-v5.11.1-linux-x64.tar</pre>
+<p><strong>NOTE</strong>: if you run a file on one of the parts you can see details of the original file</p>

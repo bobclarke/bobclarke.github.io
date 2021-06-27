@@ -1,0 +1,47 @@
+I"q<p><!-- wp:heading {"level":3} --></p>
+<h3>Pre-reqs</h3>
+<p><!-- /wp:heading --></p>
+<p><!-- wp:list --></p>
+<ul>
+<li>K8s cluster with RBAC enabled </li>
+<li>Helm installed with Tiller using a service account (see Helm set up step  below)</li>
+<li>brig cli</li>
+</ul>
+<p><!-- /wp:list --></p>
+<p><!-- wp:heading {"level":3} --></p>
+<h3>Helm set up</h3>
+<p><!-- /wp:heading --></p>
+<p><!-- wp:preformatted --></p>
+<pre class="wp-block-preformatted">kubectl -n kube-system create sa tiller
+kubectl create clusterrolebinding tiller --clusterrole cluster-admin --serviceaccount=kube-system:tiller
+helm init --service-account tiller</pre>
+<p><!-- /wp:preformatted --></p>
+<p><!-- wp:heading {"level":3} --></p>
+<h3>Install brigade</h3>
+<p><!-- /wp:heading --></p>
+<p><!-- wp:preformatted --></p>
+<pre class="wp-block-preformatted">helm repo add brigade https://brigadecore.github.io/charts
+helm install --name brigade-server brigade/brigade --namespace ci --set gw.enabled=true</pre>
+<p><!-- /wp:preformatted --></p>
+<p><!-- wp:heading {"level":3} --></p>
+<h3>Generate a values file for a brigade project </h3>
+<p><!-- /wp:heading --></p>
+<p><!-- wp:preformatted --></p>
+<pre class="wp-block-preformatted">helm inspect values brigade/brigade-project &gt; values.yaml </pre>
+<p><!-- /wp:preformatted --></p>
+<p><!-- wp:heading {"level":3} --></p>
+<h3>Customise the values file</h3>
+<p><!-- /wp:heading --></p>
+<p><!-- wp:paragraph --></p>
+<p>You'll notice that the helm inspect command generates alot of output. This can be cut down to something like the following:</p>
+<p><!-- /wp:paragraph --></p>
+<p><!-- wp:preformatted --></p>
+<pre class="wp-block-preformatted">project: "bobclarke/gowiki"
+repository: "github.com/bobclarke/gowiki"
+cloneURL: "https://github.com/bobclarke/gowiki"
+sharedSecret: "IBrakeForSeaBeasts"
+github:
+&nbsp;&nbsp;&nbsp;token: "github oauth token"
+allowPrivilegedJobs: “true"
+</pre>
+:ET

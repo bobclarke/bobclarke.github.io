@@ -1,0 +1,91 @@
+---
+layout: post
+title: Terraform - outputs from disabled resources
+date: 2018-12-04 14:51:19.000000000 +00:00
+type: post
+parent_id: '0'
+published: true
+password: ''
+status: publish
+categories: []
+tags: []
+meta:
+  _publicize_job_id: '24954718850'
+  timeline_notification: '1543935079'
+author:
+  login: bobmclarke915800472
+  email: bob.mclarke@gmail.com
+  display_name: Bob Clarke
+  first_name: ''
+  last_name: ''
+permalink: "/2018/12/04/terraform-outputs-from-disabled-resources/"
+---
+<p><!-- wp:paragraph --></p>
+<p>A nice technique when using Terraform is to use modules that can be enabled or disabled depending on the requirements.&nbsp;</p>
+<p><!-- /wp:paragraph --></p>
+<p><!-- wp:block {"ref":396} /--></p>
+<p><!-- wp:paragraph --></p>
+<p>For example, consider the main.tf below</p>
+<p><!-- /wp:paragraph --></p>
+<p><!-- wp:preformatted --></p>
+<pre class="wp-block-preformatted">module "gke-network" {
+  enabled                     = 1
+  source                      = "modules/network"
+  gcp_project                 = "${var.gcp_project}"
+  network_name                = "${var.network_name}"
+}
+
+module "gke-cluster" {
+  enabled                     = 1
+  source                      = "modules/gke"
+  cluster_name                = "${var.cluster_name}"
+  gcp_region                  = "${var.gcp_region}"
+  gcp_zone                    = "${var.gcp_zone}"
+  gcp_project                 = "${var.gcp_project}"
+  k8s_user                    = "${var.k8s_user}"
+  k8s_password                = "${var.k8s_password}"
+  k8s_min_nodes               = "${var.k8s_min_nodes}"
+  network_name                = "${module.gke-network.network_name == "" ? "default" : module.gke-network.network_name}"
+}</pre>
+<p><!-- /wp:preformatted --></p>
+<p><!-- wp:block {"ref":396} /--></p>
+<p><!-- wp:paragraph --></p>
+<p>As can be seen, we're passing the new variable "enabled" and setting it to 1. The module code for gke-network looks like this</p>
+<p><!-- /wp:paragraph --></p>
+<p><!-- wp:preformatted --></p>
+<pre class="wp-block-preformatted">resource "google_compute_network" "db_network" {
+  count                     = "${var.enabled}"
+  name                      = "${var.network_name}"
+  auto_create_subnetworks   = "true"
+  project                   = "${var.gcp_project}"
+}
+
+output "network_name" {
+  value                     = "${join("", google_compute_network.db_network.*.name)}"
+}</pre>
+<p><!-- /wp:preformatted --></p>
+<p><!-- wp:paragraph --></p>
+<p>You'll notice <strong>count</strong> has been added.&nbsp; This allows us to use the <strong>splat</strong> syntax for the network outputs (i.e because we've added count to the reource, terraform knows that&nbsp;google_compute_network.db_network will need to be an array). </p>
+<p><!-- /wp:paragraph --></p>
+<p><!-- wp:block {"ref":396} /--></p>
+<p><!-- wp:paragraph --></p>
+<p>So&nbsp;google_compute_network.db_network now becomes&nbsp;google_compute_network.db_network[n] or in terraform syntax&nbsp;google_compute_network.db_network.n.</p>
+<p><!-- /wp:paragraph --></p>
+<p><!-- wp:block {"ref":396} /--></p>
+<p><!-- wp:paragraph --></p>
+<p>This means we can substitute n with a wildcard (*)&nbsp;</p>
+<p><!-- /wp:paragraph --></p>
+<p><!-- wp:block {"ref":396} /--></p>
+<p><!-- wp:paragraph --></p>
+<p>Therefore,&nbsp; even when we disable gke-network by setting <strong>enabled</strong> to 0 in main.tf, terraform won't complain as it would do if we had used&nbsp;google_compute_network.db_network.0.name (i.e. because we would be referring to something that doesn't exist. Not sure why but when we use a wildcard terraform let's us get away with this fact.&nbsp;</p>
+<p><!-- /wp:paragraph --></p>
+<p><!-- wp:block {"ref":396} /--></p>
+<p><!-- wp:paragraph --></p>
+<p>Obviously the output would be blank and the consuming module would need to deal with this - I've shown an example using a conditional.</p>
+<p><!-- /wp:paragraph --></p>
+<p><!-- wp:block {"ref":396} /--></p>
+<p><!-- wp:paragraph --></p>
+<p>NOTE: the join there because the expected output is a string as opposed to an array.</p>
+<p><!-- /wp:paragraph --></p>
+<p><!-- wp:paragraph --></p>
+<p><!-- /wp:paragraph --></p>

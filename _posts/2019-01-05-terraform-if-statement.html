@@ -1,0 +1,31 @@
+---
+layout: post
+title: Terraform IF/ELSE
+date: 2019-01-05 18:36:08.000000000 +00:00
+type: post
+parent_id: '0'
+published: true
+password: ''
+status: publish
+categories: []
+tags: []
+meta:
+  _publicize_job_id: '26208148491'
+  timeline_notification: '1546713368'
+author:
+  login: bobmclarke915800472
+  email: bob.mclarke@gmail.com
+  display_name: Bob Clarke
+  first_name: ''
+  last_name: ''
+permalink: "/2019/01/05/terraform-if-statement/"
+---
+<p><!-- wp:paragraph --></p>
+<p>The following checks the value of  ${module.gke-network.network_name}, if it's an empty string it assigns the network_name variable a value of "default" else if it's not an empty string it assigns the value of ${module.gke-network.network_name} to the network_name variable</p>
+<p><!-- /wp:paragraph --></p>
+<p><!-- wp:preformatted --></p>
+<pre class="wp-block-preformatted">network_name = "${module.gke-network.network_name} == "" ? "default" : module.gke-network.network_name}"</pre>
+<p><!-- /wp:preformatted --></p>
+<p><!-- wp:paragraph --></p>
+<p>This is quite handy as it's saying "if I have set a value for ${module.gke-network.network_name} then use that value, if not just use the string "default"</p>
+<p><!-- /wp:paragraph --></p>

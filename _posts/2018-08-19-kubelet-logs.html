@@ -1,0 +1,28 @@
+---
+layout: post
+title: kubelet logs
+date: 2018-08-19 19:27:32.000000000 +01:00
+type: post
+parent_id: '0'
+published: true
+password: ''
+status: publish
+categories: []
+tags: []
+meta:
+  _rest_api_published: '1'
+  _rest_api_client_id: "-1"
+  _publicize_job_id: '21250881589'
+  timeline_notification: '1534706853'
+author:
+  login: bobmclarke915800472
+  email: bob.mclarke@gmail.com
+  display_name: Bob Clarke
+  first_name: ''
+  last_name: ''
+permalink: "/2018/08/19/kubelet-logs/"
+---
+<p>If your container won't start, and the events log isn't providing enough information, you may need to dig into the kubelet logs.  To do this, find which node you pod is running on using <span style="color:#008000;"><strong>kubectl get pods -o wide</strong></span></p>
+<p>Now log onto that node and run:</p>
+<pre><span class="contentBold">sudo j</span><span class="contentBold">o</span><span class="contentBold">u</span><span class="contentBold">r</span><span class="contentBold">n</span><span class="contentBold">a</span><span class="contentBold">l</span><span class="contentBold">c</span><span class="contentBold">t</span><span class="contentBold">l</span> <span class="contentBold">-</span><span class="contentBold">x</span> <span class="contentBold">-</span><span class="contentBold">u</span> <span class="contentBold">k</span><span class="contentBold">u</span><span class="contentBold">b</span><span class="contentBold">e</span><span class="contentBold">l</span><span class="contentBold">e</span><span class="contentBold">t</span> <span class="contentBold">-</span><span class="contentBold">-</span><span class="contentBold">n</span><span class="contentBold">o</span><span class="contentBold">-</span><span class="contentBold">p</span><span class="contentBold">a</span><span class="contentBold">g</span><span class="contentBold">e</span><span class="contentBold">r</span> <span class="contentBold">-</span><span class="contentBold">a</span> <span class="contentBold">|</span> <span class="contentBold">g</span><span class="contentBold">r</span><span class="contentBold">e</span><span class="contentBold">p</span> <span class="contentBold">&lt;</span><span class="contentBold">p</span><span class="contentBold">o</span><span class="contentBold">d</span> <span class="contentBold">n</span><span class="contentBold">a</span><span class="contentBold">m</span><span class="contentBold">e</span><span class="contentBold">&gt;</span></pre>
+<p>&nbsp;</p>

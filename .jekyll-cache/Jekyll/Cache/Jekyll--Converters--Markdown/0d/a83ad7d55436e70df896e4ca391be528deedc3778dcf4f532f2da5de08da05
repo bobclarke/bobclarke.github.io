@@ -1,0 +1,44 @@
+I"È
+<p><!-- wp:paragraph --></p>
+<p>To read data from vault</p>
+<p><!-- /wp:paragraph --></p>
+<p><!-- wp:preformatted --></p>
+<pre class="wp-block-preformatted">vault read secret/my_data<br /></pre>
+<p><!-- /wp:preformatted --></p>
+<p><!-- wp:paragraph --></p>
+<p>This will display something like </p>
+<p><!-- /wp:paragraph --></p>
+<p><!-- wp:preformatted --></p>
+<pre class="wp-block-preformatted">Key                    Value<br /> ---                    -----<br /> refresh_interval       768h<br /> client_namespaces      dummy1,dummy2,dummy3<br /> enabled                1<br /> env_tag                NonProduction<br /> event_hub_namespace    dummy-eventhub<br /> message_retention      1<br /> partition_count        3<br /> version                0.0.1</pre>
+<p><!-- /wp:preformatted --></p>
+<p><!-- wp:paragraph --></p>
+<p>To display in json format</p>
+<p><!-- /wp:paragraph --></p>
+<p><!-- wp:preformatted --></p>
+<pre class="wp-block-preformatted">vault read --format=json secret/my_data</pre>
+<p><!-- /wp:preformatted --></p>
+<p><!-- wp:paragraph --></p>
+<p>Which will display </p>
+<p><!-- /wp:paragraph --></p>
+<p><!-- wp:preformatted --></p>
+<pre class="wp-block-preformatted">{<br />   "request_id": "3636eda1-c052-eb0c-b1c6-3bfff43d86e3",<br />   "lease_id": "",<br />   "lease_duration": 2764800,<br />   "renewable": false,<br />   "data": {<br />     "client_namespaces": "dummy1,dummy2,dummy3",<br />     "enabled": "1",<br />     "env_tag": "NonProduction",<br />     "event_hub_namespace": "dummy-eventhub",<br />     "message_retention": "1",<br />     "partition_count": "3",<br />     "version": "0.0.1"<br />   },<br />   "warnings": null<br /> }</pre>
+<p><!-- /wp:preformatted --></p>
+<p><!-- wp:paragraph --></p>
+<p>You can dump the data section to a file...</p>
+<p><!-- /wp:paragraph --></p>
+<p><!-- wp:preformatted --></p>
+<pre class="wp-block-preformatted">vault read --format=json secret/my_data | jq .data &gt; my_data.json</pre>
+<p><!-- /wp:preformatted --></p>
+<p><!-- wp:paragraph --></p>
+<p>This will dump the following to a my_data.json</p>
+<p><!-- /wp:paragraph --></p>
+<p><!-- wp:preformatted --></p>
+<pre class="wp-block-preformatted">{<br />   "client_namespaces": "dummy1,dummy2,dummy3",<br />   "enabled": "1",<br />   "env_tag": "NonProduction",<br />   "event_hub_namespace": "dummy-eventhub",<br />   "message_retention": "1",<br />   "partition_count": "3",<br />   "version": "0.0.1"<br /> }</pre>
+<p><!-- /wp:preformatted --></p>
+<p><!-- wp:paragraph --></p>
+<p>Edit this to suit your needs and write to back to vault as follows...</p>
+<p><!-- /wp:paragraph --></p>
+<p><!-- wp:preformatted --></p>
+<pre class="wp-block-preformatted">vault write secret/my_data @my_data.json</pre>
+<p><!-- /wp:preformatted --></p>
+:ET

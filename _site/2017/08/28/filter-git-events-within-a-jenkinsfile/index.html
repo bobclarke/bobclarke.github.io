@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.7.1 -->
+<title>Filter Git events within a Jenkinsfile</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="Filter Git events within a Jenkinsfile" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Assuming you&#39;re using Git webhooks to trigger your Jenkins builds, let&#39;s say you want to trigger a different set of pipeline stages depending on whether the Git event is a push vs. a pull request. I.e for a push you may only wish to run static analysis and unit tests, whereas for a pull request you may want to add Selenium tests. The following Jenkinsfile snippet will achieve this // Import JSON Slurperimport groovy.json.JsonSlurperClassic// Get the Git payloaddef payload = new JsonSlurperClassic().parseText(env.payload)// Now define a method to filter the event typeprivate String getEventType ( payload ){ if( payload.pull_request &amp;&amp; payload.action.toLowerCase().contains(&quot;opened&quot;) ){ return &quot;pull_req&quot; } else if( payload.ref &amp;&amp; payload.head_commit){ if( payload.ref.split(&#039;/&#039;)[1].toLowerCase().contains(&#039;head&#039;) ){ return &quot;push&quot; } else if( payload.ref.split(&#039;/&#039;)[1].toLowerCase().contains(&#039;tag&#039;) ){ return &quot;tag&quot; } }}// Now decide what action to take def eventType = getEventType( payload )switch (eventType) { case &quot;push&quot;: ............ do something ............ break; case &quot;pull_req&quot;: ............ do something else ............ break; default: println &quot;Git event ignored&quot;; currentBuild.displayName = &quot;Git event ignored&quot; // Tidy up the Jenkins GUI by deleting the ignored build def buildNumber = env.BUILD_ID node { sh &quot;curl -X POST http://:@:443/job/execute-pipeline/${buildNumber}/doDelete&quot; }" />
+<meta property="og:description" content="Assuming you&#39;re using Git webhooks to trigger your Jenkins builds, let&#39;s say you want to trigger a different set of pipeline stages depending on whether the Git event is a push vs. a pull request. I.e for a push you may only wish to run static analysis and unit tests, whereas for a pull request you may want to add Selenium tests. The following Jenkinsfile snippet will achieve this // Import JSON Slurperimport groovy.json.JsonSlurperClassic// Get the Git payloaddef payload = new JsonSlurperClassic().parseText(env.payload)// Now define a method to filter the event typeprivate String getEventType ( payload ){ if( payload.pull_request &amp;&amp; payload.action.toLowerCase().contains(&quot;opened&quot;) ){ return &quot;pull_req&quot; } else if( payload.ref &amp;&amp; payload.head_commit){ if( payload.ref.split(&#039;/&#039;)[1].toLowerCase().contains(&#039;head&#039;) ){ return &quot;push&quot; } else if( payload.ref.split(&#039;/&#039;)[1].toLowerCase().contains(&#039;tag&#039;) ){ return &quot;tag&quot; } }}// Now decide what action to take def eventType = getEventType( payload )switch (eventType) { case &quot;push&quot;: ............ do something ............ break; case &quot;pull_req&quot;: ............ do something else ............ break; default: println &quot;Git event ignored&quot;; currentBuild.displayName = &quot;Git event ignored&quot; // Tidy up the Jenkins GUI by deleting the ignored build def buildNumber = env.BUILD_ID node { sh &quot;curl -X POST http://:@:443/job/execute-pipeline/${buildNumber}/doDelete&quot; }" />
+<link rel="canonical" href="http://localhost:4000/2017/08/28/filter-git-events-within-a-jenkinsfile/" />
+<meta property="og:url" content="http://localhost:4000/2017/08/28/filter-git-events-within-a-jenkinsfile/" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2017-08-28T08:49:00+01:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Filter Git events within a Jenkinsfile" />
+<script type="application/ld+json">
+{"headline":"Filter Git events within a Jenkinsfile","dateModified":"2017-08-28T08:49:00+01:00","datePublished":"2017-08-28T08:49:00+01:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/2017/08/28/filter-git-events-within-a-jenkinsfile/"},"description":"Assuming you&#39;re using Git webhooks to trigger your Jenkins builds, let&#39;s say you want to trigger a different set of pipeline stages depending on whether the Git event is a push vs. a pull request. I.e for a push you may only wish to run static analysis and unit tests, whereas for a pull request you may want to add Selenium tests. The following Jenkinsfile snippet will achieve this // Import JSON Slurperimport groovy.json.JsonSlurperClassic// Get the Git payloaddef payload = new JsonSlurperClassic().parseText(env.payload)// Now define a method to filter the event typeprivate String getEventType ( payload ){ if( payload.pull_request &amp;&amp; payload.action.toLowerCase().contains(&quot;opened&quot;) ){ return &quot;pull_req&quot; } else if( payload.ref &amp;&amp; payload.head_commit){ if( payload.ref.split(&#039;/&#039;)[1].toLowerCase().contains(&#039;head&#039;) ){ return &quot;push&quot; } else if( payload.ref.split(&#039;/&#039;)[1].toLowerCase().contains(&#039;tag&#039;) ){ return &quot;tag&quot; } }}// Now decide what action to take def eventType = getEventType( payload )switch (eventType) { case &quot;push&quot;: ............ do something ............ break; case &quot;pull_req&quot;: ............ do something else ............ break; default: println &quot;Git event ignored&quot;; currentBuild.displayName = &quot;Git event ignored&quot; // Tidy up the Jenkins GUI by deleting the ignored build def buildNumber = env.BUILD_ID node { sh &quot;curl -X POST http://:@:443/job/execute-pipeline/${buildNumber}/doDelete&quot; }","url":"http://localhost:4000/2017/08/28/filter-git-events-within-a-jenkinsfile/","@type":"BlogPosting","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" /></head>
+<body><header class="site-header" role="banner">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/"></a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Filter Git events within a Jenkinsfile</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2017-08-28T08:49:00+01:00" itemprop="datePublished">Aug 28, 2017
+      </time>• <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span class="p-author h-card" itemprop="name">{"login"=>"bobmclarke915800472", "email"=>"bob.mclarke@gmail.com", "display_name"=>"Bob Clarke", "first_name"=>"", "last_name"=>""}</span></span></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <p><span style="color:#444444;font-family:verdana;font-size:16px;"> Assuming you're using Git webhooks to trigger your Jenkins builds, let's say you want to trigger a different set of pipeline stages depending on whether the Git event is a push vs. a pull request. I.e for a push you may only wish to run static analysis and unit tests, whereas for a pull request you may want to add Selenium tests.  </span></p>
+<p>  <span style="color:#444444;font-family:verdana;font-size:16px;"> The following Jenkinsfile snippet will achieve this </span>    <!-- HTML generated using hilite.me -->
+<div style="background:#ffffff;overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+<pre style="margin:0;line-height:125%;"><span style="color:#888888;">// Import JSON Slurper</span><br /><span style="color:#008800;font-weight:bold;">import</span> <span style="color:#0e84b5;font-weight:bold;">groovy.json.JsonSlurperClassic</span><br /><br /><span style="color:#888888;">// Get the Git payload</span><br /><span style="color:#333399;font-weight:bold;">def</span> payload <span style="color:#333333;">=</span> <span style="color:#008800;font-weight:bold;">new</span> JsonSlurperClassic<span style="color:#333333;">().</span><span style="color:#0000CC;">parseText</span><span style="color:#333333;">(</span>env<span style="color:#333333;">.</span><span style="color:#0000CC;">payload</span><span style="color:#333333;">)</span><br /><br /><br /><span style="color:#888888;">// Now define a method to filter the event type</span><br /><span style="color:#008800;font-weight:bold;">private</span> String <span style="color:#0066BB;font-weight:bold;">getEventType</span> <span style="color:#333333;">(</span> payload <span style="color:#333333;">){</span><br /><br />   <span style="color:#008800;font-weight:bold;">if</span><span style="color:#333333;">(</span> payload<span style="color:#333333;">.</span><span style="color:#0000CC;">pull_request</span>  <span style="color:#333333;">&amp;&amp;</span> payload<span style="color:#333333;">.</span><span style="color:#0000CC;">action</span><span style="color:#333333;">.</span><span style="color:#0000CC;">toLowerCase</span><span style="color:#333333;">().</span><span style="color:#0000CC;">contains</span><span style="color:#333333;">(</span><span style="background-color:#fff0f0;">"opened"</span><span style="color:#333333;">)</span> <span style="color:#333333;">){</span><br />      <span style="color:#008800;font-weight:bold;">return</span> <span style="background-color:#fff0f0;">"pull_req"</span><br />   <span style="color:#333333;">}</span><br /><br />   <span style="color:#008800;font-weight:bold;">else</span> <span style="color:#0066BB;font-weight:bold;">if</span><span style="color:#333333;">(</span> payload<span style="color:#333333;">.</span><span style="color:#0000CC;">ref</span> <span style="color:#333333;">&amp;&amp;</span> payload<span style="color:#333333;">.</span><span style="color:#0000CC;">head_commit</span><span style="color:#333333;">){</span><br />      <span style="color:#008800;font-weight:bold;">if</span><span style="color:#333333;">(</span> payload<span style="color:#333333;">.</span><span style="color:#0000CC;">ref</span><span style="color:#333333;">.</span><span style="color:#0000CC;">split</span><span style="color:#333333;">(</span><span style="background-color:#fff0f0;">&#039;/&#039;</span><span style="color:#333333;">)[</span><span style="color:#0000DD;font-weight:bold;">1</span><span style="color:#333333;">].</span><span style="color:#0000CC;">toLowerCase</span><span style="color:#333333;">().</span><span style="color:#0000CC;">contains</span><span style="color:#333333;">(</span><span style="background-color:#fff0f0;">&#039;head&#039;</span><span style="color:#333333;">)</span> <span style="color:#333333;">){</span><br />         <span style="color:#008800;font-weight:bold;">return</span> <span style="background-color:#fff0f0;">"push"</span><br />      <span style="color:#333333;">}</span><br /><br />      <span style="color:#008800;font-weight:bold;">else</span> <span style="color:#0066BB;font-weight:bold;">if</span><span style="color:#333333;">(</span> payload<span style="color:#333333;">.</span><span style="color:#0000CC;">ref</span><span style="color:#333333;">.</span><span style="color:#0000CC;">split</span><span style="color:#333333;">(</span><span style="background-color:#fff0f0;">&#039;/&#039;</span><span style="color:#333333;">)[</span><span style="color:#0000DD;font-weight:bold;">1</span><span style="color:#333333;">].</span><span style="color:#0000CC;">toLowerCase</span><span style="color:#333333;">().</span><span style="color:#0000CC;">contains</span><span style="color:#333333;">(</span><span style="background-color:#fff0f0;">&#039;tag&#039;</span><span style="color:#333333;">)</span> <span style="color:#333333;">){</span><br />         <span style="color:#008800;font-weight:bold;">return</span> <span style="background-color:#fff0f0;">"tag"</span><br />      <span style="color:#333333;">}</span><br />   <span style="color:#333333;">}</span><br /><span style="color:#333333;">}</span><br /><br /><br /><span style="color:#888888;">// Now decide what action to take </span><br /><span style="color:#333399;font-weight:bold;">def</span> eventType <span style="color:#333333;">=</span> getEventType<span style="color:#333333;">(</span> payload <span style="color:#333333;">)</span><br /><span style="color:#008800;font-weight:bold;">switch</span> <span style="color:#333333;">(</span>eventType<span style="color:#333333;">)</span> <span style="color:#333333;">{</span><br />  <span style="color:#008800;font-weight:bold;">case</span> <span style="background-color:#fff0f0;">"push"</span><span style="color:#333333;">:</span><br />    <span style="color:#333333;">............</span><br />    do something <br />    <span style="color:#333333;">............</span><br />    <span style="color:#008800;font-weight:bold;">break</span><span style="color:#333333;">;</span><br /><br />  <span style="color:#008800;font-weight:bold;">case</span> <span style="background-color:#fff0f0;">"pull_req"</span><span style="color:#333333;">:</span><br />    <span style="color:#333333;">............</span><br />    do something else <br />    <span style="color:#333333;">............</span><br />    <span style="color:#008800;font-weight:bold;">break</span><span style="color:#333333;">;</span><br /><br />  <span style="color:#008800;font-weight:bold;">default</span><span style="color:#333333;">:</span><br />      println <span style="background-color:#fff0f0;">"Git event ignored"</span><span style="color:#333333;">;</span><br />      currentBuild<span style="color:#333333;">.</span><span style="color:#0000CC;">displayName</span> <span style="color:#333333;">=</span> <span style="background-color:#fff0f0;">"Git event ignored"</span><br />      <br />      <span style="color:#888888;">// Tidy up the Jenkins GUI by deleting the ignored build</span><br />      <span style="color:#333399;font-weight:bold;">def</span> buildNumber <span style="color:#333333;">=</span> env<span style="color:#333333;">.</span><span style="color:#0000CC;">BUILD_ID</span><br />      node <span style="color:#333333;">{</span><br />            sh <span style="background-color:#fff0f0;">"curl -X POST http://:@:443/job/execute-pipeline/${buildNumber}/doDelete"</span><br />      <span style="color:#333333;">}</span><br /><br /><br /><br /><br /> <br /></pre>
+</div>
+<p></p>
+
+  </div><a class="u-url" href="/2017/08/28/filter-git-events-within-a-jenkinsfile/" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading"></h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name"></li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p></p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

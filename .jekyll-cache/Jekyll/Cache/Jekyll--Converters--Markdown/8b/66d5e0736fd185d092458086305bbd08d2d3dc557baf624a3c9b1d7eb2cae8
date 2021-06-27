@@ -1,0 +1,7 @@
+I"û<h3>TLS mutual/client auth</h3>
+<pre>curl -k <a class="contentLink" href="https://10.1.1.101/" target="_blank" rel="noopener noreferrer">https://10.1.1.101</a> -v --cert ./cert.pem --key ./key.pem</pre>
+<p><strong>NOTE</strong>: you need to specify the relative (./) or absolute paths to the pem files)</p>
+<h3>display information after a completed transfer</h3>
+<pre>curl -w "dns_resolution: %{time_namelookup}, tcp_established: %{time_connect}\n" -o /dev/null -s "http://google.co.uk"</pre>
+<p>&nbsp;</p>
+:ET

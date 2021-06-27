@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.7.1 -->
+<title>storing git credentials</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="storing git credentials" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="If you need to store git credentials so that you don&#39;t have to keep entering them when cloning a git repo over http(s) Add the following to ~/.gitconfig [user] email = bobmclarke@gmail.com name = Bob Clarke [credential] helper = store Then create ~/.git-credentials with the following contents https://your-username:your-password@github.com Now authentication to Git will work without prompting for credentials. Another way of generating these files is to run: git config --global user.email &quot;bobmclarke@gmail.com&quot; git config --global user.name &quot;Bob Clarke&quot; git config --global credential.helper store Then push to the repo at which point you&#39;ll be prompted for your username and password. After you enter them for the first time a ~/.git-credentials file will be generated as above. This can be useful if the developers in your team are using git as an npm repo for internal modules with something in the package.json like: &quot;some-npm-package-name&quot;: &quot;git+https://github.com/bobclarke/mymodule#v1.0&quot; The downside is that your Git credentials will be stored in PLAIN TEXT so be aware. Last thing to note, if you&#39;re doing this on an internal Github you may need to ignore ssl certs as follows: git config --global http.sslVerify false p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Monaco; color: #f5f5f5; background-color: #2f2f2f}" />
+<meta property="og:description" content="If you need to store git credentials so that you don&#39;t have to keep entering them when cloning a git repo over http(s) Add the following to ~/.gitconfig [user] email = bobmclarke@gmail.com name = Bob Clarke [credential] helper = store Then create ~/.git-credentials with the following contents https://your-username:your-password@github.com Now authentication to Git will work without prompting for credentials. Another way of generating these files is to run: git config --global user.email &quot;bobmclarke@gmail.com&quot; git config --global user.name &quot;Bob Clarke&quot; git config --global credential.helper store Then push to the repo at which point you&#39;ll be prompted for your username and password. After you enter them for the first time a ~/.git-credentials file will be generated as above. This can be useful if the developers in your team are using git as an npm repo for internal modules with something in the package.json like: &quot;some-npm-package-name&quot;: &quot;git+https://github.com/bobclarke/mymodule#v1.0&quot; The downside is that your Git credentials will be stored in PLAIN TEXT so be aware. Last thing to note, if you&#39;re doing this on an internal Github you may need to ignore ssl certs as follows: git config --global http.sslVerify false p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Monaco; color: #f5f5f5; background-color: #2f2f2f}" />
+<link rel="canonical" href="http://localhost:4000/2017/06/09/storing-git-credentials/" />
+<meta property="og:url" content="http://localhost:4000/2017/06/09/storing-git-credentials/" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2017-06-09T16:42:00+01:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="storing git credentials" />
+<script type="application/ld+json">
+{"headline":"storing git credentials","dateModified":"2017-06-09T16:42:00+01:00","datePublished":"2017-06-09T16:42:00+01:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/2017/06/09/storing-git-credentials/"},"description":"If you need to store git credentials so that you don&#39;t have to keep entering them when cloning a git repo over http(s) Add the following to ~/.gitconfig [user] email = bobmclarke@gmail.com name = Bob Clarke [credential] helper = store Then create ~/.git-credentials with the following contents https://your-username:your-password@github.com Now authentication to Git will work without prompting for credentials. Another way of generating these files is to run: git config --global user.email &quot;bobmclarke@gmail.com&quot; git config --global user.name &quot;Bob Clarke&quot; git config --global credential.helper store Then push to the repo at which point you&#39;ll be prompted for your username and password. After you enter them for the first time a ~/.git-credentials file will be generated as above. This can be useful if the developers in your team are using git as an npm repo for internal modules with something in the package.json like: &quot;some-npm-package-name&quot;: &quot;git+https://github.com/bobclarke/mymodule#v1.0&quot; The downside is that your Git credentials will be stored in PLAIN TEXT so be aware. Last thing to note, if you&#39;re doing this on an internal Github you may need to ignore ssl certs as follows: git config --global http.sslVerify false p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Monaco; color: #f5f5f5; background-color: #2f2f2f}","url":"http://localhost:4000/2017/06/09/storing-git-credentials/","@type":"BlogPosting","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" /></head>
+<body><header class="site-header" role="banner">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/"></a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">storing git credentials</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2017-06-09T16:42:00+01:00" itemprop="datePublished">Jun 9, 2017
+      </time>• <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span class="p-author h-card" itemprop="name">{"login"=>"bobmclarke915800472", "email"=>"bob.mclarke@gmail.com", "display_name"=>"Bob Clarke", "first_name"=>"", "last_name"=>""}</span></span></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <p><span style="font-family:Verdana, sans-serif;">If you need to store git credentials so that you don't have to keep entering them </span><span style="font-family:Verdana, sans-serif;">when cloning a git repo over http(s)</span><span style="font-family:Verdana, sans-serif;"><br />
+</span></p>
+<p><span style="font-family:Verdana, sans-serif;">Add the following to ~/.gitconfig</span></p>
+<pre><span style="color:#333333;">[</span>user<span style="color:#333333;">]</span> 
+<span style="color:#996633;">  email</span> <span style="color:#333333;">=</span> bobmclarke@gmail.com 
+<span style="color:#996633;">  name</span> <span style="color:#333333;">=</span> Bob Clarke 
+<span style="color:#333333;">[</span>credential<span style="color:#333333;">]</span> 
+<span style="color:#996633;">  helper</span> <span style="color:#333333;">=</span> store</pre>
+<p><span style="font-family:Verdana, sans-serif;">Then create ~/.git-credentials with the following contents</span></p>
+<pre>https://your-username:your-password@github.com</pre>
+<p><span style="font-family:Verdana, sans-serif;">Now authentication to Git will work without prompting for credentials.</span></p>
+<p><span style="font-family:Verdana, sans-serif;">Another way of generating these files is to run:</span></p>
+<div style="background:#ffffff;border-width:.1em .1em .1em .8em;border:solid gray;overflow:auto;padding:.2em .6em;width:auto;">
+<pre style="line-height:125%;margin:0;">git config --global user.email <span style="color:#aa5500;">"bobmclarke@gmail.com"</span>
+git config --global user.name <span style="color:#aa5500;">"Bob Clarke"</span></pre>
+<pre style="line-height:16.25px;">git config --global credential.helper store</pre>
+</div>
+<p><span style="font-family:Verdana, sans-serif;">Then push to the repo at which point you'll be prompted for your username and password. After you enter them for the first time a ~/.git-credentials file will be generated as above.</span></p>
+<p><span style="font-family:Verdana, sans-serif;">This can be useful if the developers in your team are using git as an npm repo for internal modules with something in the package.json like:</span></p>
+<div style="background:#ffffff;border-width:.1em .1em .1em .8em;border:solid gray;overflow:auto;padding:.2em .6em;width:auto;">
+<pre style="line-height:125%;margin:0;"><span style="color:#aa5500;">"some-npm-package-name"</span>: <span style="color:#aa5500;">"git+https://github.com/bobclarke/mymodule#v1.0"</span></pre>
+</div>
+<p><span style="font-family:Verdana, sans-serif;">The downside is that your Git credentials will be stored in <span style="color:red;"><b>PLAIN TEXT </b></span>so be aware.</span><br />
+<span style="font-family:Verdana, sans-serif;"><br />
+</span><span style="font-family:Verdana, sans-serif;">Last thing to note, if you're doing this on an internal Github you may need to ignore ssl certs as follows:</span></p>
+<div style="background:#ffffff;border-width:.1em .1em .1em .8em;border:solid gray;overflow:auto;padding:.2em .6em;width:auto;">
+<pre style="line-height:125%;margin:0;">git config --global http.sslVerify <span style="color:#00aaaa;">false</span></pre>
+</div>
+<p>p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Monaco; color: #f5f5f5; background-color: #2f2f2f}</p>
+
+  </div><a class="u-url" href="/2017/06/09/storing-git-credentials/" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading"></h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name"></li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p></p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

@@ -1,0 +1,30 @@
+I"�	<p>exec into a pod and run</p>
+<pre><span class="name">env | grep KUBER</span></pre>
+<p>The output will look something like this:</p>
+<pre>KUBERNETES_PORT=tcp://10.0.0.1:443
+KUBERNETES_SERVICE_PORT=443
+KUBERNETES_PORT_443_TCP_ADDR=10.0.0.1
+KUBERNETES_PORT_443_TCP_PORT=443
+KUBERNETES_PORT_443_TCP_PROTO=tcp
+KUBERNETES_PORT_443_TCP=tcp://10.0.0.1:443
+KUBERNETES_SERVICE_PORT_HTTPS=443
+KUBERNETES_SERVICE_HOST=10.0.0.1</pre>
+<p>This is enough info to at least get to the API server as follows:</p>
+<pre>curl -k https://10.0.0.1:443/api/v1</pre>
+<p>This will return something like the following:</p>
+<pre>{
+    "kind": "Status",
+    "apiVersion": "v1",
+    "metadata": {
+    },
+    "status": "Failure",
+    "message": "Unauthorized",
+    "reason": "Unauthorized",
+    "code": 401
+}</pre>
+<p>So at this stage we're hitting the API server but we're not authorised. Luckily each pod has a default service account associated with it, the token for which can be found under <span style="color:#008000;"><strong>/var/run/secrets/kubernetes.io/serviceaccount</strong></span>.</p>
+<p>So, we can modify our service account to look something like the following:</p>
+<pre>curl -k https://10.0.0.1:443/api/v1 -H "Authorization: Bearer &lt;token&gt;"</pre>
+<p>Here's a practical example:</p>
+<pre>curl -k https://10.0.0.1:443/api/v1 -H "Authorization: Bearer asJhbGciOiJhUzI1NiIsInR5cCs6IkpXVCJ9.eyJpc3MiOiJrdWJlcm5ldGVzL3NlcnZpY2VhY2NvdW50Iiwia3ViZXJuZXRlcy5flWNlYWNjb3VudC9uYW1lc3BhgsgsgJ0dnN0YWNrMDEiLCJrdWJlcm5ldGVzLmlvL3NlcnZpY2faaavdW50L3NlY3JldC5uYW1lIjoiZGfkkememmed9t1YmVybmV0ZXMuaW8vc2VydmljZWFjY291bnQvc2VydmljZS1hY2NvdW50Lm5hbWUiOiJkZWZhdWx0Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9zZXJ2aWNlLWFjY291bnQudWlkIjoiZDNhZjRlOTQtN2FkMy0xMWU4LWI3MDctMDAyMjQ4MDdlMTFiIiwic3ViIjoic3lzdGVtOnNlcnZpY2VhY2NvdW50OnR2c3RhY2swMTpkZWZhdWx0In0.emTXjNUnZZXoQocM7EM2-Ny97J-uO2o8SkZqMOb-b2wCQxm_piZj6DpGxG1c7PmexfVhW9La2KkDh5G49SB3-8q7vV9AdtnPWVsK4WS-DGilf0w3TxyWw2gbKqgWiMarTn-cCy67Mb0R9YB2KGvQapWYWmQf9PP7tQQPnvngVwpMilD0hWDDNFARZEI8H7mOQkls24kUixGV0uGgXUh0NF-1B_bQSYQa_nJuWoHSJOSQt8LiOxxc4IxXsOwzUlm0QFIESYEClhTeV-1vxCwgCCS9N7YftLFdL4kdNQ9XxOOvB3GROWrGwf8-wgOkegplvhvwCL1_L1jDiUm8ElgyfQEc5jFjqRjOZ1Yh_BpeBW1fFKtIRJgc2TcthscORC50_iMacOcMmvOy2erVx_oacbXF0-JhBDfoJUbcsz8mFsZUP71edliqGeBQQGiSmISe9iTjPcv10YWomVAFTDF49mgn2NWbPJD7kA3QZtfr4xe6NSRu6WvvXrs0m_edLTyTRyBnBGFtDVwC9wsh9VrVc2LtD-vOjLglJSm5drv9E5KkvCiXF3Epw4pUfwumI5KkGfmNTUY17RKO2F4_CzB9_trPNa6FBRFBsj9TbwrIH9i-Mvxs9ABhkGhM7poF2b4A8jxz7G-genIjnX-x42sooJFxBaVLxtepjHYfm6DXKuQ"</pre>
+:ET

@@ -1,0 +1,25 @@
+---
+layout: post
+title: Sort kubernetes events
+date: 2018-08-18 15:18:09.000000000 +01:00
+type: post
+parent_id: '0'
+published: true
+password: ''
+status: publish
+categories: []
+tags: []
+meta:
+  _rest_api_published: '1'
+  _rest_api_client_id: "-1"
+  _publicize_job_id: '21215348904'
+  timeline_notification: '1534605490'
+author:
+  login: bobmclarke915800472
+  email: bob.mclarke@gmail.com
+  display_name: Bob Clarke
+  first_name: ''
+  last_name: ''
+permalink: "/2018/08/18/sort-kubernetes-events/"
+---
+<pre>kubectl get events --sort-by=.metadata.creationTimestamp -w</pre>

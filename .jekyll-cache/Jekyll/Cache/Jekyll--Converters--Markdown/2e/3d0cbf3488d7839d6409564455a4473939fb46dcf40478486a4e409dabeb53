@@ -1,0 +1,4 @@
+I"¯<p><!-- wp:preformatted --></p>
+<pre class="wp-block-preformatted">kubectl get events --sort-by='{.lastTimestamp}' -n &lt;namespace&gt;</pre>
+<p><!-- /wp:preformatted --></p>
+:ET

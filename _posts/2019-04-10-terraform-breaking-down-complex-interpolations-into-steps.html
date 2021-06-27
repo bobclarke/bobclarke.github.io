@@ -1,0 +1,43 @@
+---
+layout: post
+title: Terraform - breaking down complex interpolations into steps
+date: 2019-04-10 17:40:59.000000000 +01:00
+type: post
+parent_id: '0'
+published: true
+password: ''
+status: publish
+categories: []
+tags:
+- terraform
+meta:
+  _publicize_job_id: '29616120783'
+  timeline_notification: '1554918063'
+author:
+  login: bobmclarke915800472
+  email: bob.mclarke@gmail.com
+  display_name: Bob Clarke
+  first_name: ''
+  last_name: ''
+permalink: "/2019/04/10/terraform-breaking-down-complex-interpolations-into-steps/"
+---
+<p><!-- wp:paragraph --></p>
+<p>If you're like me, and find it arduous to read long strings of characters without getting a headache, you can break down nested Terraform interpolations like this:</p>
+<p><!-- /wp:paragraph --></p>
+<p><!-- wp:preformatted --></p>
+<pre class="wp-block-preformatted">locals {
+  connection_string = "${join("", azurerm_eventhub_namespace.eventhub-ns.*.default_primary_connection_string)}"
+  connection_string_array = "${split(";", local.connection_string)}"
+  endpoint_def = "${element(local.connection_string_array,0)}"
+  endpoint_array = "${split("=",local.endpoint_def)}"
+  endpoint = "${element(local.endpoint_array, 1)}"
+}</pre>
+<p><!-- /wp:preformatted --></p>
+<p><!-- wp:paragraph --></p>
+<p>Now you can go ahead and use ${local.endpoint} in your terraform module in the usual manner.</p>
+<p><!-- /wp:paragraph --></p>
+<p><!-- wp:block {"ref":396} /--></p>
+<p><!-- wp:paragraph --></p>
+<p><!-- /wp:paragraph --></p>
+<p><!-- wp:paragraph --></p>
+<p><!-- /wp:paragraph --></p>

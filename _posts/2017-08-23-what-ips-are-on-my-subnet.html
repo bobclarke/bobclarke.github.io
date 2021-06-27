@@ -1,0 +1,31 @@
+---
+layout: post
+title: What IP's are on my subnet?
+date: 2017-08-23 15:42:00.000000000 +01:00
+type: post
+parent_id: '0'
+published: true
+password: ''
+status: publish
+categories: []
+tags:
+- TCP
+meta:
+  _publicize_pending: '1'
+  restapi_import_id: 5b6f197fa2b75
+author:
+  login: bobmclarke915800472
+  email: bob.mclarke@gmail.com
+  display_name: Bob Clarke
+  first_name: ''
+  last_name: ''
+permalink: "/2017/08/23/what-ips-are-on-my-subnet/"
+---
+<p><!-- HTML for divs generated using hilite.me --> <span style="color:#444444;font-family:verdana;font-size:16px;"> 1.) Clear arp cache </span>
+<div style="background:#f8f8f8;overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;font-size:18px;"> sudo arp -ad </div>
+<p> <span style="color:#444444;font-family:verdana;font-size:16px;"> 2.) Ping your subnet, for example... </span>
+<div style="background:#f8f8f8;overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;font-size:18px;">        ping 10.1.1.255 </div>
+<p> <span style="color:#444444;font-family:verdana;font-size:16px;"> 3.) Now look at arp entries </span>
+<div style="background:#f8f8f8;overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;font-size:18px;"> arp -a </div>
+<p> <span style="color:#444444;font-family:verdana;font-size:16px;"> Alternatively carry out an nmap ping scan (nmap uses ARP under the covers for this) </span>
+<div style="background:#f8f8f8;overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;font-size:18px;"> nmap -sn 10.1.1.0/24 </div>

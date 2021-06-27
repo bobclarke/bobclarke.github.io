@@ -1,0 +1,49 @@
+I"à<p>One use case for looping in terraform is if you need to provide a list of values. The example below shows the installtion of the nginx-ingress Helm chart to a Kubernetes cluster. In this particular case weâ€™re setting up <a href="https://kubernetes.github.io/ingress-nginx/user-guide/exposing-tcp-udp-services/">TCP Services</a> which requires a list of one of more arguments. We could just as easily provide a values file however the technique show below deomonstrates the use of a templating and looping nicely</p>
+
+<figure class="highlight"><pre><code class="language-hcl" data-lang="hcl"><span class="nx">resource</span> <span class="s2">"helm_release"</span> <span class="s2">"ingress"</span> <span class="p">{</span>
+  <span class="nx">count</span>       <span class="p">=</span> <span class="mi">1</span>
+  <span class="nx">name</span>        <span class="p">=</span> <span class="s2">"ingress"</span>
+  <span class="nx">repository</span>  <span class="p">=</span> <span class="s2">"https://kubernetes-charts.storage.googleapis.com/"</span>
+  <span class="nx">chart</span>       <span class="p">=</span> <span class="s2">"nginx-ingress"</span>
+  <span class="nx">namespace</span>   <span class="p">=</span> <span class="s2">"foo3"</span>
+
+  <span class="nx">values</span>    <span class="p">=</span> <span class="p">[</span>
+    <span class="nx">local</span><span class="err">.</span><span class="nx">tcpServicesConf</span>
+  <span class="p">]</span>
+
+  <span class="nx">set</span> <span class="p">{</span>
+    <span class="nx">name</span> <span class="p">=</span> <span class="s2">"controller.ingressClass"</span>
+    <span class="nx">value</span> <span class="p">=</span> <span class="s2">"bobtest"</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="nx">locals</span><span class="p">{</span>
+  <span class="nx">tcp_services</span> <span class="p">=</span> <span class="nx">split</span><span class="err">(</span><span class="s2">","</span><span class="err">,</span><span class="nx">var</span><span class="err">.</span><span class="nx">tcp_services_string</span><span class="err">)</span>
+
+  <span class="nx">tcpServicesConf</span> <span class="p">=</span> <span class="o">&lt;&lt;-</span><span class="no">EOT</span><span class="sh">
+  tcp:
+  %{ for line in local.tcp_services ~}
+    ${line}
+  %{ endfor ~}
+</span><span class="no">  EOT
+</span><span class="p">}</span>
+
+<span class="nx">variable</span> <span class="s2">"tcp_services_string"</span> <span class="p">{</span>
+  <span class="nx">default</span> <span class="p">=</span> <span class="s2">"8080: default/example-svc1:80"</span>
+<span class="p">}</span></code></pre></figure>
+
+<p><br /></p>
+
+<p>When running:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>terraform apply \
+-var="tcp_services_string=4092: workflow/kcp-cp-kafka-0:9092,4093: workflow/kcp-cp-kafka-1:9092,4094: workflow/kcp-cp-kafka-2:9092" -auto-approve
+</code></pre></div></div>
+
+<p>The folling values are produced:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>tcp:
+    4092: "workflow/kcp-cp-kafka-0:9092"
+    4093: "workflow/kcp-cp-kafka-1:9092"
+    4094: "workflow/kcp-cp-kafka-2:9092"
+</code></pre></div></div>
+
+:ET

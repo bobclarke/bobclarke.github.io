@@ -1,0 +1,2 @@
+I"ð<p>There are multiple ways to provide values for a helm chart when using the helm terraform provider. Three examples are show below (highlighted in red): the first pointing at a file, the second using a Here Doc, the third using a Set.</p>
+:ET

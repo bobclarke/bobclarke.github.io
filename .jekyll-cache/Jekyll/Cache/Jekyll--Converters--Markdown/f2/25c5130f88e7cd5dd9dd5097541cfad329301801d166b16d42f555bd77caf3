@@ -1,0 +1,2 @@
+I"L<pre>kubectl get events --sort-by=.metadata.creationTimestamp -w</pre>
+:ET

@@ -1,0 +1,34 @@
+---
+layout: post
+title: Get the egress address of a Kubernetes cluster
+date: 2019-04-01 17:49:45.000000000 +01:00
+type: post
+parent_id: '0'
+published: true
+password: ''
+status: publish
+categories: []
+tags: []
+meta:
+  _publicize_job_id: '29283101127'
+  timeline_notification: '1554140988'
+author:
+  login: bobmclarke915800472
+  email: bob.mclarke@gmail.com
+  display_name: Bob Clarke
+  first_name: ''
+  last_name: ''
+permalink: "/2019/04/01/get-the-egress-address-of-a-kubernetes-cluster/"
+---
+<p><!-- wp:paragraph --></p>
+<p>use kubectl to exec into a pod </p>
+<p><!-- /wp:paragraph --></p>
+<p><!-- wp:preformatted --></p>
+<pre class="wp-block-preformatted">kubectl exec -it &lt;pod name&gt; -n &lt;namespace&gt; -- /bin/sh</pre>
+<p><!-- /wp:preformatted --></p>
+<p><!-- wp:paragraph --></p>
+<p>Run the following command from with a pod</p>
+<p><!-- /wp:paragraph --></p>
+<p><!-- wp:preformatted --></p>
+<pre class="wp-block-preformatted">curl http://ifconfig.co</pre>
+<p><!-- /wp:preformatted --></p>

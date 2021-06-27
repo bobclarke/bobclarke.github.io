@@ -1,0 +1,196 @@
+---
+layout: post
+title: Kubernetes persistent volumes
+date: 2018-09-30 00:29:35.000000000 +01:00
+type: post
+parent_id: '0'
+published: true
+password: ''
+status: publish
+categories: []
+tags: []
+meta:
+  timeline_notification: '1538267378'
+  _rest_api_published: '1'
+  _rest_api_client_id: "-1"
+  _publicize_job_id: '22672862113'
+author:
+  login: bobmclarke915800472
+  email: bob.mclarke@gmail.com
+  display_name: Bob Clarke
+  first_name: ''
+  last_name: ''
+permalink: "/2018/09/30/kubernetes-persistent-volumes/"
+---
+<p><!-- wp:heading --></p>
+<h2>Basics:</h2>
+<p><!-- /wp:heading --></p>
+<p><!-- wp:paragraph --></p>
+<p>Let's assume we've just spun up a brand new cluster. The first thing we do is take a look at what storage classes we have available:</p>
+<p><!-- /wp:paragraph --></p>
+<p><!-- wp:preformatted --></p>
+<pre class="wp-block-preformatted"><strong>kubectl get sc
+</strong>NAME                PROVISIONER                AGE
+azurefile           kubernetes.io/azure-file   1d
+default (default)   kubernetes.io/azure-disk   1d
+managed-premium     kubernetes.io/azure-disk   1d</pre>
+<p><!-- /wp:preformatted --></p>
+<p><!-- wp:paragraph --></p>
+<p>Now let's list any persistent volumes. Given this is a new cluster there probably won't be any:</p>
+<p><!-- /wp:paragraph --></p>
+<p><!-- wp:preformatted --></p>
+<pre class="wp-block-preformatted"><strong>kubectl get pv
+</strong>No resources found.</pre>
+<p><!-- /wp:preformatted --></p>
+<p><!-- wp:paragraph --></p>
+<p>To spin up a pod with some persistent storage, first we need to create a PersistentVolumeClaim:</p>
+<p><!-- /wp:paragraph --></p>
+<p><!-- wp:preformatted --></p>
+<pre class="wp-block-preformatted">cat &lt;&lt;EOF | kubectl create -f -
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: web-content
+  namespace: web
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 3Gi
+EOF</pre>
+<p><!-- /wp:preformatted --></p>
+<p><!-- wp:paragraph --></p>
+<p>Let's check what Persistent Volumes and Persistent Volume Claims we have after running this:</p>
+<p><!-- /wp:paragraph --></p>
+<p><!-- wp:preformatted --></p>
+<pre class="wp-block-preformatted"><strong>kubectl get pv</strong>
+NAME                                       CAPACITY   ACCESS MODES   RECLAIM POLICY   STATUS    CLAIM                             STORAGECLASS   REASON    AGE
+pvc-9f39f84a-c447-11e8-a296-ee934e0ae766   3Gi        RWO            Delete           Bound     web/web-content           default                  2s
+
+
+<strong>kubectl get pvc</strong>
+NAME                  STATUS    VOLUME                                     CAPACITY   ACCESS MODES   STORAGECLASS   AGE
+web-content  Bound     pvc-9f39f84a-c447-11e8-a296-ee934e0ae766   3Gi        RWO            default        1m</pre>
+<p><!-- /wp:preformatted --></p>
+<p><!-- wp:paragraph --></p>
+<p><strong>Let's analyse what's happened here...<br /></strong>We've created a PVC (i.e. a claim for a persistent volume), and we can see that listed when we run <strong>kubectl get pvc</strong>. However, a PV (the underlying Persistent Volume) has also been provisioned. How did this happen?<br />The best explanation I found was in the official k8s docs here: <a href="https://kubernetes.io/docs/concepts/storage/persistent-volumes/">https://kubernetes.io/docs/concepts/storage/persistent-volumes/</a></p>
+<p><!-- /wp:paragraph --></p>
+<p><!-- wp:paragraph --></p>
+<p>Here's a summary<br /><strong>Static</strong><br />A cluster administrator creates a number of PVs. They carry the details of the real storage which is available for use by cluster users. They exist in the Kubernetes API and are available for consumption.</p>
+<p><!-- /wp:paragraph --></p>
+<p><!-- wp:paragraph --></p>
+<p><strong>Dynamic<br /></strong>When none of the static PVs the administrator created matches a user’s PersistentVolumeClaim, the cluster may try to dynamically provision a volume specially for the PVC. This provisioning is based on StorageClasses: the PVC must request a storage class and the administrator must have created and configured that class in order for dynamic provisioning to occur. Claims that request the class "" effectively disable dynamic provisioning for themselves.</p>
+<p><!-- /wp:paragraph --></p>
+<p><!-- wp:paragraph --></p>
+<p><strong>So, how does a PVC know which PV to use in the absence of dynamic provisioning? <br /></strong>See below for an explanation (also from the docs)</p>
+<p><!-- /wp:paragraph --></p>
+<p><!-- wp:paragraph --></p>
+<p>Selector<br />Claims can specify a label selector to further filter the set of volumes. Only the volumes whose labels match the selector can be bound to the claim. The selector can consist of two fields:</p>
+<p><!-- /wp:paragraph --></p>
+<p><!-- wp:paragraph --></p>
+<p>matchLabels - the volume must have a label with this value<br />
+matchExpressions - a list of requirements made by specifying key, list of values, and operator that relates the key and values. Valid operators include In, NotIn, Exists, and DoesNotExist.<br />
+All of the requirements, from both matchLabels and matchExpressions are ANDed together – they must all be satisfied in order to match.</p>
+<p><!-- /wp:paragraph --></p>
+<p><!-- wp:paragraph --></p>
+<p><!-- /wp:paragraph --></p>
+<p><!-- wp:paragraph --></p>
+<p><!-- /wp:paragraph --></p>
+<p><!-- wp:paragraph --></p>
+<p>Now let's create a deployment to attach this claim to a volume and mount this volume inside a container. we'll also create a service to expose this deployment:</p>
+<p><!-- /wp:paragraph --></p>
+<p><!-- wp:preformatted --></p>
+<pre class="wp-block-preformatted">cat &lt;&lt;EOF | kubectl create -f -
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx
+  namespace: web
+  labels:
+    app: nginx
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      volumes:
+      - name: web-content
+        persistentVolumeClaim:
+          claimName: web-content
+      containers:
+      - name: nginx
+        image: nginx:1.7.9
+        ports:
+        - containerPort: 80
+        volumeMounts:
+        - name: web-content
+          mountPath: /usr/share/nginx/html
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx
+spec:
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 80
+  selector:
+    app: nginx
+  type: LoadBalancer
+EOF 
+</pre>
+<p><!-- /wp:preformatted --></p>
+<p><!-- wp:paragraph --></p>
+<p>When the pod is ready, exec into the container and create some content we want to persist in&nbsp;/usr/share/nginx/html.</p>
+<p><!-- /wp:paragraph --></p>
+<p><!-- wp:preformatted --></p>
+<pre class="wp-block-preformatted">kubectl exec nginx-68b97d6768-5h67q -it -- bash
+cd /usr/share/nginx/html
+echo "This is a persistence test on $(date)" &gt; index.html</pre>
+<p><!-- /wp:preformatted --></p>
+<p><!-- wp:paragraph --></p>
+<p>Now destroy the pod and start a new one using the same yaml as above. Once it's running, exec into it and you'll see the data you wrote from the first pod has been persisted.</p>
+<p><!-- /wp:paragraph --></p>
+<p><!-- wp:preformatted --></p>
+<pre class="wp-block-preformatted">kubectl exec nginx-91g11f6394-3g21h -it -- bash
+cat /usr/share/nginx/html/index.html
+This is a persistence test on Sun Sep 30 15:39:53 UTC 2018</pre>
+<p><!-- /wp:preformatted --></p>
+<p><!-- wp:heading --></p>
+<h2>Failing over to another node:</h2>
+<p><!-- /wp:heading --></p>
+<p><!-- wp:paragraph --></p>
+<p>Let's cordon and drain a node to see if our data is persisted to the moved pod. First, check which node the pod has been scheduled on, then cordon and drain that node:</p>
+<p><!-- /wp:paragraph --></p>
+<p><!-- wp:preformatted --></p>
+<pre class="wp-block-preformatted">kubectl get pods  -o wide
+NAME                     READY     STATUS    RESTARTS   AGE       IP          NODE                       NOMINATED NODE
+nginx-68b97d6768-5h67q   1/1       Running   0          3m        10.0.1.38   aks-nodepool1-27870522-2   &lt;none&gt;
+
+kubectl cordon aks-nodepool1-27870522-2
+node/aks-nodepool1-27870522-2 cordoned
+
+kubectl get nodes
+NAME                       STATUS                     ROLES     AGE       VERSION
+aks-nodepool1-27870522-0   Ready                      agent     2d        v1.11.2
+aks-nodepool1-27870522-1   Ready                      agent     2d        v1.11.2
+aks-nodepool1-27870522-2   Ready,SchedulingDisabled   agent     2d        v1.11.2
+
+kubectl drain aks-nodepool1-27870522-2 --delete-local-data --ignore-daemonsets
+pod/nginx-68b97d6768-5h67q evicted</pre>
+<p><!-- /wp:preformatted --></p>
+<p><!-- wp:paragraph --></p>
+<p>Once our pod is up and running on another node, exec into it and you'll see the data has been persisted.</p>
+<p><!-- /wp:paragraph --></p>
+<p><!-- wp:preformatted --></p>
+<pre class="wp-block-preformatted">kubectl exec nginx-91g11f6394-3g21h -it -- bash 
+cat /usr/share/nginx/html/index.html 
+This is a persistence test on Sun Sep 30 15:39:53 UTC 2018</pre>
+<p><!-- /wp:preformatted --></p>

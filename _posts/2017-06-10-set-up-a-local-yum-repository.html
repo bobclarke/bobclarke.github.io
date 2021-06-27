@@ -1,0 +1,45 @@
+---
+layout: post
+title: Set up a local yum repository
+date: 2017-06-10 20:50:00.000000000 +01:00
+type: post
+parent_id: '0'
+published: true
+password: ''
+status: publish
+categories: []
+tags:
+- yum
+meta:
+  _publicize_pending: '1'
+  restapi_import_id: 5b6f197fa2b75
+author:
+  login: bobmclarke915800472
+  email: bob.mclarke@gmail.com
+  display_name: Bob Clarke
+  first_name: ''
+  last_name: ''
+permalink: "/2017/06/10/set-up-a-local-yum-repository/"
+---
+<p><span style="font-family:Verdana, sans-serif;">Install yum-utils <!-- HTML generated using hilite.me --></span>
+<div style="background:#ffffff;border-width:.1em .1em .1em .8em;border:solid gray;overflow:auto;padding:.2em .6em;width:auto;">
+<pre style="line-height:125%;margin:0;"><span>yum install yum-utils createrepo<br /></span></pre>
+</div>
+<p><span style="font-family:Verdana, sans-serif;">Create a directory for the repo <!-- HTML generated using hilite.me --></span>
+<div style="background:#ffffff;border-width:.1em .1em .1em .8em;border:solid gray;overflow:auto;padding:.2em .6em;width:auto;">
+<pre style="line-height:125%;margin:0;"><span>mkdir /my_repo<br /></span></pre>
+</div>
+<p><span style="font-family:Verdana, sans-serif;">Get the RPM's to put in the repo. Use <b>reposync</b> to download from an existing repo or download rpm's manaully.. e.g. <!-- HTML generated using hilite.me --></span>
+<div style="background:#ffffff;border-width:.1em .1em .1em .8em;border:solid gray;overflow:auto;padding:.2em .6em;width:auto;">
+<pre style="line-height:125%;margin:0;"><span>wget http://mirror.lihnidos.org/CentOS/6/os/i386/Packages/NetworkManager-0.8.1-43.el6.i686.rpm<br /></span></pre>
+</div>
+<p><span style="font-family:Verdana, sans-serif;">Create the repository <!-- HTML generated using hilite.me --></span>
+<div style="background:#ffffff;border-width:.1em .1em .1em .8em;border:solid gray;overflow:auto;padding:.2em .6em;width:auto;">
+<pre style="line-height:125%;margin:0;"><span>createrepo /my_repo<br /></span></pre>
+</div>
+<p><span style="font-family:Verdana, sans-serif;">Create /etc/yum.repos.d/custom.repo with the following contents <!-- HTML generated using hilite.me --></span>
+<div style="background:#ffffff;border-width:.1em .1em .1em .8em;border:solid gray;overflow:auto;padding:.2em .6em;width:auto;">
+<pre style="line-height:125%;margin:0;"><span>[</span><span>customrepo</span><span><span style="color:#333333;">]</span></span></pre>
+<pre style="line-height:125%;margin:0;"><span><br /><span style="color:#996633;">name</span><span style="color:#333333;">=</span><span style="color:#666666;">Custom Repository<br /></span><span style="color:#996633;">baseurl</span><span style="color:#333333;">=</span><span style="color:#666666;">file:////my_repo/<br /></span><span style="color:#996633;">enabled</span><span style="color:#333333;">=</span><span style="color:#666666;">1<br /></span><span style="color:#996633;">gpgcheck</span><span style="color:#333333;">=</span><span style="color:#666666;">0<br /></span></span></pre>
+</div>
+<p><span> <span><br /></span><span><br /></span><span><br /></span><span><br /></span></span></p>

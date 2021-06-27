@@ -1,0 +1,37 @@
+I"\<p><!-- wp:paragraph --></p>
+<p>I don't find the way the blackbox exporter config works intuitive. It could be that I'm doing things incorrectly but I have worked out how to get things to function how I need them to.&nbsp;</p>
+<p><!-- /wp:paragraph --></p>
+<p><!-- wp:spacer {"height":20} --></p>
+<div style="height:20px;" aria-hidden="true" class="wp-block-spacer"></div>
+<p><!-- /wp:spacer --></p>
+<p><!-- wp:paragraph --></p>
+<p>In the following example I needed to parse HTML from a page and make sure it had the text I expected. For this I used the fail_if_not_matches_regexp function of the http prober.  </p>
+<p><!-- /wp:paragraph --></p>
+<p><!-- wp:spacer {"height":20} --></p>
+<div style="height:20px;" aria-hidden="true" class="wp-block-spacer"></div>
+<p><!-- /wp:spacer --></p>
+<p><!-- wp:paragraph --></p>
+<p>What confused me was that I wasn't able to define the URL of the website I was probing in the blackbox exporter config even though this is where I was defining the regex. Instead the website URL is sent as a param. This being the case you end up linking the URL and the module that the regex is defined in as params.&nbsp;</p>
+<p><!-- /wp:paragraph --></p>
+<p><!-- wp:spacer {"height":20} --></p>
+<div style="height:20px;" aria-hidden="true" class="wp-block-spacer"></div>
+<p><!-- /wp:spacer --></p>
+<p><!-- wp:paragraph --></p>
+<p>In the example below my target is&nbsp;https://www.ubuntu.com and my module is&nbsp;ubuntu within which I've set the regex (see yaml below)</p>
+<p><!-- /wp:paragraph --></p>
+<p><!-- wp:preformatted --></p>
+<pre class="wp-block-preformatted">http://localhost:9115/probe?target=https://www.ubuntu.com/&amp;module=ubuntu</pre>
+<p><!-- /wp:preformatted --></p>
+<p><!-- wp:paragraph --></p>
+<p>Here's the config file for this:</p>
+<p><!-- /wp:paragraph --></p>
+<p><!-- wp:preformatted --></p>
+<pre class="wp-block-preformatted">modules:<br />&nbsp;&nbsp;wikipedia:<br />&nbsp;&nbsp;&nbsp;&nbsp;prober:&nbsp;http<br />&nbsp;&nbsp;&nbsp;&nbsp;timeout:&nbsp;5s<br />&nbsp;&nbsp;&nbsp;&nbsp;http:<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fail_if_not_matches_regexp:<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;"Welcome&nbsp;to&nbsp;Wikipedia"<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;preferred_ip_protocol:&nbsp;"ip4"<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;valid_http_versions:<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;"HTTP/1.1"&nbsp;<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;"HTTP/2"<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;method:&nbsp;GET<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tls_config:<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;insecure_skip_verify:&nbsp;true<br />&nbsp;&nbsp;ubuntu:<br />&nbsp;&nbsp;&nbsp;&nbsp;prober:&nbsp;http<br />&nbsp;&nbsp;&nbsp;&nbsp;timeout:&nbsp;5s<br />&nbsp;&nbsp;&nbsp;&nbsp;http:<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fail_if_not_matches_regexp:<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;"Everything&nbsp;you&nbsp;need&nbsp;to&nbsp;know&nbsp;about&nbsp;Ubuntu"<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;preferred_ip_protocol:&nbsp;"ip4"<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;valid_http_versions:<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;"HTTP/1.1"&nbsp;<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;"HTTP/2"<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;method:&nbsp;GET<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tls_config:<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;insecure_skip_verify:&nbsp;true</pre>
+<p><!-- /wp:preformatted --></p>
+<p><!-- wp:paragraph --></p>
+<p>and here's the blackbox exporters log entry:</p>
+<p><!-- /wp:paragraph --></p>
+<p><!-- wp:preformatted --></p>
+<pre class="wp-block-preformatted">ts=2018-11-24T21:24:37.6824918Z caller=main.go:174 module=ubuntu target=https://www.ubuntu.com/ level=debug msg="Probe succeeded" duration_seconds=0.2786691</pre>
+<p><!-- /wp:preformatted --></p>
+:ET

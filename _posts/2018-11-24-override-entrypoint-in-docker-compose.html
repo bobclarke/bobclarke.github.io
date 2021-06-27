@@ -1,0 +1,50 @@
+---
+layout: post
+title: Override entrypoint in docker compose
+date: 2018-11-24 21:08:59.000000000 +00:00
+type: post
+parent_id: '0'
+published: true
+password: ''
+status: publish
+categories: []
+tags: []
+meta:
+  _publicize_job_id: '24612553465'
+  timeline_notification: '1543093740'
+author:
+  login: bobmclarke915800472
+  email: bob.mclarke@gmail.com
+  display_name: Bob Clarke
+  first_name: ''
+  last_name: ''
+permalink: "/2018/11/24/override-entrypoint-in-docker-compose/"
+---
+<p>In the example below I'm overriding the entrypoint for the blakcbox exporter in order to add verbose logging</p>
+<div>
+<pre>version:&nbsp;'3'
+services:
+&nbsp;&nbsp;prom:
+&nbsp;&nbsp;&nbsp;&nbsp;build:&nbsp;./server
+&nbsp;&nbsp;&nbsp;&nbsp;ports:
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;"9090:9090"
+
+&nbsp;&nbsp;blackbox:
+&nbsp;&nbsp;&nbsp;&nbsp;build:&nbsp;./blackbox
+&nbsp;&nbsp;&nbsp;&nbsp;ports:
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;"9115:9115"
+&nbsp;&nbsp;&nbsp;&nbsp;entrypoint:
+&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;/bin/blackbox_exporter
+&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;--config.file=/etc/blackbox_exporter/config.yml
+&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;--log.level=debug
+
+&nbsp;&nbsp;app:
+&nbsp;&nbsp;&nbsp;&nbsp;build:&nbsp;./app
+&nbsp;&nbsp;&nbsp;&nbsp;ports:
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;"3000:3000"
+
+&nbsp;&nbsp;grafana:
+&nbsp;&nbsp;&nbsp;&nbsp;image:&nbsp;grafana/grafana
+&nbsp;&nbsp;&nbsp;&nbsp;ports:
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;"8000:3000"</pre>
+</div>

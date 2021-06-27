@@ -1,0 +1,37 @@
+---
+layout: post
+title: Redirect output from multiple lines (group) in a script
+date: 2018-08-19 20:58:06.000000000 +01:00
+type: post
+parent_id: '0'
+published: true
+password: ''
+status: publish
+categories: []
+tags: []
+meta:
+  _rest_api_published: '1'
+  _rest_api_client_id: "-1"
+  _publicize_job_id: '21252888964'
+  timeline_notification: '1534712286'
+author:
+  login: bobmclarke915800472
+  email: bob.mclarke@gmail.com
+  display_name: Bob Clarke
+  first_name: ''
+  last_name: ''
+permalink: "/2018/08/19/redirect-output-from-multiple-lines-group-in-a-script/"
+---
+<pre>#/bin/bash
+timestamp=$(date +%d/%h/%y_%H:%M:%S)
+context_root=$1
+https_port=31001
+app="${1}-service"
+status_code=$2
+fake_host=$3
+{
+  echo -e "${timestamp}\nAPP: ${app}\nPORT: $https_port\nCONTEXT ROOT:      $context_root\nHTTP_STATUS_CODE: ${status_code}";
+  echo -e "Requesting https://$(hostname):${https_port}${context_root}/info";
+  echo '{ "userId": 1, "id": 1, "title": "testing", "completed": false }'
+  echo -e "\n";
+} &gt;&gt; /logs/curl 2&gt;&amp;1</pre>

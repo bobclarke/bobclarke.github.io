@@ -1,0 +1,15 @@
+I"7<p><span>To delete a single job: </span><!-- HTML generated using hilite.me -->
+<div style="background:#f8f8f8;border-width:.1em .1em .1em .8em;border:solid gray;overflow:auto;padding:.2em .6em;width:auto;">
+<pre style="line-height:125%;margin:0;"><span style="font-size:large;">curl -X POST http://jenkins-user:jenkins-token@hostname:port/job/execute-pipeline/26/doDelete<br /></span></pre>
+</div>
+<p><span>To delete a range of jobs: </span><!-- HTML generated using hilite.me -->
+<div style="background:#f8f8f8;border-width:.1em .1em .1em .8em;border:solid gray;overflow:auto;padding:.2em .6em;width:auto;">
+<pre style="line-height:125%;margin:0;"><span style="font-size:large;">curl -X POST http://jenkins-user:jenkins-token@hostname:port/job/execute-pipeline/<span style="color:#666666;">[</span>20-30<span style="color:#666666;">]</span>/doDelete<br /></span></pre>
+</div>
+<p><span>This is handy for deleting a build arising from a git event you’ve chosen to ignore in your Jenkinsfile:</span>
+<div style="background:#ffffff;border-width:.1em .1em .1em .8em;border:solid gray;overflow:auto;padding:.2em .6em;width:auto;">
+<pre style="line-height:125%;margin:0;"><span style="font-size:large;">def <span style="color:#996633;">buildId</span> <span style="color:#333333;">=</span> env.BUILD_ID<br />node <span style="color:#333333;">{</span><br />    sh <span style="background-color:#fff0f0;">"curl -X POST http://my_user:my_token@my_host:8080/job/execute-pipeline/${buildId}/doDelete"</span><br /><span style="color:#333333;">}</span></span><br /></pre>
+</div>
+<p></p>
+</p></p></p>
+:ET

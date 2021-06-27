@@ -1,0 +1,35 @@
+---
+layout: post
+title: Adding new RPM's to an existing yum repo
+date: 2017-06-10 20:54:00.000000000 +01:00
+type: post
+parent_id: '0'
+published: true
+password: ''
+status: publish
+categories: []
+tags:
+- yum
+meta:
+  _publicize_pending: '1'
+  restapi_import_id: 5b6f197fa2b75
+author:
+  login: bobmclarke915800472
+  email: bob.mclarke@gmail.com
+  display_name: Bob Clarke
+  first_name: ''
+  last_name: ''
+permalink: "/2017/06/10/adding-new-rpms-to-an-existing-yum-repo/"
+---
+<p><span><br /></span><span style="background-color:white;color:#333333;font-family:Verdana, sans-serif;font-size:large;white-space:pre-wrap;">1.) Copy the rpm to the repository directory (i.e alongside all the existing rpm's)</span><br /><span><br /></span> <span style="font-family:Verdana, sans-serif;font-size:large;"><span style="background-color:white;color:#333333;white-space:pre-wrap;">2.) Update the repository index:</span><!-- HTML generated using hilite.me --> </span>
+<div style="background:#ffffff;border-width:.1em .1em .1em .8em;border:solid gray;overflow:auto;padding:.2em .6em;width:auto;">
+<pre style="line-height:125%;margin:0;"><span style="font-size:large;">createrepo --update  --verbose<br /></span></pre>
+</div>
+<p><span style="font-family:Verdana, sans-serif;font-size:large;"><span style="background-color:white;color:#333333;white-space:pre-wrap;">3.) Make sure your file permissions for /repodata are ok (</span><span style="background-color:white;color:#333333;white-space:pre-wrap;">i.e. so that your http server can access the files):</span><!-- HTML generated using hilite.me --> </span>
+<div style="background:#ffffff;border-width:.1em .1em .1em .8em;border:solid gray;overflow:auto;padding:.2em .6em;width:auto;">
+<pre style="line-height:125%;margin:0;"><span style="font-size:large;">chmod -R go+rx /repodata</span></pre>
+</div>
+<p><span style="background-color:white;color:#333333;font-family:Verdana, sans-serif;font-size:large;white-space:pre-wrap;">(NOTE: don't forget to ensure the actual package file (the rpm) has the correct file permissions also)</span><br /><span><br /></span><span style="font-family:Verdana, sans-serif;font-size:large;"><span style="background-color:white;color:#333333;white-space:pre-wrap;">4.) Clear your yum client cache:</span><!-- HTML generated using hilite.me --> </span>
+<div style="background:#ffffff;border-width:.1em .1em .1em .8em;border:solid gray;overflow:auto;padding:.2em .6em;width:auto;">
+<pre style="line-height:125%;margin:0;"><span style="font-size:large;">yum clean all <br /></span></pre>
+</div>

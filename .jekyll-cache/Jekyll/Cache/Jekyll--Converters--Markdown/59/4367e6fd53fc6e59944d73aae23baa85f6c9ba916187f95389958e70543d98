@@ -1,0 +1,8 @@
+I"
+<p>Consider the following stateful set:</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="o">&gt;</span> kubectl get pods | <span class="nb">grep </span>kafka
+workflow01-dev-cp-cp-kafka-0                           2/2     Running            3          6h38m
+workflow01-dev-cp-cp-kafka-1                           2/2     Running            2          6h37m
+workflow01-dev-cp-cp-kafka-2                           2/2     Running            0          6h36m</code></pre></figure>
+:ET

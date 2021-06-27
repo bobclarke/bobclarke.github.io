@@ -1,0 +1,36 @@
+I"„<p><!-- wp:paragraph --></p>
+<p>By default, <strong>ssh-keygen</strong> generates a private key in PEM format  and an associated public key in some other format (not sure what this format is).  This is fine for SSH authentication however if you need a standard OpenSSL compliant keypair there are two ways to generate as follows:</p>
+<p><!-- /wp:paragraph --></p>
+<p><!-- wp:paragraph --></p>
+<p><strong>Using openssl:</strong></p>
+<p><!-- /wp:paragraph --></p>
+<p><!-- wp:paragraph --></p>
+<p>Generate the private key</p>
+<p><!-- /wp:paragraph --></p>
+<p><!-- wp:preformatted --></p>
+<pre class="wp-block-preformatted">openssl genpkey -algorithm RSA -out private_key.pem -pkeyopt rsa_keygen_bits:2048</pre>
+<p><!-- /wp:preformatted --></p>
+<p><!-- wp:paragraph --></p>
+<p>Extract the public key:</p>
+<p><!-- /wp:paragraph --></p>
+<p><!-- wp:preformatted --></p>
+<pre class="wp-block-preformatted">openssl rsa -pubout -in private_key.pem -out public_key.pem</pre>
+<p><!-- /wp:preformatted --></p>
+<p><!-- wp:paragraph --></p>
+<p><strong>Using ssh-keygen</strong>:</p>
+<p><!-- /wp:paragraph --></p>
+<p><!-- wp:paragraph --></p>
+<p>Generate the keypair in the usual way:</p>
+<p><!-- /wp:paragraph --></p>
+<p><!-- wp:preformatted --></p>
+<pre class="wp-block-preformatted">ssh-keygen -b 2048 -t rsa -f key</pre>
+<p><!-- /wp:preformatted --></p>
+<p><!-- wp:paragraph --></p>
+<p>Now generate a PEM version of the public key:</p>
+<p><!-- /wp:paragraph --></p>
+<p><!-- wp:preformatted --></p>
+<pre class="wp-block-preformatted">ssh-keygen -f key.pub -m pem -e &gt; key.pub.pem</pre>
+<p><!-- /wp:preformatted --></p>
+<p><!-- wp:paragraph --></p>
+<p><!-- /wp:paragraph --></p>
+:ET

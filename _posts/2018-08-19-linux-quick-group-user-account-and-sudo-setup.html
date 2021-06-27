@@ -1,0 +1,38 @@
+---
+layout: post
+title: linux - quick group, user account and sudo setup
+date: 2018-08-19 20:22:01.000000000 +01:00
+type: post
+parent_id: '0'
+published: true
+password: ''
+status: publish
+categories: []
+tags: []
+meta:
+  _rest_api_published: '1'
+  _rest_api_client_id: "-1"
+  _publicize_job_id: '21252096004'
+  timeline_notification: '1534710122'
+author:
+  login: bobmclarke915800472
+  email: bob.mclarke@gmail.com
+  display_name: Bob Clarke
+  first_name: ''
+  last_name: ''
+permalink: "/2018/08/19/linux-quick-group-user-account-and-sudo-setup/"
+---
+<p>The following will</p>
+<ul>
+<li>create a group called ansible with a group ID of 30000</li>
+<li>create a group called devops with a group ID of 30001</li>
+<li>create the user ansible with a user ID of 30000 and a home directory of /home/ansible</li>
+<li>set ansible user's primary group to ansible and secondary group to devops</li>
+<li>set the password for the ansible user to London1</li>
+<li>add the devops group to sudoers</li>
+</ul>
+<pre>groupadd --gid 30000 ansible &amp;&amp; \
+groupadd --gid 30001 devops &amp;&amp; \
+useradd --uid 30000 ansible -m -g ansible --groups devops &amp;&amp; \
+echo -e "London1\nLondon1" | passwd ansible &amp;&amp; \
+echo "%devops        ALL=(ALL)       NOPASSWD: ALL" &gt; /etc/sudoers.d/10_devops</pre>

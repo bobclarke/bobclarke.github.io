@@ -1,0 +1,4 @@
+I"¡<p><span style="color:#444444;font-family:verdana;font-size:16px;"> To prevent being prompted for a password in openssl, you can provide a password as follows:</span></p>
+<div style="background:#f8f8f8;overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;font-size:18px;">openssl pkcs12 -in key.pkcs12 -clcerts -nodes -out all.pem -passin pass:my_password</div>
+<p>&nbsp;</p>
+:ET

@@ -1,0 +1,25 @@
+I"T<p><!-- wp:paragraph --></p>
+<p>Taken from&nbsp;<a href="https://github.com/Azure/brigade/blob/master/docs/topics/workers.md" target="_blank" rel="noopener">https://github.com/Azure/brigade/blob/master/docs/topics/workers.md</a></p>
+<p><!-- /wp:paragraph --></p>
+<p><!-- wp:paragraph --></p>
+<p>If you need different dependencies for every Brigade project, this can be easily achieved using a brigade.json file placed side-by-side the brigade.js file. This file contains the dependency name and version, and has the following structure:</p>
+<p><!-- /wp:paragraph --></p>
+<p><!-- wp:syntaxhighlighter/code {"lineNumbers":false} --></p>
+<pre class="wp-block-syntaxhighlighter-code">{
+    "dependencies": {
+        "is-thirteen": "2.0.0"
+    }
+}</pre>
+<p><!-- /wp:syntaxhighlighter/code --></p>
+<p><!-- wp:paragraph --></p>
+<p>Before starting to execute the brigade.js script, the worker will install the<br />
+dependencies using yarn, adding them to the node_modules folder.</p>
+<p><!-- /wp:paragraph --></p>
+<p><!-- wp:paragraph --></p>
+<p>Then, in the brigade.js file, the new dependency can be used just like any other NodeJS dependency:</p>
+<p><!-- /wp:paragraph --></p>
+<p><!-- wp:syntaxhighlighter/code {"lineNumbers":false} --></p>
+<pre class="wp-block-syntaxhighlighter-code">const { events } = require("brigadier")
+const is = require("is-thirteen");
+</pre>
+:ET

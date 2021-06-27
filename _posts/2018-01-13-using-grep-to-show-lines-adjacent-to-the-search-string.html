@@ -1,0 +1,31 @@
+---
+layout: post
+title: Using grep to show lines adjacent to the search string
+date: 2018-01-13 13:32:00.000000000 +00:00
+type: post
+parent_id: '0'
+published: true
+password: ''
+status: publish
+categories: []
+tags:
+- grep
+meta:
+  _publicize_pending: '1'
+  restapi_import_id: 5b6f197fa2b75
+author:
+  login: bobmclarke915800472
+  email: bob.mclarke@gmail.com
+  display_name: Bob Clarke
+  first_name: ''
+  last_name: ''
+permalink: "/2018/01/13/using-grep-to-show-lines-adjacent-to-the-search-string/"
+---
+<p><!-- HTML for divs generated using hilite.me --><b> <span> Using a file with the following contents: </span></b> 
+<div style="background:#f8f8f8;border-width:.1em .1em .1em .8em;border:solid gray;font-size:18px;overflow:auto;padding:.2em .6em;width:auto;">line 1<br />line 2<br />line 3<br />line 4<br />line 5<br />line 6<br />line 7<br />line 8<br />line 9<br />line 10</div>
+<p><b><span>cat test_data | grep -B2 'line 5' </span></b> 
+<div style="background:#f8f8f8;border-width:.1em .1em .1em .8em;border:solid gray;font-size:18px;overflow:auto;padding:.2em .6em;width:auto;">will display:<br />line 3<br />line 4<br />line 5</div>
+<p> <b><span>cat test_data | grep -A2 'line 5' </span></b>
+<div style="background:#f8f8f8;border-width:.1em .1em .1em .8em;border:solid gray;font-size:18px;overflow:auto;padding:.2em .6em;width:auto;">will display:<br />line 5<br />line 6<br />line 7</div>
+<p> <b><span>cat test_data | grep -A2 -B2 'line 5' </span></b>
+<div style="background:#f8f8f8;border-width:.1em .1em .1em .8em;border:solid gray;font-size:18px;overflow:auto;padding:.2em .6em;width:auto;">will display:<br />line 3<br />line 4<br />line 5<br />line 6<br />line 7</div>

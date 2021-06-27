@@ -1,0 +1,34 @@
+---
+layout: post
+title: Remove whitespace from a string in bash
+date: 2018-01-13 17:39:00.000000000 +00:00
+type: post
+parent_id: '0'
+published: true
+password: ''
+status: publish
+categories: []
+tags: []
+meta:
+  restapi_import_id: 5b6f197fa2b75
+  timeline_notification: '1536391487'
+  _rest_api_published: '1'
+  _rest_api_client_id: "-1"
+  _publicize_job_id: '21919629323'
+author:
+  login: bobmclarke915800472
+  email: bob.mclarke@gmail.com
+  display_name: Bob Clarke
+  first_name: ''
+  last_name: ''
+permalink: "/2018/01/13/remove-whitespace-from-a-string-in-bash/"
+---
+<p>If the file /etc/foo.props contained:</p>
+<pre>context-root= /app1 
+http_port= 8080 
+admin-port= 9090</pre>
+<p>... and you were using</p>
+<pre>http_port=$(cat /foo/props.conf | grep http-port | cut -d = -f 2</pre>
+<p>$http_port would end up being prefixed by whitespace, which would be a problem if you were using this to construct a URL in a script. To resolve this, you could use xargs as follows:</p>
+<pre>http_port=$(cat /etc/foo.props | grep http-port | cut -d = -f 2 | xargs)</pre>
+<p>&nbsp;</p>

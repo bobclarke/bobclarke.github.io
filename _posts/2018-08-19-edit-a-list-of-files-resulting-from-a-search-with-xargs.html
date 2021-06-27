@@ -1,0 +1,33 @@
+---
+layout: post
+title: xargs stuff
+date: 2018-08-19 20:42:20.000000000 +01:00
+type: post
+parent_id: '0'
+published: true
+password: ''
+status: publish
+categories: []
+tags: []
+meta:
+  _rest_api_published: '1'
+  _rest_api_client_id: "-1"
+  _publicize_job_id: '21252553642'
+  timeline_notification: '1534711340'
+author:
+  login: bobmclarke915800472
+  email: bob.mclarke@gmail.com
+  display_name: Bob Clarke
+  first_name: ''
+  last_name: ''
+permalink: "/2018/08/19/edit-a-list-of-files-resulting-from-a-search-with-xargs/"
+---
+<p>Cleaning up kubernetes pods:</p>
+<pre>kubectl get pods | egrep 'brigade-vacuum' | awk '{print $1}' | xargs -n1 kubectl delete  pods</pre>
+<p>If you were searching recursively in the current directory for files containing the word test, and you wanted to edit each file you found with vi, the following command could be used:</p>
+<pre>grep -ilrw test * | xargs bash -c '&lt;/dev/tty vim "$@"' ignoreme</pre>
+<p>NOTE 1: the <strong>ignoreme</strong> is there to take up $0, so that $@ is all arguments from xargs</p>
+<p>NOTE 2: it may have been easier to simply use:</p>
+<pre>grep -ilrw test * | xargs vi</pre>
+<p>However this messes up the terminal</p>
+<hr />

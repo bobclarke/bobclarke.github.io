@@ -1,0 +1,85 @@
+---
+layout: post
+title: General purpose admin GUI for relational databases
+date: 2019-08-30 19:09:04.000000000 +01:00
+type: post
+parent_id: '0'
+published: true
+password: ''
+status: publish
+categories: []
+tags:
+- docker
+- postgres
+meta:
+  _publicize_job_id: '34755683873'
+  timeline_notification: '1567192146'
+author:
+  login: bobmclarke915800472
+  email: bob.mclarke@gmail.com
+  display_name: Bob Clarke
+  first_name: ''
+  last_name: ''
+permalink: "/2019/08/30/general-purpose-admin-gui-for-relational-databases/"
+---
+<p><!-- wp:block {"ref":396} /--></p>
+<p><!-- wp:heading {"level":3} --></p>
+<h3>Bring up Postgres and Adminer</h3>
+<p><!-- /wp:heading --></p>
+<p><!-- wp:paragraph --></p>
+<p>Here's a docker-compose.yml file to use for this </p>
+<p><!-- /wp:paragraph --></p>
+<p><!-- wp:preformatted --></p>
+<pre class="wp-block-preformatted">version: '3.1' 
+services:
+
+&nbsp; db: 
+&nbsp;&nbsp;&nbsp; image: postgres 
+&nbsp;&nbsp;&nbsp; restart: always 
+&nbsp;&nbsp;&nbsp; environment: 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; POSTGRES_PASSWORD: example 
+
+&nbsp; adminer: 
+&nbsp;&nbsp;&nbsp; image: adminer 
+&nbsp;&nbsp;&nbsp; restart: always 
+&nbsp;&nbsp;&nbsp; ports: 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - 8080:8080 </pre>
+<p><!-- /wp:preformatted --></p>
+<p><!-- wp:block {"ref":396} /--></p>
+<p><!-- wp:heading {"level":3} --></p>
+<h3> Now point a browser at localhost:8080</h3>
+<p><!-- /wp:heading --></p>
+<p><!-- wp:image {"id":757} --></p>
+<figure class="wp-block-image"><img src="{{ site.baseurl }}/assets/image-3.png?w=800" alt="" class="wp-image-757" /></figure>
+<p><!-- /wp:image --></p>
+<p><!-- wp:paragraph --></p>
+<p>If we want to populate the database we can modify our docker-compose.yml file as follows:</p>
+<p><!-- /wp:paragraph --></p>
+<p><!-- wp:preformatted --></p>
+<pre class="wp-block-preformatted">version: '3.1'
+ services:
+ db:
+     image: postgres
+     restart: always
+     environment:
+       POSTGRES_PASSWORD: example
+     volumes:
+     - ./createdb.sql:/docker-entrypoint-initdb.d/createdb.sql
+ adminer:
+     image: adminer
+     restart: always
+     ports:
+       - 9000:8080</pre>
+<p><!-- /wp:preformatted --></p>
+<p><!-- wp:paragraph --></p>
+<p>Our createdb.sql file could look like this:</p>
+<p><!-- /wp:paragraph --></p>
+<p><!-- wp:preformatted --></p>
+<pre class="wp-block-preformatted">CREATE DATABASE bird_encyclopedia;
+ \c bird_encyclopedia
+ CREATE TABLE birds (
+   id SERIAL PRIMARY KEY,
+   bird VARCHAR(256),
+   description VARCHAR(1024)
+ );</pre>
+<p><!-- /wp:preformatted --></p>

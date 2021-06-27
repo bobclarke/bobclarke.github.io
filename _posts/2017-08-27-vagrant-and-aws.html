@@ -1,0 +1,48 @@
+---
+layout: post
+title: Vagrant and AWS
+date: 2017-08-27 19:02:00.000000000 +01:00
+type: post
+parent_id: '0'
+published: true
+password: ''
+status: publish
+categories: []
+tags:
+- aws
+- vagrant
+meta:
+  restapi_import_id: 5b6f197fa2b75
+  _publicize_job_id: '21247287986'
+author:
+  login: bobmclarke915800472
+  email: bob.mclarke@gmail.com
+  display_name: Bob Clarke
+  first_name: ''
+  last_name: ''
+permalink: "/2017/08/27/vagrant-and-aws/"
+---
+<p><span style="color:#444444;font-family:verdana;font-size:16px;"> An example Vagrantfile</span></p>
+<pre class="CICodeFormatter"><code class="CICodeFormatter"> require 'vagrant-aws'  
+  
+ Vagrant.configure('2') do |config|  
+   
+  config.vm.box = "aws-box"  
+  config.vm.box_url = "https://github.com/mitchellh/vagrant-aws/raw/master/dummy.box"  
+   
+  config.vm.define "jupiter" do |jupiter|  
+    jupiter.vm.provision "shell", path: "install_ansible.sh"  
+    jupiter.vm.provider 'aws' do |aws, override|  
+      aws.access_key_id = ENV['AWS_ACCESS_KEY_ID']  
+      aws.secret_access_key = ENV['AWS_SECRET_ACCESS_KEY']  
+      aws.keypair_name = 'vagrant'  
+      aws.region = 'us-west-2'  
+      aws.ami = 'ami-20be7540'  
+      aws.security_groups = ['default']  
+      override.ssh.username = 'ansible'  
+      override.ssh.private_key_path = '~/ec2/keys/vagrant.pem'  
+      aws.tags = {  
+       'Name' =&gt; "ansible"  
+      }  
+    end  
+  end </code></pre>

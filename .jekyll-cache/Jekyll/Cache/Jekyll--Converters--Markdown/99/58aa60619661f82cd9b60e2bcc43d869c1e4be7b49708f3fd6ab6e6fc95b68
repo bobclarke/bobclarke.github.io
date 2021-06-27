@@ -1,0 +1,174 @@
+I"H-<p><!-- wp:paragraph --></p>
+<p>In this post I will go through how to write a simple terraform module to install a Kubernetes GKE cluster.</p>
+<p><!-- /wp:paragraph --></p>
+<p><!-- wp:paragraph --></p>
+<p><strong>pre reqs:</strong></p>
+<p><!-- /wp:paragraph --></p>
+<p><!-- wp:list --></p>
+<ul>
+<li>A GCP account
+</li>
+<li>Terraform&nbsp;v0.11.11
+</li>
+<li>gcloud CLI
+</li>
+<li>kubectl&nbsp;
+</li>
+</ul>
+<p><!-- /wp:list --></p>
+<p><!-- wp:paragraph --></p>
+<p><strong>Set up GCP project and service&nbsp;account:</strong></p>
+<p><!-- /wp:paragraph --></p>
+<p><!-- wp:paragraph --></p>
+<p>In the GCP console create a new google project. Login with the cloud CLI </p>
+<p><!-- /wp:paragraph --></p>
+<p><!-- wp:preformatted --></p>
+<pre class="wp-block-preformatted">gcloud auth login</pre>
+<p><!-- /wp:preformatted --></p>
+<p><!-- wp:paragraph --></p>
+<p>Switch to your newly created project</p>
+<p><!-- /wp:paragraph --></p>
+<p><!-- wp:preformatted --></p>
+<pre class="wp-block-preformatted">gcloud config set project your-gcp-project </pre>
+<p><!-- /wp:preformatted --></p>
+<p><!-- wp:paragraph --></p>
+<p>Create a service account </p>
+<p><!-- /wp:paragraph --></p>
+<p><!-- wp:preformatted --></p>
+<pre class="wp-block-preformatted">gcloud iam service-accounts create your-gcp-project-sa </pre>
+<p><!-- /wp:preformatted --></p>
+<p><!-- wp:paragraph --></p>
+<p>Link this service account to your project</p>
+<p><!-- /wp:paragraph --></p>
+<p><!-- wp:preformatted --></p>
+<pre class="wp-block-preformatted">gcloud projects add-iam-policy-binding your-terraform-project \ <br />&nbsp;&nbsp;--member “serviceAccount:your-gcp-project-sa@your-gcp-project.iam.gserviceaccount.com" \ <br /> &nbsp;--role "roles/owner" <br /></pre>
+<p><!-- /wp:preformatted --></p>
+<p><!-- wp:paragraph --></p>
+<p>Create and download a private key for this service account (Terraform will use this to authenticate to your gcp project) </p>
+<p><!-- /wp:paragraph --></p>
+<p><!-- wp:paragraph --></p>
+<p><!-- /wp:paragraph --></p>
+<p><!-- wp:preformatted --></p>
+<pre class="wp-block-preformatted">gcloud iam service-accounts keys create “/path/you/choose/your-terraform-project-sa.json" \ <br />&nbsp;&nbsp;&nbsp;--iam-account "your-gcp-project-sa@your-gcp-project.iam.gserviceaccount.com" </pre>
+<p><!-- /wp:preformatted --></p>
+<p><!-- wp:paragraph --></p>
+<p><strong>Set up backend for remote terraform state&nbsp;</strong></p>
+<p><!-- /wp:paragraph --></p>
+<p><!-- wp:paragraph --></p>
+<p>Create a bucket to store terraform state </p>
+<p><!-- /wp:paragraph --></p>
+<p><!-- wp:preformatted --></p>
+<pre class="wp-block-preformatted">gsutil mb -l eu gs://your-gcp-project-remote-state</pre>
+<p><!-- /wp:preformatted --></p>
+<p><!-- wp:paragraph --></p>
+<p>Create a file named backend.tf and add the following to set up the google terraform provider&nbsp;</p>
+<p><!-- /wp:paragraph --></p>
+<p><!-- wp:preformatted --></p>
+<pre class="wp-block-preformatted">terraform { <br />&nbsp;&nbsp;backend "gcs" { <br />&nbsp;&nbsp;&nbsp;&nbsp;bucket&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= "your-gcp-project-remote-state" <br />&nbsp;&nbsp;&nbsp;&nbsp;prefix&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= "terraform" <br />&nbsp;&nbsp;&nbsp;&nbsp;project&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= "your-gcp-project" <br />&nbsp;&nbsp;&nbsp;&nbsp;credentials&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= "/path/you/choose/your-gcp-project-sa.json" <br />&nbsp;&nbsp;} <br />} </pre>
+<p><!-- /wp:preformatted --></p>
+<p><!-- wp:paragraph --></p>
+<p>Initialise the backend</p>
+<p><!-- /wp:paragraph --></p>
+<p><!-- wp:preformatted --></p>
+<pre class="wp-block-preformatted"> terraform init</pre>
+<p><!-- /wp:preformatted --></p>
+<p><!-- wp:paragraph --></p>
+<p>This should result in something similar to the following:</p>
+<p><!-- /wp:paragraph --></p>
+<p><!-- wp:image {"id":486} --></p>
+<figure class="wp-block-image"><img src="/assets/image.png" alt="" class="wp-image-486" /></figure>
+<p><!-- /wp:image --></p>
+<p><!-- wp:paragraph --></p>
+<p>Check that the remote state has been initialised (note - we’re not using workspaces yet therefore we’re working in the default workspace)&nbsp;</p>
+<p><!-- /wp:paragraph --></p>
+<p><!-- wp:preformatted --></p>
+<pre class="wp-block-preformatted">gsutil cat gs://your-gcp-project-remote-state/terraform/default.tfstate </pre>
+<p><!-- /wp:preformatted --></p>
+<p><!-- wp:paragraph --></p>
+<p>This resulting display should be something similar to:</p>
+<p><!-- /wp:paragraph --></p>
+<p><!-- wp:preformatted --></p>
+<pre class="wp-block-preformatted">{ <br />&nbsp;&nbsp;&nbsp;&nbsp;"version": 3, <br />&nbsp;&nbsp;&nbsp;&nbsp;"serial": 1, <br />&nbsp;&nbsp;&nbsp;&nbsp;"lineage": "2c1eae35-87b7-8d2a-556a-09ab57d0bff7", <br />&nbsp;&nbsp;&nbsp;&nbsp;"modules": [ <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{ <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"path": [ <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"root" <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;], <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"outputs": {}, <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"resources": {}, <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"depends_on": [] <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} <br />&nbsp;&nbsp;&nbsp;&nbsp;] <br />} </pre>
+<p><!-- /wp:preformatted --></p>
+<p><!-- wp:paragraph --></p>
+<p><strong>Set up the Google provider:</strong></p>
+<p><!-- /wp:paragraph --></p>
+<p><!-- wp:paragraph --></p>
+<p>Create a file named providers.tf with the following contents: </p>
+<p><!-- /wp:paragraph --></p>
+<p><!-- wp:preformatted --></p>
+<pre class="wp-block-preformatted">provider "google" { <br />&nbsp;&nbsp;project&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= “your-gap-project" <br />&nbsp;&nbsp;region&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= "europe-west2" <br />&nbsp;&nbsp;zone&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= "europe-west2-a" <br />&nbsp;&nbsp;credentials&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= "${file(“/path/you/choose/your-gcp-project-sa.json")}" <br />} </pre>
+<p><!-- /wp:preformatted --></p>
+<p><!-- wp:paragraph --></p>
+<p>Initialise the provider:</p>
+<p><!-- /wp:paragraph --></p>
+<p><!-- wp:preformatted --></p>
+<pre class="wp-block-preformatted">terraform init</pre>
+<p><!-- /wp:preformatted --></p>
+<p><!-- wp:paragraph --></p>
+<p>This should result in something similar to the following output: </p>
+<p><!-- /wp:paragraph --></p>
+<p><!-- wp:image {"id":487} --></p>
+<figure class="wp-block-image"><img src="/assets/image-1.png" alt="" class="wp-image-487" /></figure>
+<p><!-- /wp:image --></p>
+<p><!-- wp:paragraph --></p>
+<p><strong>Enable the container.googleapis.com API Service:</strong></p>
+<p><!-- /wp:paragraph --></p>
+<p><!-- wp:preformatted --></p>
+<pre class="wp-block-preformatted">gcloud services enable container.googleapis.com</pre>
+<p><!-- /wp:preformatted --></p>
+<p><!-- wp:paragraph --></p>
+<p>We’re now ready to start building stuff - let’s use terraform modules to do this as they are pretty cool&nbsp; </p>
+<p><!-- /wp:paragraph --></p>
+<p><!-- wp:paragraph --></p>
+<p><strong>Create your first Terraform module:</strong></p>
+<p><!-- /wp:paragraph --></p>
+<p><!-- wp:paragraph --></p>
+<p>Create a directory called modules and under here create a directory called kubernetes_cluster (yes - we’re going to write a module to deploy a k8s cluster 🙂) cd to modules/kubernetes_cluster and create a file named k8s_main.tf </p>
+<p><!-- /wp:paragraph --></p>
+<p><!-- wp:preformatted --></p>
+<pre class="wp-block-preformatted">mkdir -p modules/kubernetes_cluster <br />cd modules/kubernetes_cluster <br />touch k8s_main.tf</pre>
+<p><!-- /wp:preformatted --></p>
+<p><!-- wp:paragraph --></p>
+<p>Add the following contents to&nbsp;&nbsp;k8s_main.tf (Notice we’re not using any variables at the moment, this will come later) </p>
+<p><!-- /wp:paragraph --></p>
+<p><!-- wp:preformatted --></p>
+<pre class="wp-block-preformatted">resource "google_container_cluster" "k8s_cluster" { <br />&nbsp;&nbsp;count&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= "1" <br />&nbsp;&nbsp;name&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= "terraform-from-scratch-k8s-cluster" <br />&nbsp;&nbsp;zone&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= "europe-west2-a" <br />&nbsp;&nbsp;initial_node_count = "3" <br />&nbsp;&nbsp;project&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= "terraform-from-scratch" <br /><br /><br /><br /><br />&nbsp;&nbsp;node_config { <br />&nbsp;&nbsp;&nbsp;&nbsp;oauth_scopes = [ <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"https://www.googleapis.com/auth/compute", <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"https://www.googleapis.com/auth/devstorage.read_only", <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"https://www.googleapis.com/auth/logging.write", <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"https://www.googleapis.com/auth/monitoring", <br />&nbsp;&nbsp;&nbsp;&nbsp;] <br />&nbsp;&nbsp;} <br />} </pre>
+<p><!-- /wp:preformatted --></p>
+<p><!-- wp:paragraph --></p>
+<p>Now we need to call this module. To do this cd back up to your top level directory (where backend.tf and providers.tf reside) and create main.tf with the following contents. </p>
+<p><!-- /wp:paragraph --></p>
+<p><!-- wp:preformatted --></p>
+<pre class="wp-block-preformatted">module "kubernetes-cluster" { <br />&nbsp;&nbsp;source = "modules/kubernetes_cluster" <br />}</pre>
+<p><!-- /wp:preformatted --></p>
+<p><!-- wp:paragraph --></p>
+<p>Initialise the new module: </p>
+<p><!-- /wp:paragraph --></p>
+<p><!-- wp:preformatted --></p>
+<pre class="wp-block-preformatted">terraform init</pre>
+<p><!-- /wp:preformatted --></p>
+<p><!-- wp:paragraph --></p>
+<p>Plan the build</p>
+<p><!-- /wp:paragraph --></p>
+<p><!-- wp:preformatted --></p>
+<pre class="wp-block-preformatted">terraform plan<br /></pre>
+<p><!-- /wp:preformatted --></p>
+<p><!-- wp:paragraph --></p>
+<p>If all looks well, run the build&nbsp; </p>
+<p><!-- /wp:paragraph --></p>
+<p><!-- wp:preformatted --></p>
+<pre class="wp-block-preformatted">terraform apply -auto-approve</pre>
+<p><!-- /wp:preformatted --></p>
+<p><!-- wp:paragraph --></p>
+<p>Update ~/.kube/config and set context to your new kubernetes cluster&nbsp; </p>
+<p><!-- /wp:paragraph --></p>
+<p><!-- wp:preformatted --></p>
+<pre class="wp-block-preformatted">gcloud container clusters get-credentials your-gcp-project-k8s-cluster</pre>
+<p><!-- /wp:preformatted --></p>
+<p><!-- wp:paragraph --></p>
+<p>Check connectivity&nbsp; </p>
+<p><!-- /wp:paragraph --></p>
+<p><!-- wp:preformatted --></p>
+<pre class="wp-block-preformatted">kubectl get pods -n kube-system </pre>
+<p><!-- /wp:preformatted --></p>
+:ET

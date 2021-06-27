@@ -1,0 +1,7 @@
+I"ä<p>API V3 examples</p>
+<pre>etcdctl --cacert="/etc/kubernetes/certs/ca.crt" \
+  --cert="/etc/kubernetes/certs/etcdclient.crt" \
+  --key="/etc/kubernetes/certs/etcdclient.key"  \
+  get /registry/pods/ --prefix --keys-only
+</pre>
+:ET

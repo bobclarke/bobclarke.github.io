@@ -1,0 +1,37 @@
+---
+layout: post
+title: Kubernetes nginx-ingress upload size
+date: 2018-09-10 10:06:33.000000000 +01:00
+type: post
+parent_id: '0'
+published: true
+password: ''
+status: publish
+categories: []
+tags: []
+meta:
+  _rest_api_published: '1'
+  _rest_api_client_id: "-1"
+  _publicize_job_id: '21986021453'
+  timeline_notification: '1536573994'
+author:
+  login: bobmclarke915800472
+  email: bob.mclarke@gmail.com
+  display_name: Bob Clarke
+  first_name: ''
+  last_name: ''
+permalink: "/2018/09/10/kubernetes-nginx-ingress-upload-size/"
+---
+<p>This can be configured per Ingress resource using the <span style="color:#008080;"><strong>nginx.ingress.kubernetes.io/proxy-body-size</strong></span> annotation.</p>
+<p>For example:</p>
+<pre>apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+<strong>    nginx.ingress.kubernetes.io/proxy-body-size: 150m</strong>
+    certmanager.k8s.io/acme-challenge-type: dns01
+    certmanager.k8s.io/acme-dns01-provider: azuredns
+    certmanager.k8s.io/cluster-issuer: letsencrypt-production
+    kubernetes.io/ingress.class: nginx
+</pre>
+<p>&nbsp;</p>

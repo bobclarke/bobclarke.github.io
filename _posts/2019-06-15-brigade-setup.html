@@ -1,0 +1,124 @@
+---
+layout: post
+title: Brigade CI setup
+date: 2019-06-15 20:55:07.000000000 +01:00
+type: post
+parent_id: '0'
+published: true
+password: ''
+status: publish
+categories: []
+tags:
+- brigade
+- ci
+meta:
+  timeline_notification: '1560719856'
+  _publicize_job_id: '31893081214'
+author:
+  login: bobmclarke915800472
+  email: bob.mclarke@gmail.com
+  display_name: Bob Clarke
+  first_name: ''
+  last_name: ''
+permalink: "/2019/06/15/brigade-setup/"
+---
+<p><!-- wp:heading {"level":3} --></p>
+<h3>Pre-reqs</h3>
+<p><!-- /wp:heading --></p>
+<p><!-- wp:list --></p>
+<ul>
+<li>K8s cluster with RBAC enabled </li>
+<li>Helm installed with Tiller using a service account (see Helm set up step  below)</li>
+<li>brig cli</li>
+</ul>
+<p><!-- /wp:list --></p>
+<p><!-- wp:heading {"level":3} --></p>
+<h3>Helm set up</h3>
+<p><!-- /wp:heading --></p>
+<p><!-- wp:preformatted --></p>
+<pre class="wp-block-preformatted">kubectl -n kube-system create sa tiller
+kubectl create clusterrolebinding tiller --clusterrole cluster-admin --serviceaccount=kube-system:tiller
+helm init --service-account tiller</pre>
+<p><!-- /wp:preformatted --></p>
+<p><!-- wp:heading {"level":3} --></p>
+<h3>Install brigade</h3>
+<p><!-- /wp:heading --></p>
+<p><!-- wp:preformatted --></p>
+<pre class="wp-block-preformatted">helm repo add brigade https://brigadecore.github.io/charts
+helm install --name brigade-server brigade/brigade --namespace ci --set gw.enabled=true</pre>
+<p><!-- /wp:preformatted --></p>
+<p><!-- wp:heading {"level":3} --></p>
+<h3>Generate a values file for a brigade project </h3>
+<p><!-- /wp:heading --></p>
+<p><!-- wp:preformatted --></p>
+<pre class="wp-block-preformatted">helm inspect values brigade/brigade-project &gt; values.yaml </pre>
+<p><!-- /wp:preformatted --></p>
+<p><!-- wp:heading {"level":3} --></p>
+<h3>Customise the values file</h3>
+<p><!-- /wp:heading --></p>
+<p><!-- wp:paragraph --></p>
+<p>You'll notice that the helm inspect command generates alot of output. This can be cut down to something like the following:</p>
+<p><!-- /wp:paragraph --></p>
+<p><!-- wp:preformatted --></p>
+<pre class="wp-block-preformatted">project: "bobclarke/gowiki"
+repository: "github.com/bobclarke/gowiki"
+cloneURL: "https://github.com/bobclarke/gowiki"
+sharedSecret: "IBrakeForSeaBeasts"
+github:
+&nbsp;&nbsp;&nbsp;token: "github oauth token"
+allowPrivilegedJobs: “true"
+
+secrets:
+&nbsp; username: jsmith
+  password: mypassword</pre>
+<p><!-- /wp:preformatted --></p>
+<p><!-- wp:paragraph --></p>
+<p>In practice, you'll probably want to split this into two files (let's call them values.yaml and secret-values.yaml), one of them for sensitive information that you'll want to exclude from Git.. </p>
+<p><!-- /wp:paragraph --></p>
+<p><!-- wp:html --><br />
+<span style="color:#429DDB;font-weight:bold;font-size:15px;">values.yaml</span></p>
+<pre class="wp-block-preformatted">project: "bobclarke/gowiki"
+repository: "github.com/bobclarke/gowiki"
+cloneURL: "https://github.com/bobclarke/gowiki"
+github:
+&nbsp;&nbsp;&nbsp;token: "github oauth token"
+allowPrivilegedJobs: “true"</pre>
+<p><!-- /wp:html --></p>
+<p><!-- wp:html --><br />
+<span style="color:#429DDB;font-weight:bold;font-size:15px;">secret-values.yaml</span></p>
+<pre class="wp-block-preformatted">sharedSecret: IBrakeForSeaBeasts
+secrets:
+&nbsp; username: jsmith
+  password: mypassword</pre>
+<p><!-- /wp:html --></p>
+<p><!-- wp:heading {"level":3} --></p>
+<h3>Create brigade project</h3>
+<p><!-- /wp:heading --></p>
+<p><!-- wp:preformatted --></p>
+<pre class="wp-block-preformatted">helm install -n my-project brigade/brigade-project -f values.yaml -f secret-values.yaml  —namespace ci</pre>
+<p><!-- /wp:preformatted --></p>
+<p><!-- wp:heading {"level":3} --></p>
+<h3>Check the brigade project</h3>
+<p><!-- /wp:heading --></p>
+<p><!-- wp:preformatted --></p>
+<pre class="wp-block-preformatted">brig project list -n ci
+brig project get &lt;project name&gt; -n ci</pre>
+<p><!-- /wp:preformatted --></p>
+<p><!-- wp:heading {"level":3} --></p>
+<h3>Get the public IP of the brigade gateway service</h3>
+<p><!-- /wp:heading --></p>
+<p><!-- wp:preformatted --></p>
+<pre class="wp-block-preformatted">kubectl get svc -n ci</pre>
+<p><!-- /wp:preformatted --></p>
+<p><!-- wp:heading {"level":3} --></p>
+<h3>Set up a webhook</h3>
+<p><!-- /wp:heading --></p>
+<p><!-- wp:list --></p>
+<ul>
+<li>Navigate to https://github.com/&lt;org&gt;/&lt;repo&gt;/settings/hooks</li>
+<li>Click "add webhook"</li>
+<li>Set content type to "application/json"</li>
+<li>Set payload url to "http://&lt;gw svc address&gt;:7744/events/github"</li>
+<li>Set secret to the sharedSecret value in your secret-values.yaml (for example "IBrakeForSeaBeasts")</li>
+</ul>
+<p><!-- /wp:list --></p>

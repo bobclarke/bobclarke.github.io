@@ -1,0 +1,18 @@
+I"T<p><span>Save the image on the source host: </span>
+<div style="background:#ffffff;border-width:.1em .1em .1em .8em;border:solid gray;overflow:auto;padding:.2em .6em;width:auto;">
+<pre style="line-height:125%;margin:0;"><span>docker save -o myimage.tar   <br /></span></pre>
+</div>
+<p><span><br />Now copy the saved image to the destination machine: </span>
+<div style="background:#ffffff;border-width:.1em .1em .1em .8em;border:solid gray;overflow:auto;padding:.2em .6em;width:auto;">
+<pre style="line-height:125%;margin:0;"><span>scp myimage.tar bob@jupiter.stack1.com:/docker-archives/myimage.tar<br /></span></pre>
+</div>
+<p><span><br />Then load the image: </span>
+<div style="background:#ffffff;border-width:.1em .1em .1em .8em;border:solid gray;overflow:auto;padding:.2em .6em;width:auto;">
+<pre style="line-height:125%;margin:0;"><span>docker load -i  /docker-archives/myimage.tar<br />or:<br />docker load &lt; /docker-archives/myimage.tar<br /></span></pre>
+</div>
+<p><span><br /></span>
+<div><span><br /></span></div>
+<div><span><br /></span></div>
+<div><span><br /></span></div>
+</p></p></p></p>
+:ET

@@ -1,0 +1,108 @@
+---
+layout: post
+title: An example splunk dashboard XML
+date: 2018-01-13 17:06:00.000000000 +00:00
+type: post
+parent_id: '0'
+published: true
+password: ''
+status: publish
+categories: []
+tags:
+- splunk
+meta:
+  restapi_import_id: 5b6f197fa2b75
+  _publicize_job_id: '21247800230'
+author:
+  login: bobmclarke915800472
+  email: bob.mclarke@gmail.com
+  display_name: Bob Clarke
+  first_name: ''
+  last_name: ''
+permalink: "/2018/01/13/an-example-splunk-dashboard-xml/"
+---
+<pre>&lt;dashboard&gt;
+  &lt;label&gt;My label&lt;/label&gt;
+  &lt;description&gt;A description&lt;/description&gt;
+
+  &lt;row&gt;
+    &lt;panel&gt;
+      &lt;title&gt;Datacentre 1&lt;/title&gt;
+      &lt;table&gt;
+        &lt;search&gt;
+
+          &lt;query&gt;
+            (host=jupiter ORhost=neptune)
+            sourcetype=apache* source=*check_endpoints_info.log HTTP_STATUS_CODE: |
+            rex field=_raw "TIMESTAMP:(?&amp;lt;TIMESTAMP&amp;gt;.+)\s+APP" |
+            rex field=_raw "APP:(?&amp;lt;SERVICE&amp;gt;.+)\s+PORT" |
+            rex field=_raw "CONTEXT ROOT:(?&amp;lt;CONTEXT_ROOT&amp;gt;.+)\s+GET" |
+            rex field=_raw "\s+GET:\s+(?&amp;lt;URI&amp;gt;.+)\s+HTTP.+Host" |
+            rex field=_raw "\s+HTTP_STATUS_CODE:\s+(?&amp;lt;HTTP_STATUS&amp;gt;\d+).+" |
+            rex field=_raw "PORT:(?&amp;lt;PORT&amp;gt;.+)CONTEXT ROOT" |
+            stats max(TIMESTAMP) as TIMESTAMP by host,SERVICE,URI,HTTP_STATUS |
+            sort host
+          &lt;/query&gt;
+          
+          &lt;earliest&gt;-210s@s&lt;/earliest&gt;
+          &lt;latest&gt;now&lt;/latest&gt;
+          &lt;refresh&gt;1m&lt;/refresh&gt;
+          &lt;refreshType&gt;delay&lt;/refreshType&gt;
+        
+        &lt;/search&gt;
+
+        &lt;option name="count"&gt;18&lt;/option&gt;
+        &lt;option name="dataOverlayMode"&gt;none&lt;/option&gt;
+        &lt;option name="drilldown"&gt;row&lt;/option&gt;
+        &lt;option name="percentagesRow"&gt;false&lt;/option&gt;
+        &lt;option name="rowNumbers"&gt;true&lt;/option&gt;
+        &lt;option name="totalsRow"&gt;false&lt;/option&gt;
+        &lt;option name="wrap"&gt;true&lt;/option&gt;
+        
+        &lt;format type="color" field="HTTP_STATUS"&gt;
+          &lt;colorPalette type="map"&gt;{"200":#65A637,"404":#D93F3C,"500":#D93F3C,"503":#D93F3C}&lt;/colorPalette&gt;
+        &lt;/format&gt;
+
+      &lt;/table&gt;
+    &lt;/panel&gt;
+
+    &lt;panel&gt;
+      &lt;title&gt;Datacentre 2&lt;/title&gt;
+      &lt;table&gt;
+        &lt;search&gt;
+
+          &lt;query&gt;
+            (host=mars OR host=venus)
+            sourcetype=apache* source=*check_endpoints_info.log HTTP_STATUS_CODE: |
+            rex field=_raw "TIMESTAMP:(?&amp;lt;TIMESTAMP&amp;gt;.+)\s+APP" |
+            rex field=_raw "APP:(?&amp;lt;SERVICE&amp;gt;.+)\s+PORT" |
+            rex field=_raw "CONTEXT ROOT:(?&amp;lt;CONTEXT_ROOT&amp;gt;.+)\s+GET" |
+            rex field=_raw "\s+GET:\s+(?&amp;lt;URI&amp;gt;.+)\s+HTTP.+Host" |
+            rex field=_raw "\s+HTTP_STATUS_CODE:\s+(?&amp;lt;HTTP_STATUS&amp;gt;\d+).+" |
+            rex field=_raw "PORT:(?&amp;lt;PORT&amp;gt;.+)CONTEXT ROOT" |
+            stats max(TIMESTAMP) as TIMESTAMP by host,SERVICE,URI,HTTP_STATUS |
+            sort host
+          &lt;/query&gt;
+
+          &lt;earliest&gt;-4m@m&lt;/earliest&gt;
+          &lt;latest&gt;now&lt;/latest&gt;
+          &lt;refresh&gt;1m&lt;/refresh&gt;
+          &lt;refreshType&gt;delay&lt;/refreshType&gt;
+
+        &lt;/search&gt;
+
+        &lt;option name="count"&gt;18&lt;/option&gt;
+        &lt;option name="dataOverlayMode"&gt;none&lt;/option&gt;
+        &lt;option name="drilldown"&gt;row&lt;/option&gt;
+        &lt;option name="percentagesRow"&gt;false&lt;/option&gt;
+        &lt;option name="rowNumbers"&gt;true&lt;/option&gt;
+        &lt;option name="totalsRow"&gt;false&lt;/option&gt;
+        &lt;option name="wrap"&gt;true&lt;/option&gt;
+        &lt;format type="color" field="HTTP_STATUS"&gt;
+          &lt;colorPalette type="map"&gt;{"200":#65A637,"404":#D93F3C,"500":#D93F3C,"503":#D93F3C}&lt;/colorPalette&gt;
+        &lt;/format&gt;
+
+      &lt;/table&gt;
+    &lt;/panel&gt;
+  &lt;/row&gt;
+&lt;/dashboard&gt;</pre>

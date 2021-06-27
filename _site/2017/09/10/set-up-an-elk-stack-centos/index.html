@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.7.1 -->
+<title>Set up an ELK stack (CentOS)</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="Set up an ELK stack (CentOS)" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="# ------------------------------------------------------------------------------------------------------------------------------------- Elasticsearch # ------------------------------------------------------------------------------------------------------------------------------------- install java: yum install -y java Install elasticsearch:  yum install -y elasticsearch-5.5.2.rpm Start elasticsearch:  service elasticsearch start Configure elasticsearch /etc/elasticsearch/elasticsearch.yml Test elasticsearch: curl http://10.1.1.100:9200 this should return something like the following: { &quot;name&quot; : &quot;BT_A1W0&quot;, &quot;cluster_name&quot; : &quot;elasticsearch&quot;, &quot;cluster_uuid&quot; : &quot;85TTdoncTPqC2vAnEufDWQ&quot;, &quot;version&quot; : { &quot;number&quot; : &quot;5.5.2&quot;, &quot;build_hash&quot; : &quot;b2f0c09&quot;, &quot;build_date&quot; : &quot;2017-08-14T12:33:14.154Z&quot;, &quot;build_snapshot&quot; : false, &quot;lucene_version&quot; : &quot;6.6.0&quot; }, &quot;tagline&quot; : &quot;You Know, for Search&quot;} Create entry in elasticsearch: curl -XPUT &#39;10.1.1.100:9200/my_index/my_type/my_id&#39; -H &#39;Content-Type: application/json&#39; -d’{&quot;user&quot;:&quot;bob”,&quot;post_date&quot;:&quot;2009-11-15T14:12:12”,&quot;message&quot;:”hello&quot;}’ The PUT must be of the form /index/type/id (at least I think this is the case) List indexes curl &quot;http://10.1.1.100:9200/_cat/indices&quot; delete all indexes: curl -X DELETE &quot;http://10.1.1.100:9200/_all&quot; # ------------------------------------------------------------------------------------------------------------------------------------- # Logstash # ------------------------------------------------------------------------------------------------------------------------------------- Install logstash: yum install -y logstash-5.5.2.rpm &lt;/div&gt; Configure logstash:  Assuming you have Apache HTTP server installed, create /etc/logstash/conf.d/logstash.conf with the following contents: input { file { path =&gt; &quot;/var/log/httpd/access*&quot; start_position =&gt; “end&quot; }}filter { grok { match =&gt; { &quot;message&quot; =&gt; &quot;%{COMBINEDAPACHELOG}&quot; } } date { match =&gt; [ &quot;timestamp&quot; , &quot;dd/MMM/yyyy:HH:mm:ss Z&quot; ] }}output { stdout { codec =&gt; rubydebug } elasticsearch { hosts =&gt; [&quot;10.1.1.100:9200&quot;] }} Start logstash To test that things are working correctly, you can start in the foreground as follows: /usr/share/logstash/bin/logstash -f /etc/logstash/conf.d/logstash.conf Once you’re happy you may want to create a basic init.d script,  e.g: #!/bin/bashfunction start() { echo &quot;Starting logstash...&quot; /usr/share/logstash/bin/logstash -f /etc/logstash/conf.d/logstash.conf --config.reload.automatic &gt; /var/log/logstash/logstash.log 2&gt;&amp;1 &amp;}function stop() { echo &quot;Stopping logstash...&quot; pkill -9 -f .+logstash/runner.rb}case $1 in start) start ;; stop) stop ;; restart) stop sleep 3 start ;; *) echo &quot;&quot; echo &quot;Usage $0 start|stop|restart&quot; echo &quot;&quot; ;;esac Once things are up and running, hit your Apache server with an HTTP request. Because you’ve set up an STDOUT output you’ll get something similar to the following in /var/log/logstash/logstash.log: { &quot;request&quot; =&gt; &quot;/&quot;, &quot;agent&quot; =&gt; &quot;\&quot;Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.101 Safari/537.36\&quot;&quot;, &quot;auth&quot; =&gt; &quot;-&quot;, &quot;ident&quot; =&gt; &quot;-&quot;, &quot;verb&quot; =&gt; &quot;GET&quot;, &quot;message&quot; =&gt; &quot;10.1.1.1 - - [31/Aug/2017:20:47:12 +0000] \&quot;GET / HTTP/1.1\&quot; 302 233 \&quot;-\&quot; \&quot;Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.101 Safari/537.36\&quot;&quot;, &quot;path&quot; =&gt; &quot;/var/log/httpd/access_log&quot;, &quot;referrer&quot; =&gt; &quot;\&quot;-\&quot;&quot;, &quot;@timestamp&quot; =&gt; 2017-08-31T20:47:12.000Z, &quot;response&quot; =&gt; “200&quot;, &quot;bytes&quot; =&gt; &quot;233&quot;, &quot;clientip&quot; =&gt; &quot;10.1.1.1&quot;, &quot;@version&quot; =&gt; &quot;1&quot;, &quot;host&quot; =&gt; &quot;jupiter&quot;, &quot;httpversion&quot; =&gt; &quot;1.1&quot;, &quot;timestamp&quot; =&gt; &quot;31/Aug/2017:20:47:12 +0000&quot;} Also, because you set up an output to elasticsearch you will see this entry in there too: Check for the index as follows: curl &quot;http://10.1.1.100:9200/_cat/indices/logstash-*&quot; Take a look at the index as follows: curl &quot;http://10.1.1.100:9200/logstash-*?pretty&quot; # ------------------------------------------------------------------------------------------------------------------------------------- # Kibana # ------------------------------------------------------------------------------------------------------------------------------------- Install Kibana tar xvzf kibana-5.5.2-linux-x86_64.tar.gz -C /optcd /optmv kibana-5.5.2-linux-x86_64 kibana Configure Kibaba Edit /opt/kibana/config/kibana.yml, set server.host and elasticsearch.url Start kibana cd /opt/kibana/bin &amp;&amp; ./kibana &amp; Test kibana In a browser, navigate to http://10.1.1.100:5601 Navigate to dev tools In the left panel type GET _cat/indices and click the green arrow to run the query In the results window you should see the index created by logstash (when you made a request from Apache earlier) similar to: yellow open logstash-2017.08.31 uzTssKBfTuecbgGzth-ViA 5 1 2 0 23.2kb 23.2kb Navigate to Management Select Index patterns  Create an index pattern of logstash-* Our Grok filter that we set up in logstash should have created approx 38 feilds from the Apache log, you should see that many of these are agregatable which means they can be used in visualisations Navigate to Visualisations &gt; create visualisations &gt; vertical bar Select the logstash-* index pattern you created earlier  you’ll see the Y-axis is already set up as count  Under buckets select X-axis for aggregation select Date Histogram with a field of @timestamp Add a sub bucket with a bucket size of split series  select a sub aggregation of terms with a filed of response.keyword Run the visual by pressing the blue/white arrow (top left) p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 13.0px Helvetica} p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 13.0px Helvetica; min-height: 16.0px} li.li1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 13.0px Helvetica} li.li3 {margin: 0.0px 0.0px 0.0px 0.0px; font: 13.0px Helvetica; color: #9e4a2f} span.s1 {text-decoration: underline} span.Apple-tab-span {white-space:pre} ul.ul1 {list-style-type: disc} ul.ul2 {list-style-type: circle}" />
+<meta property="og:description" content="# ------------------------------------------------------------------------------------------------------------------------------------- Elasticsearch # ------------------------------------------------------------------------------------------------------------------------------------- install java: yum install -y java Install elasticsearch:  yum install -y elasticsearch-5.5.2.rpm Start elasticsearch:  service elasticsearch start Configure elasticsearch /etc/elasticsearch/elasticsearch.yml Test elasticsearch: curl http://10.1.1.100:9200 this should return something like the following: { &quot;name&quot; : &quot;BT_A1W0&quot;, &quot;cluster_name&quot; : &quot;elasticsearch&quot;, &quot;cluster_uuid&quot; : &quot;85TTdoncTPqC2vAnEufDWQ&quot;, &quot;version&quot; : { &quot;number&quot; : &quot;5.5.2&quot;, &quot;build_hash&quot; : &quot;b2f0c09&quot;, &quot;build_date&quot; : &quot;2017-08-14T12:33:14.154Z&quot;, &quot;build_snapshot&quot; : false, &quot;lucene_version&quot; : &quot;6.6.0&quot; }, &quot;tagline&quot; : &quot;You Know, for Search&quot;} Create entry in elasticsearch: curl -XPUT &#39;10.1.1.100:9200/my_index/my_type/my_id&#39; -H &#39;Content-Type: application/json&#39; -d’{&quot;user&quot;:&quot;bob”,&quot;post_date&quot;:&quot;2009-11-15T14:12:12”,&quot;message&quot;:”hello&quot;}’ The PUT must be of the form /index/type/id (at least I think this is the case) List indexes curl &quot;http://10.1.1.100:9200/_cat/indices&quot; delete all indexes: curl -X DELETE &quot;http://10.1.1.100:9200/_all&quot; # ------------------------------------------------------------------------------------------------------------------------------------- # Logstash # ------------------------------------------------------------------------------------------------------------------------------------- Install logstash: yum install -y logstash-5.5.2.rpm &lt;/div&gt; Configure logstash:  Assuming you have Apache HTTP server installed, create /etc/logstash/conf.d/logstash.conf with the following contents: input { file { path =&gt; &quot;/var/log/httpd/access*&quot; start_position =&gt; “end&quot; }}filter { grok { match =&gt; { &quot;message&quot; =&gt; &quot;%{COMBINEDAPACHELOG}&quot; } } date { match =&gt; [ &quot;timestamp&quot; , &quot;dd/MMM/yyyy:HH:mm:ss Z&quot; ] }}output { stdout { codec =&gt; rubydebug } elasticsearch { hosts =&gt; [&quot;10.1.1.100:9200&quot;] }} Start logstash To test that things are working correctly, you can start in the foreground as follows: /usr/share/logstash/bin/logstash -f /etc/logstash/conf.d/logstash.conf Once you’re happy you may want to create a basic init.d script,  e.g: #!/bin/bashfunction start() { echo &quot;Starting logstash...&quot; /usr/share/logstash/bin/logstash -f /etc/logstash/conf.d/logstash.conf --config.reload.automatic &gt; /var/log/logstash/logstash.log 2&gt;&amp;1 &amp;}function stop() { echo &quot;Stopping logstash...&quot; pkill -9 -f .+logstash/runner.rb}case $1 in start) start ;; stop) stop ;; restart) stop sleep 3 start ;; *) echo &quot;&quot; echo &quot;Usage $0 start|stop|restart&quot; echo &quot;&quot; ;;esac Once things are up and running, hit your Apache server with an HTTP request. Because you’ve set up an STDOUT output you’ll get something similar to the following in /var/log/logstash/logstash.log: { &quot;request&quot; =&gt; &quot;/&quot;, &quot;agent&quot; =&gt; &quot;\&quot;Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.101 Safari/537.36\&quot;&quot;, &quot;auth&quot; =&gt; &quot;-&quot;, &quot;ident&quot; =&gt; &quot;-&quot;, &quot;verb&quot; =&gt; &quot;GET&quot;, &quot;message&quot; =&gt; &quot;10.1.1.1 - - [31/Aug/2017:20:47:12 +0000] \&quot;GET / HTTP/1.1\&quot; 302 233 \&quot;-\&quot; \&quot;Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.101 Safari/537.36\&quot;&quot;, &quot;path&quot; =&gt; &quot;/var/log/httpd/access_log&quot;, &quot;referrer&quot; =&gt; &quot;\&quot;-\&quot;&quot;, &quot;@timestamp&quot; =&gt; 2017-08-31T20:47:12.000Z, &quot;response&quot; =&gt; “200&quot;, &quot;bytes&quot; =&gt; &quot;233&quot;, &quot;clientip&quot; =&gt; &quot;10.1.1.1&quot;, &quot;@version&quot; =&gt; &quot;1&quot;, &quot;host&quot; =&gt; &quot;jupiter&quot;, &quot;httpversion&quot; =&gt; &quot;1.1&quot;, &quot;timestamp&quot; =&gt; &quot;31/Aug/2017:20:47:12 +0000&quot;} Also, because you set up an output to elasticsearch you will see this entry in there too: Check for the index as follows: curl &quot;http://10.1.1.100:9200/_cat/indices/logstash-*&quot; Take a look at the index as follows: curl &quot;http://10.1.1.100:9200/logstash-*?pretty&quot; # ------------------------------------------------------------------------------------------------------------------------------------- # Kibana # ------------------------------------------------------------------------------------------------------------------------------------- Install Kibana tar xvzf kibana-5.5.2-linux-x86_64.tar.gz -C /optcd /optmv kibana-5.5.2-linux-x86_64 kibana Configure Kibaba Edit /opt/kibana/config/kibana.yml, set server.host and elasticsearch.url Start kibana cd /opt/kibana/bin &amp;&amp; ./kibana &amp; Test kibana In a browser, navigate to http://10.1.1.100:5601 Navigate to dev tools In the left panel type GET _cat/indices and click the green arrow to run the query In the results window you should see the index created by logstash (when you made a request from Apache earlier) similar to: yellow open logstash-2017.08.31 uzTssKBfTuecbgGzth-ViA 5 1 2 0 23.2kb 23.2kb Navigate to Management Select Index patterns  Create an index pattern of logstash-* Our Grok filter that we set up in logstash should have created approx 38 feilds from the Apache log, you should see that many of these are agregatable which means they can be used in visualisations Navigate to Visualisations &gt; create visualisations &gt; vertical bar Select the logstash-* index pattern you created earlier  you’ll see the Y-axis is already set up as count  Under buckets select X-axis for aggregation select Date Histogram with a field of @timestamp Add a sub bucket with a bucket size of split series  select a sub aggregation of terms with a filed of response.keyword Run the visual by pressing the blue/white arrow (top left) p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 13.0px Helvetica} p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 13.0px Helvetica; min-height: 16.0px} li.li1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 13.0px Helvetica} li.li3 {margin: 0.0px 0.0px 0.0px 0.0px; font: 13.0px Helvetica; color: #9e4a2f} span.s1 {text-decoration: underline} span.Apple-tab-span {white-space:pre} ul.ul1 {list-style-type: disc} ul.ul2 {list-style-type: circle}" />
+<link rel="canonical" href="http://localhost:4000/2017/09/10/set-up-an-elk-stack-centos/" />
+<meta property="og:url" content="http://localhost:4000/2017/09/10/set-up-an-elk-stack-centos/" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2017-09-10T17:19:00+01:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Set up an ELK stack (CentOS)" />
+<script type="application/ld+json">
+{"headline":"Set up an ELK stack (CentOS)","dateModified":"2017-09-10T17:19:00+01:00","datePublished":"2017-09-10T17:19:00+01:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/2017/09/10/set-up-an-elk-stack-centos/"},"description":"# ------------------------------------------------------------------------------------------------------------------------------------- Elasticsearch # ------------------------------------------------------------------------------------------------------------------------------------- install java: yum install -y java Install elasticsearch:  yum install -y elasticsearch-5.5.2.rpm Start elasticsearch:  service elasticsearch start Configure elasticsearch /etc/elasticsearch/elasticsearch.yml Test elasticsearch: curl http://10.1.1.100:9200 this should return something like the following: { &quot;name&quot; : &quot;BT_A1W0&quot;, &quot;cluster_name&quot; : &quot;elasticsearch&quot;, &quot;cluster_uuid&quot; : &quot;85TTdoncTPqC2vAnEufDWQ&quot;, &quot;version&quot; : { &quot;number&quot; : &quot;5.5.2&quot;, &quot;build_hash&quot; : &quot;b2f0c09&quot;, &quot;build_date&quot; : &quot;2017-08-14T12:33:14.154Z&quot;, &quot;build_snapshot&quot; : false, &quot;lucene_version&quot; : &quot;6.6.0&quot; }, &quot;tagline&quot; : &quot;You Know, for Search&quot;} Create entry in elasticsearch: curl -XPUT &#39;10.1.1.100:9200/my_index/my_type/my_id&#39; -H &#39;Content-Type: application/json&#39; -d’{&quot;user&quot;:&quot;bob”,&quot;post_date&quot;:&quot;2009-11-15T14:12:12”,&quot;message&quot;:”hello&quot;}’ The PUT must be of the form /index/type/id (at least I think this is the case) List indexes curl &quot;http://10.1.1.100:9200/_cat/indices&quot; delete all indexes: curl -X DELETE &quot;http://10.1.1.100:9200/_all&quot; # ------------------------------------------------------------------------------------------------------------------------------------- # Logstash # ------------------------------------------------------------------------------------------------------------------------------------- Install logstash: yum install -y logstash-5.5.2.rpm &lt;/div&gt; Configure logstash:  Assuming you have Apache HTTP server installed, create /etc/logstash/conf.d/logstash.conf with the following contents: input { file { path =&gt; &quot;/var/log/httpd/access*&quot; start_position =&gt; “end&quot; }}filter { grok { match =&gt; { &quot;message&quot; =&gt; &quot;%{COMBINEDAPACHELOG}&quot; } } date { match =&gt; [ &quot;timestamp&quot; , &quot;dd/MMM/yyyy:HH:mm:ss Z&quot; ] }}output { stdout { codec =&gt; rubydebug } elasticsearch { hosts =&gt; [&quot;10.1.1.100:9200&quot;] }} Start logstash To test that things are working correctly, you can start in the foreground as follows: /usr/share/logstash/bin/logstash -f /etc/logstash/conf.d/logstash.conf Once you’re happy you may want to create a basic init.d script,  e.g: #!/bin/bashfunction start() { echo &quot;Starting logstash...&quot; /usr/share/logstash/bin/logstash -f /etc/logstash/conf.d/logstash.conf --config.reload.automatic &gt; /var/log/logstash/logstash.log 2&gt;&amp;1 &amp;}function stop() { echo &quot;Stopping logstash...&quot; pkill -9 -f .+logstash/runner.rb}case $1 in start) start ;; stop) stop ;; restart) stop sleep 3 start ;; *) echo &quot;&quot; echo &quot;Usage $0 start|stop|restart&quot; echo &quot;&quot; ;;esac Once things are up and running, hit your Apache server with an HTTP request. Because you’ve set up an STDOUT output you’ll get something similar to the following in /var/log/logstash/logstash.log: { &quot;request&quot; =&gt; &quot;/&quot;, &quot;agent&quot; =&gt; &quot;\\&quot;Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.101 Safari/537.36\\&quot;&quot;, &quot;auth&quot; =&gt; &quot;-&quot;, &quot;ident&quot; =&gt; &quot;-&quot;, &quot;verb&quot; =&gt; &quot;GET&quot;, &quot;message&quot; =&gt; &quot;10.1.1.1 - - [31/Aug/2017:20:47:12 +0000] \\&quot;GET / HTTP/1.1\\&quot; 302 233 \\&quot;-\\&quot; \\&quot;Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.101 Safari/537.36\\&quot;&quot;, &quot;path&quot; =&gt; &quot;/var/log/httpd/access_log&quot;, &quot;referrer&quot; =&gt; &quot;\\&quot;-\\&quot;&quot;, &quot;@timestamp&quot; =&gt; 2017-08-31T20:47:12.000Z, &quot;response&quot; =&gt; “200&quot;, &quot;bytes&quot; =&gt; &quot;233&quot;, &quot;clientip&quot; =&gt; &quot;10.1.1.1&quot;, &quot;@version&quot; =&gt; &quot;1&quot;, &quot;host&quot; =&gt; &quot;jupiter&quot;, &quot;httpversion&quot; =&gt; &quot;1.1&quot;, &quot;timestamp&quot; =&gt; &quot;31/Aug/2017:20:47:12 +0000&quot;} Also, because you set up an output to elasticsearch you will see this entry in there too: Check for the index as follows: curl &quot;http://10.1.1.100:9200/_cat/indices/logstash-*&quot; Take a look at the index as follows: curl &quot;http://10.1.1.100:9200/logstash-*?pretty&quot; # ------------------------------------------------------------------------------------------------------------------------------------- # Kibana # ------------------------------------------------------------------------------------------------------------------------------------- Install Kibana tar xvzf kibana-5.5.2-linux-x86_64.tar.gz -C /optcd /optmv kibana-5.5.2-linux-x86_64 kibana Configure Kibaba Edit /opt/kibana/config/kibana.yml, set server.host and elasticsearch.url Start kibana cd /opt/kibana/bin &amp;&amp; ./kibana &amp; Test kibana In a browser, navigate to http://10.1.1.100:5601 Navigate to dev tools In the left panel type GET _cat/indices and click the green arrow to run the query In the results window you should see the index created by logstash (when you made a request from Apache earlier) similar to: yellow open logstash-2017.08.31 uzTssKBfTuecbgGzth-ViA 5 1 2 0 23.2kb 23.2kb Navigate to Management Select Index patterns  Create an index pattern of logstash-* Our Grok filter that we set up in logstash should have created approx 38 feilds from the Apache log, you should see that many of these are agregatable which means they can be used in visualisations Navigate to Visualisations &gt; create visualisations &gt; vertical bar Select the logstash-* index pattern you created earlier  you’ll see the Y-axis is already set up as count  Under buckets select X-axis for aggregation select Date Histogram with a field of @timestamp Add a sub bucket with a bucket size of split series  select a sub aggregation of terms with a filed of response.keyword Run the visual by pressing the blue/white arrow (top left) p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 13.0px Helvetica} p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 13.0px Helvetica; min-height: 16.0px} li.li1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 13.0px Helvetica} li.li3 {margin: 0.0px 0.0px 0.0px 0.0px; font: 13.0px Helvetica; color: #9e4a2f} span.s1 {text-decoration: underline} span.Apple-tab-span {white-space:pre} ul.ul1 {list-style-type: disc} ul.ul2 {list-style-type: circle}","url":"http://localhost:4000/2017/09/10/set-up-an-elk-stack-centos/","@type":"BlogPosting","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" /></head>
+<body><header class="site-header" role="banner">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/"></a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Set up an ELK stack (CentOS)</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2017-09-10T17:19:00+01:00" itemprop="datePublished">Sep 10, 2017
+      </time>• <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span class="p-author h-card" itemprop="name">{"login"=>"bobmclarke915800472", "email"=>"bob.mclarke@gmail.com", "display_name"=>"Bob Clarke", "first_name"=>"", "last_name"=>""}</span></span></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <div class="p1"># -------------------------------------------------------------------------------------------------------------------------------------</div>
+<div class="p1"><b>Elasticsearch</b></div>
+<div class="p1"># -------------------------------------------------------------------------------------------------------------------------------------</div>
+<div class="p2"></div>
+<div class="p1"><b>install java:</b></div>
+<div class="p1">yum install -y java</div>
+<div class="p2"><b></b></div>
+<div class="p1"><b>Install elasticsearch: </b></div>
+<div class="p1">yum install -y elasticsearch-5.5.2.rpm</div>
+<div class="p2"><b></b></div>
+<div class="p1"><b>Start elasticsearch:</b> </div>
+<div class="p1">service elasticsearch start</div>
+<div class="p2"></div>
+<div class="p1"><b>Configure elasticsearch</b></div>
+<div class="p1">/etc/elasticsearch/elasticsearch.yml</div>
+<div class="p2"></div>
+<div class="p1"><b>Test elasticsearch:</b></div>
+<div class="p1">curl http://10.1.1.100:9200</div>
+<div class="p2"></div>
+<div class="p1">this should return something like the following:</div>
+<div style="background:#f8f8f8;border-width:.1em .1em .1em .8em;border:solid gray;overflow:auto;padding:.2em .6em;width:auto;">
+<pre style="line-height:125%;margin:0;">{<br />  <span style="color:green;font-weight:bold;">"name"</span> : <span style="color:#ba2121;">"BT_A1W0"</span>,<br />  <span style="color:green;font-weight:bold;">"cluster_name"</span> : <span style="color:#ba2121;">"elasticsearch"</span>,<br />  <span style="color:green;font-weight:bold;">"cluster_uuid"</span> : <span style="color:#ba2121;">"85TTdoncTPqC2vAnEufDWQ"</span>,<br />  <span style="color:green;font-weight:bold;">"version"</span> : {<br />    <span style="color:green;font-weight:bold;">"number"</span> : <span style="color:#ba2121;">"5.5.2"</span>,<br />    <span style="color:green;font-weight:bold;">"build_hash"</span> : <span style="color:#ba2121;">"b2f0c09"</span>,<br />    <span style="color:green;font-weight:bold;">"build_date"</span> : <span style="color:#ba2121;">"2017-08-14T12:33:14.154Z"</span>,<br />    <span style="color:green;font-weight:bold;">"build_snapshot"</span> : <span style="color:green;font-weight:bold;">false</span>,<br />    <span style="color:green;font-weight:bold;">"lucene_version"</span> : <span style="color:#ba2121;">"6.6.0"</span><br />  },<br />  <span style="color:green;font-weight:bold;">"tagline"</span> : <span style="color:#ba2121;">"You Know, for Search"</span><br />}<br /></pre>
+</div>
+<div class="p1"></div>
+<div class="p2"></div>
+<div class="p1"><b>Create entry in elasticsearch:</b></div>
+<div style="background:#f8f8f8;border-width:.1em .1em .1em .8em;border:solid gray;overflow:auto;padding:.2em .6em;width:auto;">
+<pre style="line-height:125%;margin:0;">curl -XPUT <span style="color:#ba2121;">'10.1.1.100:9200/my_index/my_type/my_id'</span> -H <span style="color:#ba2121;">'Content-Type: application/json'</span> -d’<br /><span style="color:#666666;">{</span><br /><span style="color:#ba2121;">"user"</span>:<span style="color:#ba2121;">"bob”,</span><br /><span style="color:#ba2121;">"</span>post_date<span style="color:#ba2121;">":"</span>2009-11-15T14:12:12”,<br /><span style="color:#ba2121;">"message"</span>:”hello<span style="border:0 solid #FF0000;">"</span><br /><span style="color:#666666;">}</span>’<br /></pre>
+</div>
+<div class="p1"></div>
+<div class="p1">The PUT must be of the form <b>/index/type/id </b>(at least I think this is the case)</div>
+<div class="p2"></div>
+<div class="p1"><b>List indexes</b></div>
+<div style="background:#f8f8f8;border-width:.1em .1em .1em .8em;border:solid gray;overflow:auto;padding:.2em .6em;width:auto;">
+<pre style="line-height:125%;margin:0;">curl <span style="color:#ba2121;">"http://10.1.1.100:9200/_cat/indices"</span><br /></pre>
+</div>
+<div class="p1"></div>
+<div class="p2"></div>
+<div class="p1"><b>delete all indexes:</b></div>
+<div style="background:#f8f8f8;border-width:.1em .1em .1em .8em;border:solid gray;overflow:auto;padding:.2em .6em;width:auto;">
+<pre style="line-height:125%;margin:0;">curl -X DELETE <span style="color:#ba2121;">"http://10.1.1.100:9200/_all"</span><br /></pre>
+</div>
+<div class="p1"></div>
+<div class="p2"></div>
+<div class="p2"><b></b></div>
+<div class="p1"># -------------------------------------------------------------------------------------------------------------------------------------</div>
+<div class="p1">#<b> Logstash</b></div>
+<div class="p1"># -------------------------------------------------------------------------------------------------------------------------------------</div>
+<div class="p2"></div>
+<div class="p1"><b>Install logstash:</b></div>
+<div class="p1">
+<div style="background:#f8f8f8;border-width:.1em .1em .1em .8em;border:solid gray;overflow:auto;padding:.2em .6em;width:auto;">
+<pre style="line-height:125%;margin:0;">yum install -y logstash-5.5.2.rpm<br /></pre>
+</div>
+<p></div>
+<div class="p1"><b>Configure logstash: </b></div>
+<div class="p2"><b></b></div>
+<div class="p1">Assuming you have Apache HTTP server installed, create /etc/logstash/conf.d/logstash.conf with the following contents:</div>
+<div style="background:#f8f8f8;border-width:.1em .1em .1em .8em;border:solid gray;overflow:auto;padding:.2em .6em;width:auto;">
+<pre style="line-height:125%;margin:0;">input <span style="color:#666666;">{</span><br />  file <span style="color:#666666;">{</span><br />    <span style="color:#19177c;">path</span> <span style="color:#666666;">=</span>&gt; <span style="color:#ba2121;">"/var/log/httpd/access*"</span><br />    <span style="color:#19177c;">start_position</span> <span style="color:#666666;">=</span>&gt; “end<span style="color:#ba2121;">"</span><br /><span style="color:#ba2121;">  }</span><br /><span style="color:#ba2121;">}</span><br /><br /><span style="color:#ba2121;">filter {</span><br /><span style="color:#ba2121;">  grok {</span><br /><span style="color:#ba2121;">    match =&gt; { "</span>message<span style="color:#ba2121;">" =&gt; "</span>%<span style="color:#666666;">{</span>COMBINEDAPACHELOG<span style="color:#666666;">}</span><span style="color:#ba2121;">" }</span><br /><span style="color:#ba2121;">  }</span><br /><span style="color:#ba2121;">  date {</span><br /><span style="color:#ba2121;">    match =&gt; [ "</span>timestamp<span style="color:#ba2121;">" , "</span>dd/MMM/yyyy:HH:mm:ss Z<span style="color:#ba2121;">" ]</span><br /><span style="color:#ba2121;">  }</span><br /><span style="color:#ba2121;">}</span><br /><br /><span style="color:#ba2121;">output {</span><br /><span style="color:#ba2121;">  stdout {</span><br /><span style="color:#ba2121;">    codec =&gt; rubydebug</span><br /><span style="color:#ba2121;">  }</span><br /><span style="color:#ba2121;">  elasticsearch {</span><br /><span style="color:#ba2121;">    hosts =&gt; ["</span>10.1.1.100:9200<span style="border:0 solid #FF0000;">"</span><span style="color:#666666;">]</span><br />  <span style="color:#666666;">}</span><br /><span style="color:#666666;">}</span><br /></pre>
+</div>
+<div class="p2"></div>
+<div class="p1"></div>
+<div class="p2"></div>
+<div class="p2"><b>Start logstash</b><b></b><br /><b><br /></b></div>
+<div class="p2"><b></b></div>
+<div class="p1">To test that things are working correctly, you can start in the foreground as follows:</div>
+<div style="background:#f8f8f8;border-width:.1em .1em .1em .8em;border:solid gray;overflow:auto;padding:.2em .6em;width:auto;">
+<pre style="line-height:125%;margin:0;">/usr/share/logstash/bin/logstash -f /etc/logstash/conf.d/logstash.conf<br /></pre>
+</div>
+<div class="p1"></div>
+<div class="p1">Once you’re happy you may want to create a basic init.d script,  e.g:</div>
+<p><!-- HTML generated using hilite.me -->
+<div style="background:#f8f8f8;border-width:.1em .1em .1em .8em;border:solid gray;overflow:auto;padding:.2em .6em;width:auto;">
+<pre style="line-height:125%;margin:0;"><span style="color:#408080;font-style:italic;">#!/bin/bash</span><br /><br /><span style="color:green;font-weight:bold;">function </span>start<span style="color:#666666;">()</span> <span style="color:#666666;">{</span><br />        <span style="color:green;">echo</span> <span style="color:#ba2121;">"Starting logstash..."</span><br />        /usr/share/logstash/bin/logstash -f /etc/logstash/conf.d/logstash.conf --config.reload.automatic &gt; /var/log/logstash/logstash.log 2&gt;&amp;1 &amp;<br /><span style="color:#666666;">}</span><br /><br /><span style="color:green;font-weight:bold;">function </span>stop<span style="color:#666666;">()</span> <span style="color:#666666;">{</span><br />        <span style="color:green;">echo</span> <span style="color:#ba2121;">"Stopping logstash..."</span><br />        pkill -9 -f .+logstash/runner.rb<br /><span style="color:#666666;">}</span><br /><br /><span style="color:green;font-weight:bold;">case</span> <span style="color:#19177c;">$1</span> in<br />        start<span style="color:#666666;">)</span><br />                start<br />                ;;<br /><br />        stop<span style="color:#666666;">)</span><br />                stop<br />                ;;<br /><br />        restart<span style="color:#666666;">)</span><br />                stop<br />                sleep 3<br />                start<br />                ;;<br /><br />        *<span style="color:#666666;">)</span><br />                <span style="color:green;">echo</span> <span style="color:#ba2121;">""</span><br />                <span style="color:green;">echo</span> <span style="color:#ba2121;">"Usage $0 start|stop|restart"</span><br />                <span style="color:green;">echo</span> <span style="color:#ba2121;">""</span><br />                ;;<br /><span style="color:green;font-weight:bold;">esac</span><br /></pre>
+</div>
+<div class="p2"></div>
+<div class="p1"></div>
+<div class="p2"></div>
+<div class="p1">Once things are up and running, hit your Apache server with an HTTP request. Because you’ve set up an STDOUT output you’ll get something similar to the following in /var/log/logstash/logstash.log:</div>
+<p><!-- HTML generated using hilite.me -->
+<div style="background:#f8f8f8;border-width:.1em .1em .1em .8em;border:solid gray;overflow:auto;padding:.2em .6em;width:auto;">
+<pre style="line-height:125%;margin:0;"><span style="color:#666666;">{</span><br />        <span style="color:#ba2121;">"request"</span> <span style="color:#666666;">=</span>&gt; <span style="color:#ba2121;">"/"</span>,<br />        <span style="color:#ba2121;">"agent"</span> <span style="color:#666666;">=</span>&gt; <span style="color:#ba2121;">"\"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.101 Safari/537.36\""</span>,<br />        <span style="color:#ba2121;">"auth"</span> <span style="color:#666666;">=</span>&gt; <span style="color:#ba2121;">"-"</span>,<br />        <span style="color:#ba2121;">"ident"</span> <span style="color:#666666;">=</span>&gt; <span style="color:#ba2121;">"-"</span>,<br />        <span style="color:#ba2121;">"verb"</span> <span style="color:#666666;">=</span>&gt; <span style="color:#ba2121;">"GET"</span>,<br />        <span style="color:#ba2121;">"message"</span> <span style="color:#666666;">=</span>&gt; <span style="color:#ba2121;">"10.1.1.1 - - [31/Aug/2017:20:47:12 +0000] \"GET / HTTP/1.1\" 302 233 \"-\" \"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.101 Safari/537.36\""</span>,<br />        <span style="color:#ba2121;">"path"</span> <span style="color:#666666;">=</span>&gt; <span style="color:#ba2121;">"/var/log/httpd/access_log"</span>,<br />        <span style="color:#ba2121;">"referrer"</span> <span style="color:#666666;">=</span>&gt; <span style="color:#ba2121;">"\"-\""</span>,<br />        <span style="color:#ba2121;">"@timestamp"</span> <span style="color:#666666;">=</span>&gt; 2017-08-31T20:47:12.000Z,<br />        <span style="color:#ba2121;">"response"</span> <span style="color:#666666;">=</span>&gt; “200<span style="color:#ba2121;">",</span><br /><span style="color:#ba2121;">        "</span>bytes<span style="color:#ba2121;">" =&gt; "</span>233<span style="color:#ba2121;">",</span><br /><span style="color:#ba2121;">        "</span>clientip<span style="color:#ba2121;">" =&gt; "</span>10.1.1.1<span style="color:#ba2121;">",</span><br /><span style="color:#ba2121;">        "</span>@version<span style="color:#ba2121;">" =&gt; "</span>1<span style="color:#ba2121;">",</span><br /><span style="color:#ba2121;">        "</span>host<span style="color:#ba2121;">" =&gt; "</span>jupiter<span style="color:#ba2121;">",</span><br /><span style="color:#ba2121;">        "</span>httpversion<span style="color:#ba2121;">" =&gt; "</span>1.1<span style="color:#ba2121;">",</span><br /><span style="color:#ba2121;">        "</span>timestamp<span style="color:#ba2121;">" =&gt; "</span>31/Aug/2017:20:47:12 +0000<span style="border:0 solid #FF0000;">"</span><br /><span style="color:#666666;">}</span><br /></pre>
+</div>
+<div class="p2"></div>
+<div class="p1"></div>
+<div class="p2"></div>
+<div class="p2">Also, because you set up an output to elasticsearch you will see this entry in there too:</div>
+<div class="p2"></div>
+<div class="p1">Check for the index as follows:</div>
+<p><!-- HTML generated using hilite.me -->
+<div style="background:#f8f8f8;border-width:.1em .1em .1em .8em;border:solid gray;overflow:auto;padding:.2em .6em;width:auto;">
+<pre style="line-height:125%;margin:0;">curl <span style="color:#ba2121;">"http://10.1.1.100:9200/_cat/indices/logstash-*"</span><br /></pre>
+</div>
+<div class="p1"></div>
+<div class="p1">Take a look at the index as follows:</div>
+<p><!-- HTML generated using hilite.me -->
+<div style="background:#f8f8f8;border-width:.1em .1em .1em .8em;border:solid gray;overflow:auto;padding:.2em .6em;width:auto;">
+<pre style="line-height:125%;margin:0;">curl <span style="color:#ba2121;">"http://10.1.1.100:9200/logstash-*?pretty"</span><br /></pre>
+</div>
+<div class="p1"></div>
+<div class="p2"></div>
+<div class="p2"># -------------------------------------------------------------------------------------------------------------------------------------</div>
+<div class="p1">#<b> Kibana</b></div>
+<div class="p1"># -------------------------------------------------------------------------------------------------------------------------------------</div>
+<div class="p2"></div>
+<div class="p1"><b>Install Kibana</b></div>
+<p><!-- HTML generated using hilite.me -->
+<div style="background:#f8f8f8;border-width:.1em .1em .1em .8em;border:solid gray;overflow:auto;padding:.2em .6em;width:auto;">
+<pre style="line-height:125%;margin:0;">tar xvzf kibana-5.5.2-linux-x86_64.tar.gz -C /opt<br /><span style="color:green;">cd</span> /opt<br />mv kibana-5.5.2-linux-x86_64 kibana</pre>
+</div>
+<div class="p2"></div>
+<div class="p1"><b>Configure Kibaba</b></div>
+<div class="p1">Edit /opt/kibana/config/kibana.yml, set <b>server.host</b> and elasticsearch.url</div>
+<div class="p2"></div>
+<div class="p1"><b>Start kibana</b></div>
+<p><!-- HTML generated using hilite.me -->
+<div style="background:#f8f8f8;border-width:.1em .1em .1em .8em;border:solid gray;overflow:auto;padding:.2em .6em;width:auto;">
+<pre style="line-height:125%;margin:0;"><span style="color:green;">cd</span> /opt/kibana/bin <span style="color:#666666;">&amp;&amp;</span> ./kibana &amp;<br /></pre>
+</div>
+<div class="p1"></div>
+<div class="p1"><b>Test kibana</b></div>
+<ul class="ul1">
+<li class="li3">In a browser, navigate to http://10.1.1.100:5601</li>
+<li class="li1">Navigate to dev tools</li>
+<li class="li1">In the left panel type <b>GET _cat/indices</b> and click the green arrow to run the query</li>
+<li class="li1">In the results window you should see the index created by logstash (when you made a request from Apache earlier) similar to:</li>
+<ul class="ul2"><!-- HTML generated using hilite.me -->
+<div style="background:#f8f8f8;border-width:.1em .1em .1em .8em;border:solid gray;overflow:auto;padding:.2em .6em;width:auto;">
+<pre style="line-height:125%;margin:0;">yellow open logstash-2017.08.31 uzTssKBfTuecbgGzth-ViA 5 1 2 0 23.2kb 23.2kb<br /></pre>
+</div>
+</ul>
+<li class="li1">Navigate to Management</li>
+<li class="li1">Select Index patterns </li>
+<li class="li1">Create an index pattern of logstash-*</li>
+<li class="li1">Our Grok filter that we set up in logstash should have created approx 38 feilds from the Apache log, you should see that many of these are agregatable which means they can be used in visualisations</li>
+</ul>
+<ul class="ul1">
+<li class="li1">Navigate to Visualisations &gt; create visualisations &gt; vertical bar</li>
+<li class="li1">Select the logstash-* index pattern you created earlier </li>
+<li class="li1">you’ll see the Y-axis is already set up as count </li>
+<li class="li1">Under buckets select X-axis</li>
+<li class="li1">for aggregation select Date Histogram with a field of @timestamp</li>
+<li class="li1">Add a sub bucket with a bucket size of split series </li>
+<li class="li1">select a sub aggregation of terms with a filed of response.keyword</li>
+<li class="li1">Run the visual by pressing the blue/white arrow (top left)</li>
+</ul>
+<p>p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 13.0px Helvetica} p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 13.0px Helvetica; min-height: 16.0px} li.li1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 13.0px Helvetica} li.li3 {margin: 0.0px 0.0px 0.0px 0.0px; font: 13.0px Helvetica; color: #9e4a2f} span.s1 {text-decoration: underline} span.Apple-tab-span {white-space:pre} ul.ul1 {list-style-type: disc} ul.ul2 {list-style-type: circle}                                                                                                                                                                                                  
+<div class="p1"></div>
+
+  </div><a class="u-url" href="/2017/09/10/set-up-an-elk-stack-centos/" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading"></h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name"></li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p></p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

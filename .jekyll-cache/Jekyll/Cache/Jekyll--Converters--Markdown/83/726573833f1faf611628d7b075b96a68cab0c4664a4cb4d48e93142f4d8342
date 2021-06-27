@@ -1,0 +1,8 @@
+I"ì<p><span style="font-family:verdana, sans-serif;font-size:large;">Run the following command from the host machine:</span>
+<div style="background:#f8f8f8;border-width:.1em .1em .1em .8em;border:solid gray;overflow:auto;padding:.2em .6em;width:auto;">
+<pre style="line-height:125%;margin:0;"><span style="font-size:large;">docker <span style="color:green;">exec</span> -itu 0  bash</span></pre>
+</div>
+<p><span>Explanation:</span><br /><span>The -i option means this session should be interactive</span><br /><span>The -t option means attach the session to a tty</span><br /><span>The -u 0 option means run the session as uid zero, which is of course root</span><br /><span>And finally the command to run in this case is bash</span></p>
+<p></p>
+</p>
+:ET

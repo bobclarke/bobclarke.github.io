@@ -1,0 +1,47 @@
+---
+layout: post
+title: ssh tunneling (localport)
+date: 2018-02-09 10:04:00.000000000 +00:00
+type: post
+parent_id: '0'
+published: true
+password: ''
+status: publish
+categories: []
+tags:
+- proxy
+- ssh
+- tunneling
+meta:
+  restapi_import_id: 5b6f197fa2b75
+  _publicize_job_id: '21247511037'
+author:
+  login: bobmclarke915800472
+  email: bob.mclarke@gmail.com
+  display_name: Bob Clarke
+  first_name: ''
+  last_name: ''
+permalink: "/2018/02/09/ssh-tunneling-localport/"
+---
+<p>The syntax is:</p>
+<pre class="code">ssh  -L  local_port:target_host:target_port  bastion_host
+</pre>
+<p>Forward port 2525 on your local machine to port 25 on mail.exmaple.net via bastion.stack1.com:</p>
+<pre class="code">ssh  -L  40000:ldap.stack1.com:389  bastion.stack1.com:389</pre>
+<p>As above but don't start a shell on the bastion (-N) and run ssh in the background (-f)</p>
+<pre>ssh -L 40000:ldap.stack1.com:389 bastion.stack1.com -N -f</pre>
+<p>Put a shortcut in .ssh/config:</p>
+<pre class="code">Host ldap-tunnel
+    HostName bastion-host
+    LocalForward local-port  target-host:target-port
+    User user-on-bastion-host
+    IdentityFile ~/.ssh/ private-key-for-user-on-bastion-host
+
+Host ldap-tunnel
+    HostName bastion.stack1.com
+    LocalForward 40000 ldap.stack1.com:389
+    User clarkeb
+    IdentityFile ~/.ssh/clarkeb_rsa</pre>
+<p>If I now ran ssh ldap-tunnel -f -N I could connect my ldap client to port 40000 on my local machine and this would tunnel through to port 389 on ldap.stack1.com</p>
+<hr />
+<p>&nbsp;</p>

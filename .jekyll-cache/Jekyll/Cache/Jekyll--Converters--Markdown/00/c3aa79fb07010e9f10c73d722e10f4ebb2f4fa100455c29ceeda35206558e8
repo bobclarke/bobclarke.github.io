@@ -1,0 +1,10 @@
+I"­<p><!-- HTML for divs generated using hilite.me --><b> <span> Using a file with the following contents: </span></b> 
+<div style="background:#f8f8f8;border-width:.1em .1em .1em .8em;border:solid gray;font-size:18px;overflow:auto;padding:.2em .6em;width:auto;">line 1<br />line 2<br />line 3<br />line 4<br />line 5<br />line 6<br />line 7<br />line 8<br />line 9<br />line 10</div>
+<p><b><span>cat test_data | grep -B2 'line 5' </span></b> 
+<div style="background:#f8f8f8;border-width:.1em .1em .1em .8em;border:solid gray;font-size:18px;overflow:auto;padding:.2em .6em;width:auto;">will display:<br />line 3<br />line 4<br />line 5</div>
+<p> <b><span>cat test_data | grep -A2 'line 5' </span></b>
+<div style="background:#f8f8f8;border-width:.1em .1em .1em .8em;border:solid gray;font-size:18px;overflow:auto;padding:.2em .6em;width:auto;">will display:<br />line 5<br />line 6<br />line 7</div>
+<p> <b><span>cat test_data | grep -A2 -B2 'line 5' </span></b>
+<div style="background:#f8f8f8;border-width:.1em .1em .1em .8em;border:solid gray;font-size:18px;overflow:auto;padding:.2em .6em;width:auto;">will display:<br />line 3<br />line 4<br />line 5<br />line 6<br />line 7</div>
+</p></p></p></p>
+:ET

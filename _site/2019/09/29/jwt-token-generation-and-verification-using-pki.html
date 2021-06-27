@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.7.1 -->
+<title>JWT Token generation and verification using PKI</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="JWT Token generation and verification using PKI" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="In this exercise we&#39;ll use two separate browser windows on https://jwt.io. In window1 we’ll be generating our JWT token and in window2 we’ll be verifying it. Instead of a shared secret we&#39;ll be using asymmetric keys. A great learning source for JWT can be found here https://www.youtube.com/watch?v=7Q17ubqLfaM&amp;t=588s Generate a private&nbsp;key&nbsp;as&nbsp;follows: openssl genpkey -algorithm RSA -out private_key.pem -pkeyopt rsa_keygen_bits:2048 Now extract the public key openssl rsa -pubout -in private_key.pem -out public_key.pem Now carry out the following steps in window1 set the header as {&quot;alg&quot;: &quot;RS256”, &quot;typ&quot;: &quot;JWT”} set the payload as {&quot;sub&quot;: &quot;1234567890”, &quot;name&quot;: &quot;Bob Clarke”, &quot;iat&quot;: 1516239022} Paste the private and public keys into the relevant windows (including the BEGIN and END markers) - NOTE, at this stage you don’t actually require the public key as we’re only generating the token and not validating it. This will generate the following token: eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkJvYiBDbGFya2UiLCJpYXQiOjE1MTYyMzkwMjJ9.An3zJCNTsAc0w1Lx8vEcBWiPOsJVOrtyFJFgHPKvn64iTvDvY9yDABjKS3MGLZtboLoT62K1LsqA0MyZA_xLTObAwMsc_agg1U49MDREtaGsmaakaRozVtysOM4P0ixCDrbhlYKfS2jL0uUgRwDVEw6AuSl3ZZHPCp1dS0FMtiEu_YFHTG4wy_qt7WO5KufvZ1ftFHLbXXjiQk7L4M2JL7iuzFRMJIlrWpsJisKtyJzdjocE0PKLqQJV8DjLYtGm_DYvSpnaGN9tf6A9KtFybEwg0d6bOMvW7fK7SE0W4YMtk32Sj3X3aXT0UW_ztbymDVd4-i8HMawfIh_2SKKFDw" />
+<meta property="og:description" content="In this exercise we&#39;ll use two separate browser windows on https://jwt.io. In window1 we’ll be generating our JWT token and in window2 we’ll be verifying it. Instead of a shared secret we&#39;ll be using asymmetric keys. A great learning source for JWT can be found here https://www.youtube.com/watch?v=7Q17ubqLfaM&amp;t=588s Generate a private&nbsp;key&nbsp;as&nbsp;follows: openssl genpkey -algorithm RSA -out private_key.pem -pkeyopt rsa_keygen_bits:2048 Now extract the public key openssl rsa -pubout -in private_key.pem -out public_key.pem Now carry out the following steps in window1 set the header as {&quot;alg&quot;: &quot;RS256”, &quot;typ&quot;: &quot;JWT”} set the payload as {&quot;sub&quot;: &quot;1234567890”, &quot;name&quot;: &quot;Bob Clarke”, &quot;iat&quot;: 1516239022} Paste the private and public keys into the relevant windows (including the BEGIN and END markers) - NOTE, at this stage you don’t actually require the public key as we’re only generating the token and not validating it. This will generate the following token: eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkJvYiBDbGFya2UiLCJpYXQiOjE1MTYyMzkwMjJ9.An3zJCNTsAc0w1Lx8vEcBWiPOsJVOrtyFJFgHPKvn64iTvDvY9yDABjKS3MGLZtboLoT62K1LsqA0MyZA_xLTObAwMsc_agg1U49MDREtaGsmaakaRozVtysOM4P0ixCDrbhlYKfS2jL0uUgRwDVEw6AuSl3ZZHPCp1dS0FMtiEu_YFHTG4wy_qt7WO5KufvZ1ftFHLbXXjiQk7L4M2JL7iuzFRMJIlrWpsJisKtyJzdjocE0PKLqQJV8DjLYtGm_DYvSpnaGN9tf6A9KtFybEwg0d6bOMvW7fK7SE0W4YMtk32Sj3X3aXT0UW_ztbymDVd4-i8HMawfIh_2SKKFDw" />
+<link rel="canonical" href="http://localhost:4000/2019/09/29/jwt-token-generation-and-verification-using-pki.html" />
+<meta property="og:url" content="http://localhost:4000/2019/09/29/jwt-token-generation-and-verification-using-pki.html" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2019-09-29T20:18:21+01:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="JWT Token generation and verification using PKI" />
+<script type="application/ld+json">
+{"headline":"JWT Token generation and verification using PKI","dateModified":"2019-09-29T20:18:21+01:00","datePublished":"2019-09-29T20:18:21+01:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/2019/09/29/jwt-token-generation-and-verification-using-pki.html"},"description":"In this exercise we&#39;ll use two separate browser windows on https://jwt.io. In window1 we’ll be generating our JWT token and in window2 we’ll be verifying it. Instead of a shared secret we&#39;ll be using asymmetric keys. A great learning source for JWT can be found here https://www.youtube.com/watch?v=7Q17ubqLfaM&amp;t=588s Generate a private&nbsp;key&nbsp;as&nbsp;follows: openssl genpkey -algorithm RSA -out private_key.pem -pkeyopt rsa_keygen_bits:2048 Now extract the public key openssl rsa -pubout -in private_key.pem -out public_key.pem Now carry out the following steps in window1 set the header as {&quot;alg&quot;: &quot;RS256”, &quot;typ&quot;: &quot;JWT”} set the payload as {&quot;sub&quot;: &quot;1234567890”, &quot;name&quot;: &quot;Bob Clarke”, &quot;iat&quot;: 1516239022} Paste the private and public keys into the relevant windows (including the BEGIN and END markers) - NOTE, at this stage you don’t actually require the public key as we’re only generating the token and not validating it. This will generate the following token: eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkJvYiBDbGFya2UiLCJpYXQiOjE1MTYyMzkwMjJ9.An3zJCNTsAc0w1Lx8vEcBWiPOsJVOrtyFJFgHPKvn64iTvDvY9yDABjKS3MGLZtboLoT62K1LsqA0MyZA_xLTObAwMsc_agg1U49MDREtaGsmaakaRozVtysOM4P0ixCDrbhlYKfS2jL0uUgRwDVEw6AuSl3ZZHPCp1dS0FMtiEu_YFHTG4wy_qt7WO5KufvZ1ftFHLbXXjiQk7L4M2JL7iuzFRMJIlrWpsJisKtyJzdjocE0PKLqQJV8DjLYtGm_DYvSpnaGN9tf6A9KtFybEwg0d6bOMvW7fK7SE0W4YMtk32Sj3X3aXT0UW_ztbymDVd4-i8HMawfIh_2SKKFDw","url":"http://localhost:4000/2019/09/29/jwt-token-generation-and-verification-using-pki.html","@type":"BlogPosting","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" /></head>
+<body><header class="site-header" role="banner">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/"></a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">JWT Token generation and verification using PKI</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2019-09-29T20:18:21+01:00" itemprop="datePublished">Sep 29, 2019
+      </time></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <p><!-- wp:paragraph --></p>
+<p>In this exercise we'll use two separate browser windows on <a href="https://jwt.io/">https://jwt.io</a>. In window1 we’ll be generating our JWT token and in window2 we’ll be verifying it.  Instead of a shared secret we'll be using asymmetric keys.</p>
+<p><!-- /wp:paragraph --></p>
+<p><!-- wp:paragraph --></p>
+<p>A great learning source for JWT can be found here <a href="https://www.youtube.com/watch?v=7Q17ubqLfaM&amp;t=588s">https://www.youtube.com/watch?v=7Q17ubqLfaM&amp;t=588s</a></p>
+<p><!-- /wp:paragraph --></p>
+<p><!-- wp:paragraph --></p>
+<p>Generate a private&nbsp;key&nbsp;as&nbsp;follows:</p>
+<p><!-- /wp:paragraph --></p>
+<p><!-- wp:preformatted --></p>
+<pre class="wp-block-preformatted">openssl genpkey -algorithm RSA -out private_key.pem -pkeyopt rsa_keygen_bits:2048</pre>
+<p><!-- /wp:preformatted --></p>
+<p><!-- wp:paragraph --></p>
+<p>Now extract the public key </p>
+<p><!-- /wp:paragraph --></p>
+<p><!-- wp:preformatted --></p>
+<pre class="wp-block-preformatted">openssl rsa -pubout -in private_key.pem -out public_key.pem</pre>
+<p><!-- /wp:preformatted --></p>
+<p><!-- wp:paragraph --></p>
+<p><!-- /wp:paragraph --></p>
+<p><!-- wp:paragraph --></p>
+<p>Now carry out the following steps in window1 </p>
+<p><!-- /wp:paragraph --></p>
+<p><!-- wp:list --></p>
+<ul>
+<li>set the header as {"alg": "RS256”, "typ": "JWT”}</li>
+<li>set the payload as {"sub": "1234567890”, "name": "Bob Clarke”, "iat": 1516239022}</li>
+<li>Paste the private and public keys into the relevant windows (including the BEGIN and END  markers) - NOTE, at this stage you don’t actually require the public key as we’re only generating the token and not validating it. </li>
+</ul>
+<p><!-- /wp:list --></p>
+<p><!-- wp:paragraph --></p>
+<p>This will generate the following token:</p>
+<p><!-- /wp:paragraph --></p>
+<p><!-- wp:html --></p>
+<div style="padding:3px;width:95%;word-wrap:break-word;font-size:16px;">
+<font color="red">eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9</font>.<font color="purple">eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkJvYiBDbGFya2UiLCJpYXQiOjE1MTYyMzkwMjJ9</font>.<font color="#3185FC">An3zJCNTsAc0w1Lx8vEcBWiPOsJVOrtyFJFgHPKvn64iTvDvY9yDABjKS3MGLZtboLoT62K1LsqA0MyZA_xLTObAwMsc_agg1U49MDREtaGsmaakaRozVtysOM4P0ixCDrbhlYKfS2jL0uUgRwDVEw6AuSl3ZZHPCp1dS0FMtiEu_YFHTG4wy_qt7WO5KufvZ1ftFHLbXXjiQk7L4M2JL7iuzFRMJIlrWpsJisKtyJzdjocE0PKLqQJV8DjLYtGm_DYvSpnaGN9tf6A9KtFybEwg0d6bOMvW7fK7SE0W4YMtk32Sj3X3aXT0UW_ztbymDVd4-i8HMawfIh_2SKKFDw</font>
+</div>
+<p><!-- /wp:html --></p>
+
+<p>The diagram below shows how a JWT Token is generated:
+<img class="polaroid" src="/assets/images/jwt1.png" /></p>
+
+<p><br /></p>
+
+<p>It’s important to note that this token is not secret, i.e it’s just base64 encoded and therefore anyone can take the red part and simply run it through base64 -D to decode it (example below):</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nb">echo</span> <span class="s2">"eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkJvYiBDbGFya2UiLCJpYXQiOjE1MTYyMzkwMjJ9"</span> | <span class="nb">base64</span> <span class="nt">-D</span> <span class="p">;</span> <span class="nb">echo</span> 
+<span class="c">#=&gt;{"sub":"1234567890","name":"Bob Clarke","iat":1516239022}</span></code></pre></figure>
+
+<p>So, secrecy is not what we’re after here, what we’re after is message integrity, i.e. making sure not has not been tampered with.   To verify message integrity, carry out the following steps in window2:</p>
+<ul>
+  <li>paste the token into the “Encoded” box on the left</li>
+  <li>You’ll notice that the header and payload are decoded normally (i.e, as mentioned above, secrecy is not the aim here) however you’ll also see that there’s a big red message at the bottom saying Invalid Signature (see image below)</li>
+</ul>
+
+<p><img class="polaroid" src="/assets/images/jwt2.png" /></p>
+
+<p><br /></p>
+
+<p>To verify whether the message is valid (i.e that it has not been tampered with) we need to paste in public key. The process for token verification is shown in the diagram below:</p>
+
+<p><img class="polaroid" src="/assets/images/jwt3.png" /></p>
+
+<p><br />
+And here’s the result in window2 with the signature verified and therefore message integrity:
+<img class="polaroid" src="/assets/images/jwt4.png" /></p>
+
+<p><br /></p>
+
+<p><a href="https://www.toptal.com/devops">Toptal ref</a></p>
+
+
+  </div><a class="u-url" href="/2019/09/29/jwt-token-generation-and-verification-using-pki.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading"></h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name"></li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p></p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

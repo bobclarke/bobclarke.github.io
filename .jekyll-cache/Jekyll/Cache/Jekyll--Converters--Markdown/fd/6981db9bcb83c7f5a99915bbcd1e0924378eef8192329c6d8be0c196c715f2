@@ -1,0 +1,13 @@
+I"p<p><strong>looping:</strong></p>
+<pre>cat people.data | awk 'BEGIN{a=0} {printf("%d,%s\n", a++, $0);}'</pre>
+<p>&nbsp;</p>
+<p><strong>printing path elements:</strong></p>
+<p>assuming the path /one/two/three/four/five/foo.jar</p>
+<pre>find /one/two -name foo.jar | awk -F/ '{print $(NF-1)}'</pre>
+<p>Will output:</p>
+<pre>five</pre>
+<hr />
+
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+:ET

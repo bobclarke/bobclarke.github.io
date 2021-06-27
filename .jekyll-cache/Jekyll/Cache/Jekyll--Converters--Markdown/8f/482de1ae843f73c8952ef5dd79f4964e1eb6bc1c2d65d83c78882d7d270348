@@ -1,0 +1,7 @@
+I":<p><span><br /></span><span style="background-color:white;color:#666666;white-space:pre-wrap;"><span>The number of processors shown by /proc/cpuinfo might not be the actual number of cores on the processor. For example a processor with 2 cores and hyperthreading would be reported as a processor with 4 cores. To get the actual number of cores, check the core id for unique values as follows:</span></span><br /><!-- HTML generated using hilite.me -->
+<div style="background:#f8f8f8;border-width:.1em .1em .1em .8em;border:solid gray;overflow:auto;padding:.2em .6em;width:auto;">
+<pre style="line-height:125%;margin:0;"><span style="font-family:Verdana, sans-serif;"><span style="font-size:large;">cat /proc/cpuinfo | grep <span style="color:#ba2121;">"core id"</span> | sort -u </span><br /></span></pre>
+</div>
+<p></p>
+</p>
+:ET

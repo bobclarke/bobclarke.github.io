@@ -1,0 +1,151 @@
+I"!F<div class="p1"># -------------------------------------------------------------------------------------------------------------------------------------</div>
+<div class="p1"><b>Elasticsearch</b></div>
+<div class="p1"># -------------------------------------------------------------------------------------------------------------------------------------</div>
+<div class="p2"></div>
+<div class="p1"><b>install java:</b></div>
+<div class="p1">yum install -y java</div>
+<div class="p2"><b></b></div>
+<div class="p1"><b>Install elasticsearch: </b></div>
+<div class="p1">yum install -y elasticsearch-5.5.2.rpm</div>
+<div class="p2"><b></b></div>
+<div class="p1"><b>Start elasticsearch:</b> </div>
+<div class="p1">service elasticsearch start</div>
+<div class="p2"></div>
+<div class="p1"><b>Configure elasticsearch</b></div>
+<div class="p1">/etc/elasticsearch/elasticsearch.yml</div>
+<div class="p2"></div>
+<div class="p1"><b>Test elasticsearch:</b></div>
+<div class="p1">curl http://10.1.1.100:9200</div>
+<div class="p2"></div>
+<div class="p1">this should return something like the following:</div>
+<div style="background:#f8f8f8;border-width:.1em .1em .1em .8em;border:solid gray;overflow:auto;padding:.2em .6em;width:auto;">
+<pre style="line-height:125%;margin:0;">{<br />  <span style="color:green;font-weight:bold;">"name"</span> : <span style="color:#ba2121;">"BT_A1W0"</span>,<br />  <span style="color:green;font-weight:bold;">"cluster_name"</span> : <span style="color:#ba2121;">"elasticsearch"</span>,<br />  <span style="color:green;font-weight:bold;">"cluster_uuid"</span> : <span style="color:#ba2121;">"85TTdoncTPqC2vAnEufDWQ"</span>,<br />  <span style="color:green;font-weight:bold;">"version"</span> : {<br />    <span style="color:green;font-weight:bold;">"number"</span> : <span style="color:#ba2121;">"5.5.2"</span>,<br />    <span style="color:green;font-weight:bold;">"build_hash"</span> : <span style="color:#ba2121;">"b2f0c09"</span>,<br />    <span style="color:green;font-weight:bold;">"build_date"</span> : <span style="color:#ba2121;">"2017-08-14T12:33:14.154Z"</span>,<br />    <span style="color:green;font-weight:bold;">"build_snapshot"</span> : <span style="color:green;font-weight:bold;">false</span>,<br />    <span style="color:green;font-weight:bold;">"lucene_version"</span> : <span style="color:#ba2121;">"6.6.0"</span><br />  },<br />  <span style="color:green;font-weight:bold;">"tagline"</span> : <span style="color:#ba2121;">"You Know, for Search"</span><br />}<br /></pre>
+</div>
+<div class="p1"></div>
+<div class="p2"></div>
+<div class="p1"><b>Create entry in elasticsearch:</b></div>
+<div style="background:#f8f8f8;border-width:.1em .1em .1em .8em;border:solid gray;overflow:auto;padding:.2em .6em;width:auto;">
+<pre style="line-height:125%;margin:0;">curl -XPUT <span style="color:#ba2121;">'10.1.1.100:9200/my_index/my_type/my_id'</span> -H <span style="color:#ba2121;">'Content-Type: application/json'</span> -d’<br /><span style="color:#666666;">{</span><br /><span style="color:#ba2121;">"user"</span>:<span style="color:#ba2121;">"bob”,</span><br /><span style="color:#ba2121;">"</span>post_date<span style="color:#ba2121;">":"</span>2009-11-15T14:12:12”,<br /><span style="color:#ba2121;">"message"</span>:”hello<span style="border:0 solid #FF0000;">"</span><br /><span style="color:#666666;">}</span>’<br /></pre>
+</div>
+<div class="p1"></div>
+<div class="p1">The PUT must be of the form <b>/index/type/id </b>(at least I think this is the case)</div>
+<div class="p2"></div>
+<div class="p1"><b>List indexes</b></div>
+<div style="background:#f8f8f8;border-width:.1em .1em .1em .8em;border:solid gray;overflow:auto;padding:.2em .6em;width:auto;">
+<pre style="line-height:125%;margin:0;">curl <span style="color:#ba2121;">"http://10.1.1.100:9200/_cat/indices"</span><br /></pre>
+</div>
+<div class="p1"></div>
+<div class="p2"></div>
+<div class="p1"><b>delete all indexes:</b></div>
+<div style="background:#f8f8f8;border-width:.1em .1em .1em .8em;border:solid gray;overflow:auto;padding:.2em .6em;width:auto;">
+<pre style="line-height:125%;margin:0;">curl -X DELETE <span style="color:#ba2121;">"http://10.1.1.100:9200/_all"</span><br /></pre>
+</div>
+<div class="p1"></div>
+<div class="p2"></div>
+<div class="p2"><b></b></div>
+<div class="p1"># -------------------------------------------------------------------------------------------------------------------------------------</div>
+<div class="p1">#<b> Logstash</b></div>
+<div class="p1"># -------------------------------------------------------------------------------------------------------------------------------------</div>
+<div class="p2"></div>
+<div class="p1"><b>Install logstash:</b></div>
+<div class="p1">
+<div style="background:#f8f8f8;border-width:.1em .1em .1em .8em;border:solid gray;overflow:auto;padding:.2em .6em;width:auto;">
+<pre style="line-height:125%;margin:0;">yum install -y logstash-5.5.2.rpm<br /></pre>
+</div>
+<p>&lt;/div&gt;
+<div class="p1"><b>Configure logstash: </b></div>
+<div class="p2"><b></b></div>
+<div class="p1">Assuming you have Apache HTTP server installed, create /etc/logstash/conf.d/logstash.conf with the following contents:</div>
+<div style="background:#f8f8f8;border-width:.1em .1em .1em .8em;border:solid gray;overflow:auto;padding:.2em .6em;width:auto;">
+<pre style="line-height:125%;margin:0;">input <span style="color:#666666;">{</span><br />  file <span style="color:#666666;">{</span><br />    <span style="color:#19177c;">path</span> <span style="color:#666666;">=</span>&gt; <span style="color:#ba2121;">"/var/log/httpd/access*"</span><br />    <span style="color:#19177c;">start_position</span> <span style="color:#666666;">=</span>&gt; “end<span style="color:#ba2121;">"</span><br /><span style="color:#ba2121;">  }</span><br /><span style="color:#ba2121;">}</span><br /><br /><span style="color:#ba2121;">filter {</span><br /><span style="color:#ba2121;">  grok {</span><br /><span style="color:#ba2121;">    match =&gt; { "</span>message<span style="color:#ba2121;">" =&gt; "</span>%<span style="color:#666666;">{</span>COMBINEDAPACHELOG<span style="color:#666666;">}</span><span style="color:#ba2121;">" }</span><br /><span style="color:#ba2121;">  }</span><br /><span style="color:#ba2121;">  date {</span><br /><span style="color:#ba2121;">    match =&gt; [ "</span>timestamp<span style="color:#ba2121;">" , "</span>dd/MMM/yyyy:HH:mm:ss Z<span style="color:#ba2121;">" ]</span><br /><span style="color:#ba2121;">  }</span><br /><span style="color:#ba2121;">}</span><br /><br /><span style="color:#ba2121;">output {</span><br /><span style="color:#ba2121;">  stdout {</span><br /><span style="color:#ba2121;">    codec =&gt; rubydebug</span><br /><span style="color:#ba2121;">  }</span><br /><span style="color:#ba2121;">  elasticsearch {</span><br /><span style="color:#ba2121;">    hosts =&gt; ["</span>10.1.1.100:9200<span style="border:0 solid #FF0000;">"</span><span style="color:#666666;">]</span><br />  <span style="color:#666666;">}</span><br /><span style="color:#666666;">}</span><br /></pre>
+</div>
+<div class="p2"></div>
+<div class="p1"></div>
+<div class="p2"></div>
+<div class="p2"><b>Start logstash</b><b></b><br /><b><br /></b></div>
+<div class="p2"><b></b></div>
+<div class="p1">To test that things are working correctly, you can start in the foreground as follows:</div>
+<div style="background:#f8f8f8;border-width:.1em .1em .1em .8em;border:solid gray;overflow:auto;padding:.2em .6em;width:auto;">
+<pre style="line-height:125%;margin:0;">/usr/share/logstash/bin/logstash -f /etc/logstash/conf.d/logstash.conf<br /></pre>
+</div>
+<div class="p1"></div>
+<div class="p1">Once you’re happy you may want to create a basic init.d script,  e.g:</div>
+<p><!-- HTML generated using hilite.me -->
+<div style="background:#f8f8f8;border-width:.1em .1em .1em .8em;border:solid gray;overflow:auto;padding:.2em .6em;width:auto;">
+<pre style="line-height:125%;margin:0;"><span style="color:#408080;font-style:italic;">#!/bin/bash</span><br /><br /><span style="color:green;font-weight:bold;">function </span>start<span style="color:#666666;">()</span> <span style="color:#666666;">{</span><br />        <span style="color:green;">echo</span> <span style="color:#ba2121;">"Starting logstash..."</span><br />        /usr/share/logstash/bin/logstash -f /etc/logstash/conf.d/logstash.conf --config.reload.automatic &gt; /var/log/logstash/logstash.log 2&gt;&amp;1 &amp;<br /><span style="color:#666666;">}</span><br /><br /><span style="color:green;font-weight:bold;">function </span>stop<span style="color:#666666;">()</span> <span style="color:#666666;">{</span><br />        <span style="color:green;">echo</span> <span style="color:#ba2121;">"Stopping logstash..."</span><br />        pkill -9 -f .+logstash/runner.rb<br /><span style="color:#666666;">}</span><br /><br /><span style="color:green;font-weight:bold;">case</span> <span style="color:#19177c;">$1</span> in<br />        start<span style="color:#666666;">)</span><br />                start<br />                ;;<br /><br />        stop<span style="color:#666666;">)</span><br />                stop<br />                ;;<br /><br />        restart<span style="color:#666666;">)</span><br />                stop<br />                sleep 3<br />                start<br />                ;;<br /><br />        *<span style="color:#666666;">)</span><br />                <span style="color:green;">echo</span> <span style="color:#ba2121;">""</span><br />                <span style="color:green;">echo</span> <span style="color:#ba2121;">"Usage $0 start|stop|restart"</span><br />                <span style="color:green;">echo</span> <span style="color:#ba2121;">""</span><br />                ;;<br /><span style="color:green;font-weight:bold;">esac</span><br /></pre>
+</div>
+<div class="p2"></div>
+<div class="p1"></div>
+<div class="p2"></div>
+<div class="p1">Once things are up and running, hit your Apache server with an HTTP request. Because you’ve set up an STDOUT output you’ll get something similar to the following in /var/log/logstash/logstash.log:</div>
+<p><!-- HTML generated using hilite.me -->
+<div style="background:#f8f8f8;border-width:.1em .1em .1em .8em;border:solid gray;overflow:auto;padding:.2em .6em;width:auto;">
+<pre style="line-height:125%;margin:0;"><span style="color:#666666;">{</span><br />        <span style="color:#ba2121;">"request"</span> <span style="color:#666666;">=</span>&gt; <span style="color:#ba2121;">"/"</span>,<br />        <span style="color:#ba2121;">"agent"</span> <span style="color:#666666;">=</span>&gt; <span style="color:#ba2121;">"\"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.101 Safari/537.36\""</span>,<br />        <span style="color:#ba2121;">"auth"</span> <span style="color:#666666;">=</span>&gt; <span style="color:#ba2121;">"-"</span>,<br />        <span style="color:#ba2121;">"ident"</span> <span style="color:#666666;">=</span>&gt; <span style="color:#ba2121;">"-"</span>,<br />        <span style="color:#ba2121;">"verb"</span> <span style="color:#666666;">=</span>&gt; <span style="color:#ba2121;">"GET"</span>,<br />        <span style="color:#ba2121;">"message"</span> <span style="color:#666666;">=</span>&gt; <span style="color:#ba2121;">"10.1.1.1 - - [31/Aug/2017:20:47:12 +0000] \"GET / HTTP/1.1\" 302 233 \"-\" \"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.101 Safari/537.36\""</span>,<br />        <span style="color:#ba2121;">"path"</span> <span style="color:#666666;">=</span>&gt; <span style="color:#ba2121;">"/var/log/httpd/access_log"</span>,<br />        <span style="color:#ba2121;">"referrer"</span> <span style="color:#666666;">=</span>&gt; <span style="color:#ba2121;">"\"-\""</span>,<br />        <span style="color:#ba2121;">"@timestamp"</span> <span style="color:#666666;">=</span>&gt; 2017-08-31T20:47:12.000Z,<br />        <span style="color:#ba2121;">"response"</span> <span style="color:#666666;">=</span>&gt; “200<span style="color:#ba2121;">",</span><br /><span style="color:#ba2121;">        "</span>bytes<span style="color:#ba2121;">" =&gt; "</span>233<span style="color:#ba2121;">",</span><br /><span style="color:#ba2121;">        "</span>clientip<span style="color:#ba2121;">" =&gt; "</span>10.1.1.1<span style="color:#ba2121;">",</span><br /><span style="color:#ba2121;">        "</span>@version<span style="color:#ba2121;">" =&gt; "</span>1<span style="color:#ba2121;">",</span><br /><span style="color:#ba2121;">        "</span>host<span style="color:#ba2121;">" =&gt; "</span>jupiter<span style="color:#ba2121;">",</span><br /><span style="color:#ba2121;">        "</span>httpversion<span style="color:#ba2121;">" =&gt; "</span>1.1<span style="color:#ba2121;">",</span><br /><span style="color:#ba2121;">        "</span>timestamp<span style="color:#ba2121;">" =&gt; "</span>31/Aug/2017:20:47:12 +0000<span style="border:0 solid #FF0000;">"</span><br /><span style="color:#666666;">}</span><br /></pre>
+</div>
+<div class="p2"></div>
+<div class="p1"></div>
+<div class="p2"></div>
+<div class="p2">Also, because you set up an output to elasticsearch you will see this entry in there too:</div>
+<div class="p2"></div>
+<div class="p1">Check for the index as follows:</div>
+<p><!-- HTML generated using hilite.me -->
+<div style="background:#f8f8f8;border-width:.1em .1em .1em .8em;border:solid gray;overflow:auto;padding:.2em .6em;width:auto;">
+<pre style="line-height:125%;margin:0;">curl <span style="color:#ba2121;">"http://10.1.1.100:9200/_cat/indices/logstash-*"</span><br /></pre>
+</div>
+<div class="p1"></div>
+<div class="p1">Take a look at the index as follows:</div>
+<p><!-- HTML generated using hilite.me -->
+<div style="background:#f8f8f8;border-width:.1em .1em .1em .8em;border:solid gray;overflow:auto;padding:.2em .6em;width:auto;">
+<pre style="line-height:125%;margin:0;">curl <span style="color:#ba2121;">"http://10.1.1.100:9200/logstash-*?pretty"</span><br /></pre>
+</div>
+<div class="p1"></div>
+<div class="p2"></div>
+<div class="p2"># -------------------------------------------------------------------------------------------------------------------------------------</div>
+<div class="p1">#<b> Kibana</b></div>
+<div class="p1"># -------------------------------------------------------------------------------------------------------------------------------------</div>
+<div class="p2"></div>
+<div class="p1"><b>Install Kibana</b></div>
+<p><!-- HTML generated using hilite.me -->
+<div style="background:#f8f8f8;border-width:.1em .1em .1em .8em;border:solid gray;overflow:auto;padding:.2em .6em;width:auto;">
+<pre style="line-height:125%;margin:0;">tar xvzf kibana-5.5.2-linux-x86_64.tar.gz -C /opt<br /><span style="color:green;">cd</span> /opt<br />mv kibana-5.5.2-linux-x86_64 kibana</pre>
+</div>
+<div class="p2"></div>
+<div class="p1"><b>Configure Kibaba</b></div>
+<div class="p1">Edit /opt/kibana/config/kibana.yml, set <b>server.host</b> and elasticsearch.url</div>
+<div class="p2"></div>
+<div class="p1"><b>Start kibana</b></div>
+<p><!-- HTML generated using hilite.me -->
+<div style="background:#f8f8f8;border-width:.1em .1em .1em .8em;border:solid gray;overflow:auto;padding:.2em .6em;width:auto;">
+<pre style="line-height:125%;margin:0;"><span style="color:green;">cd</span> /opt/kibana/bin <span style="color:#666666;">&amp;&amp;</span> ./kibana &amp;<br /></pre>
+</div>
+<div class="p1"></div>
+<div class="p1"><b>Test kibana</b></div>
+<ul class="ul1">
+<li class="li3">In a browser, navigate to http://10.1.1.100:5601</li>
+<li class="li1">Navigate to dev tools</li>
+<li class="li1">In the left panel type <b>GET _cat/indices</b> and click the green arrow to run the query</li>
+<li class="li1">In the results window you should see the index created by logstash (when you made a request from Apache earlier) similar to:</li>
+<ul class="ul2"><!-- HTML generated using hilite.me -->
+<div style="background:#f8f8f8;border-width:.1em .1em .1em .8em;border:solid gray;overflow:auto;padding:.2em .6em;width:auto;">
+<pre style="line-height:125%;margin:0;">yellow open logstash-2017.08.31 uzTssKBfTuecbgGzth-ViA 5 1 2 0 23.2kb 23.2kb<br /></pre>
+</div>
+</ul>
+<li class="li1">Navigate to Management</li>
+<li class="li1">Select Index patterns </li>
+<li class="li1">Create an index pattern of logstash-*</li>
+<li class="li1">Our Grok filter that we set up in logstash should have created approx 38 feilds from the Apache log, you should see that many of these are agregatable which means they can be used in visualisations</li>
+</ul>
+<ul class="ul1">
+<li class="li1">Navigate to Visualisations &gt; create visualisations &gt; vertical bar</li>
+<li class="li1">Select the logstash-* index pattern you created earlier </li>
+<li class="li1">you’ll see the Y-axis is already set up as count </li>
+<li class="li1">Under buckets select X-axis</li>
+<li class="li1">for aggregation select Date Histogram with a field of @timestamp</li>
+<li class="li1">Add a sub bucket with a bucket size of split series </li>
+<li class="li1">select a sub aggregation of terms with a filed of response.keyword</li>
+<li class="li1">Run the visual by pressing the blue/white arrow (top left)</li>
+</ul>
+<p>p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 13.0px Helvetica} p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 13.0px Helvetica; min-height: 16.0px} li.li1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 13.0px Helvetica} li.li3 {margin: 0.0px 0.0px 0.0px 0.0px; font: 13.0px Helvetica; color: #9e4a2f} span.s1 {text-decoration: underline} span.Apple-tab-span {white-space:pre} ul.ul1 {list-style-type: disc} ul.ul2 {list-style-type: circle}                                                                                                                                                                                                  
+<div class="p1"></div>
+</p></p></p></p></p></p></p></p></div>
+:ET
