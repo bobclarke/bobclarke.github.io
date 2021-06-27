@@ -6,5 +6,5 @@ permalink: /about/
 
 bobmclarke@gmail.com
 
-https://uk.linkedin.com/in/bobmclarke
+[https://uk.linkedin.com/in/bobmclarke]
 
