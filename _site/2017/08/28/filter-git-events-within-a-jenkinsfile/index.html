@@ -3,7 +3,7 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.7.1 -->
-<title>Filter Git events within a Jenkinsfile</title>
+<title>Filter Git events within a Jenkinsfile | The DevOps Runbook</title>
 <meta name="generator" content="Jekyll v4.1.1" />
 <meta property="og:title" content="Filter Git events within a Jenkinsfile" />
 <meta property="og:locale" content="en_US" />
@@ -11,6 +11,7 @@
 <meta property="og:description" content="Assuming you&#39;re using Git webhooks to trigger your Jenkins builds, let&#39;s say you want to trigger a different set of pipeline stages depending on whether the Git event is a push vs. a pull request. I.e for a push you may only wish to run static analysis and unit tests, whereas for a pull request you may want to add Selenium tests. The following Jenkinsfile snippet will achieve this // Import JSON Slurperimport groovy.json.JsonSlurperClassic// Get the Git payloaddef payload = new JsonSlurperClassic().parseText(env.payload)// Now define a method to filter the event typeprivate String getEventType ( payload ){ if( payload.pull_request &amp;&amp; payload.action.toLowerCase().contains(&quot;opened&quot;) ){ return &quot;pull_req&quot; } else if( payload.ref &amp;&amp; payload.head_commit){ if( payload.ref.split(&#039;/&#039;)[1].toLowerCase().contains(&#039;head&#039;) ){ return &quot;push&quot; } else if( payload.ref.split(&#039;/&#039;)[1].toLowerCase().contains(&#039;tag&#039;) ){ return &quot;tag&quot; } }}// Now decide what action to take def eventType = getEventType( payload )switch (eventType) { case &quot;push&quot;: ............ do something ............ break; case &quot;pull_req&quot;: ............ do something else ............ break; default: println &quot;Git event ignored&quot;; currentBuild.displayName = &quot;Git event ignored&quot; // Tidy up the Jenkins GUI by deleting the ignored build def buildNumber = env.BUILD_ID node { sh &quot;curl -X POST http://:@:443/job/execute-pipeline/${buildNumber}/doDelete&quot; }" />
 <link rel="canonical" href="http://localhost:4000/2017/08/28/filter-git-events-within-a-jenkinsfile/" />
 <meta property="og:url" content="http://localhost:4000/2017/08/28/filter-git-events-within-a-jenkinsfile/" />
+<meta property="og:site_name" content="The DevOps Runbook" />
 <meta property="og:type" content="article" />
 <meta property="article:published_time" content="2017-08-28T08:49:00+01:00" />
 <meta name="twitter:card" content="summary" />
@@ -18,10 +19,10 @@
 <script type="application/ld+json">
 {"headline":"Filter Git events within a Jenkinsfile","dateModified":"2017-08-28T08:49:00+01:00","datePublished":"2017-08-28T08:49:00+01:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/2017/08/28/filter-git-events-within-a-jenkinsfile/"},"description":"Assuming you&#39;re using Git webhooks to trigger your Jenkins builds, let&#39;s say you want to trigger a different set of pipeline stages depending on whether the Git event is a push vs. a pull request. I.e for a push you may only wish to run static analysis and unit tests, whereas for a pull request you may want to add Selenium tests. The following Jenkinsfile snippet will achieve this // Import JSON Slurperimport groovy.json.JsonSlurperClassic// Get the Git payloaddef payload = new JsonSlurperClassic().parseText(env.payload)// Now define a method to filter the event typeprivate String getEventType ( payload ){ if( payload.pull_request &amp;&amp; payload.action.toLowerCase().contains(&quot;opened&quot;) ){ return &quot;pull_req&quot; } else if( payload.ref &amp;&amp; payload.head_commit){ if( payload.ref.split(&#039;/&#039;)[1].toLowerCase().contains(&#039;head&#039;) ){ return &quot;push&quot; } else if( payload.ref.split(&#039;/&#039;)[1].toLowerCase().contains(&#039;tag&#039;) ){ return &quot;tag&quot; } }}// Now decide what action to take def eventType = getEventType( payload )switch (eventType) { case &quot;push&quot;: ............ do something ............ break; case &quot;pull_req&quot;: ............ do something else ............ break; default: println &quot;Git event ignored&quot;; currentBuild.displayName = &quot;Git event ignored&quot; // Tidy up the Jenkins GUI by deleting the ignored build def buildNumber = env.BUILD_ID node { sh &quot;curl -X POST http://:@:443/job/execute-pipeline/${buildNumber}/doDelete&quot; }","url":"http://localhost:4000/2017/08/28/filter-git-events-within-a-jenkinsfile/","@type":"BlogPosting","@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
-<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" /></head>
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="The DevOps Runbook" /></head>
 <body><header class="site-header" role="banner">
 
-  <div class="wrapper"><a class="site-title" rel="author" href="/"></a><nav class="site-nav">
+  <div class="wrapper"><a class="site-title" rel="author" href="/">The DevOps Runbook</a><nav class="site-nav">
         <input type="checkbox" id="nav-trigger" class="nav-trigger" />
         <label for="nav-trigger">
           <span class="menu-icon">
@@ -62,12 +63,12 @@
 
   <div class="wrapper">
 
-    <h2 class="footer-heading"></h2>
+    <h2 class="footer-heading">The DevOps Runbook</h2>
 
     <div class="footer-col-wrapper">
       <div class="footer-col footer-col-1">
         <ul class="contact-list">
-          <li class="p-name"></li></ul>
+          <li class="p-name">The DevOps Runbook</li></ul>
       </div>
 
       <div class="footer-col footer-col-2"><ul class="social-media-list"></ul>

@@ -3,7 +3,7 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.7.1 -->
-<title>bash option parser</title>
+<title>bash option parser | The DevOps Runbook</title>
 <meta name="generator" content="Jekyll v4.1.1" />
 <meta property="og:title" content="bash option parser" />
 <meta property="og:locale" content="en_US" />
@@ -11,6 +11,7 @@
 <meta property="og:description" content="A nice way of parsing options passed to a bash script without relying on position: #!/bin/bashfor i in &quot;$@&quot; do case $i in --node-port=*) NODEPORT=&quot;${i#*=}&quot; ;; --jjp-host=*) JJPHOST=&quot;${i#*=}&quot; ;; --jjp-port=*) JJPPORT=&quot;${i#*=}&quot; ;; --spp-host=*) SPPHOST=&quot;${i#*=}&quot; ;; --spp-port=*) SPPPORT=&quot;${i#*=}&quot; ;; --help) echo &quot;&quot; echo &quot;Usage example: start_app --spp-host=jupiter --spp-port=2000 --node-port=3000 --jjp-host=neptune --jjp-port=4000&quot; echo &quot;&quot; ;; *) ;; esacdone [ &quot;${NODEPORT}XXX&quot; == &quot;XXX&quot; ] &amp;&amp; { echo &quot;Warning: NODEPORT env var not set&quot;; }[ &quot;${JJPHOST}XXX&quot; == &quot;XXX&quot; ] &amp;&amp; { echo &quot;Warning: JJPHOST env var not set&quot;; }[ &quot;${JJPPORT}XXX&quot; == &quot;XXX&quot; ] &amp;&amp; { echo &quot;Warning: JJPPORT env var not set&quot;; }[ &quot;${SPPHOST}XXX&quot; == &quot;XXX&quot; ] &amp;&amp; { echo &quot;Warning: SPPHOST env var not set&quot;; }[ &quot;${SPPPORT}XXX&quot; == &quot;XXX&quot; ] &amp;&amp; { echo &quot;Warning: SPPPORT env var not set&quot;; } export NODEPORTexport JJPHOSTexport JJPPORTexport SPPHOSTexport SPPPORT cd /applications/my_appnohup npm run start &amp;" />
 <link rel="canonical" href="http://localhost:4000/2017/08/30/bash-option-parser/" />
 <meta property="og:url" content="http://localhost:4000/2017/08/30/bash-option-parser/" />
+<meta property="og:site_name" content="The DevOps Runbook" />
 <meta property="og:type" content="article" />
 <meta property="article:published_time" content="2017-08-30T09:44:00+01:00" />
 <meta name="twitter:card" content="summary" />
@@ -18,10 +19,10 @@
 <script type="application/ld+json">
 {"headline":"bash option parser","dateModified":"2017-08-30T09:44:00+01:00","datePublished":"2017-08-30T09:44:00+01:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/2017/08/30/bash-option-parser/"},"description":"A nice way of parsing options passed to a bash script without relying on position: #!/bin/bashfor i in &quot;$@&quot; do case $i in --node-port=*) NODEPORT=&quot;${i#*=}&quot; ;; --jjp-host=*) JJPHOST=&quot;${i#*=}&quot; ;; --jjp-port=*) JJPPORT=&quot;${i#*=}&quot; ;; --spp-host=*) SPPHOST=&quot;${i#*=}&quot; ;; --spp-port=*) SPPPORT=&quot;${i#*=}&quot; ;; --help) echo &quot;&quot; echo &quot;Usage example: start_app --spp-host=jupiter --spp-port=2000 --node-port=3000 --jjp-host=neptune --jjp-port=4000&quot; echo &quot;&quot; ;; *) ;; esacdone [ &quot;${NODEPORT}XXX&quot; == &quot;XXX&quot; ] &amp;&amp; { echo &quot;Warning: NODEPORT env var not set&quot;; }[ &quot;${JJPHOST}XXX&quot; == &quot;XXX&quot; ] &amp;&amp; { echo &quot;Warning: JJPHOST env var not set&quot;; }[ &quot;${JJPPORT}XXX&quot; == &quot;XXX&quot; ] &amp;&amp; { echo &quot;Warning: JJPPORT env var not set&quot;; }[ &quot;${SPPHOST}XXX&quot; == &quot;XXX&quot; ] &amp;&amp; { echo &quot;Warning: SPPHOST env var not set&quot;; }[ &quot;${SPPPORT}XXX&quot; == &quot;XXX&quot; ] &amp;&amp; { echo &quot;Warning: SPPPORT env var not set&quot;; } export NODEPORTexport JJPHOSTexport JJPPORTexport SPPHOSTexport SPPPORT cd /applications/my_appnohup npm run start &amp;","url":"http://localhost:4000/2017/08/30/bash-option-parser/","@type":"BlogPosting","@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
-<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" /></head>
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="The DevOps Runbook" /></head>
 <body><header class="site-header" role="banner">
 
-  <div class="wrapper"><a class="site-title" rel="author" href="/"></a><nav class="site-nav">
+  <div class="wrapper"><a class="site-title" rel="author" href="/">The DevOps Runbook</a><nav class="site-nav">
         <input type="checkbox" id="nav-trigger" class="nav-trigger" />
         <label for="nav-trigger">
           <span class="menu-icon">
@@ -62,12 +63,12 @@
 
   <div class="wrapper">
 
-    <h2 class="footer-heading"></h2>
+    <h2 class="footer-heading">The DevOps Runbook</h2>
 
     <div class="footer-col-wrapper">
       <div class="footer-col footer-col-1">
         <ul class="contact-list">
-          <li class="p-name"></li></ul>
+          <li class="p-name">The DevOps Runbook</li></ul>
       </div>
 
       <div class="footer-col footer-col-2"><ul class="social-media-list"></ul>
