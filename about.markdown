@@ -4,6 +4,7 @@ title: About
 permalink: /about/
 ---
 
-These are my notes which I'm sharing in the event they may be helpful.
+bobmclarke@gmail.com
 
-Bob Clarke
+https://uk.linkedin.com/in/bobmclarke
+
