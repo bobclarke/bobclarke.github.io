@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>Penetration Testing | The DevOps Runbook</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="Penetration Testing" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="I’m taking a pen testing course on Linux Accademy over the christmas holidays. It’s day two and I thought it would be useful to log my progress here…" />
+<meta property="og:description" content="I’m taking a pen testing course on Linux Accademy over the christmas holidays. It’s day two and I thought it would be useful to log my progress here…" />
+<link rel="canonical" href="http://localhost:4000/2020/12/30/penetration-testing.html" />
+<meta property="og:url" content="http://localhost:4000/2020/12/30/penetration-testing.html" />
+<meta property="og:site_name" content="The DevOps Runbook" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2020-12-30T13:05:00+00:00" />
+<script type="application/ld+json">
+{"url":"http://localhost:4000/2020/12/30/penetration-testing.html","headline":"Penetration Testing","dateModified":"2020-12-30T13:05:00+00:00","datePublished":"2020-12-30T13:05:00+00:00","description":"I’m taking a pen testing course on Linux Accademy over the christmas holidays. It’s day two and I thought it would be useful to log my progress here…","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/2020/12/30/penetration-testing.html"},"@type":"BlogPosting","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="The DevOps Runbook" /></head>
+<body><header class="site-header" role="banner">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">The DevOps Runbook</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Penetration Testing</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2020-12-30T13:05:00+00:00" itemprop="datePublished">Dec 30, 2020
+      </time></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <p>I’m taking a pen testing course on Linux Accademy over the christmas holidays. It’s day two and I thought it would be useful to log my progress here…</p>
+
+<h2 id="lab-setup">Lab setup</h2>
+<p>I’m using two docker images as follows:</p>
+<ul>
+  <li><code class="language-html highlighter-rouge">kalilinux/kali-rolling</code> (the “attacker” machine)</li>
+  <li><code class="language-html highlighter-rouge">tleemcjr/metasploitable2</code> (the deliberately vulnerable target)</li>
+</ul>
+
+<p><br /></p>
+<h3 id="first-lets-set-up-kali">First, let’s set up Kali</h3>
+<p>The image I’m using doesn’t come pre-installed with any tools so we’ll need to install these ourselves. Here’s a Dockerfile for this</p>
+
+<figure class="highlight"><pre><code class="language-docker" data-lang="docker"><span class="k">FROM</span><span class="s"> kalilinux/kali-rolling</span>
+
+<span class="k">RUN </span>apt-get update <span class="o">&amp;&amp;</span> <span class="se">\
+</span>apt-get dist-upgrade <span class="nt">-y</span> <span class="o">&amp;&amp;</span> <span class="se">\
+</span>apt-get <span class="nb">install</span> <span class="nt">-y</span> <span class="se">\
+</span>metasploit-framework <span class="se">\
+</span>nmap <span class="se">\
+</span>curl <span class="se">\
+</span>vim <span class="se">\
+</span>netcat <span class="se">\
+</span>dirbuster <span class="se">\
+</span>theharvester <span class="se">\
+</span>nikto <span class="se">\
+</span>openvas <span class="se">\
+</span>gvm <span class="se">\
+</span>net-tools <span class="se">\
+</span>hping3 <span class="se">\
+</span>dnsutils <span class="se">\
+</span>proxychains <span class="se">\
+</span>tor</code></pre></figure>
+
+<p><br />
+Now start the image and exec into the container</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="syntax"><code>docker run <span class="nt">--name</span> kali_lab <span class="nt">-h</span> kali <span class="nt">-d</span> <span class="nt">-it</span> kali_lab <span class="o">&amp;&amp;</span> <span class="se">\</span>
+docker <span class="nb">exec</span> <span class="nt">-it</span> kali_lab bash
+</code></pre></div></div>
+
+<p><br />You should now be sitting at a kali prompt as root</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="syntax"><code><span class="o">(</span>root💀kali<span class="o">)</span>-[~]
+</code></pre></div></div>
+<p><br /></p>
+<h3 id="now-lets-set-up-our-exploitable-target">Now let’s set up our exploitable target</h3>
+<p><em>TBC</em></p>
+
+<h2 id="basic-target-scanning-with-nmap">Basic target scanning with nmap</h2>
+<p>Before we get into using our metasploitable target, let’s run throught some basic nmap scanning. <br /></p>
+
+<p>The simplest scan is as follows</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="syntax"><code>nmap &lt;IP address&gt;
+</code></pre></div></div>
+<p>This will scan the top 1000 ports on the provided IP address, for example</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="syntax"><code>nmap scanme.nmap.org
+</code></pre></div></div>
+<p>Will result in something like</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="syntax"><code>Starting Nmap 7.91 <span class="o">(</span> https://nmap.org <span class="o">)</span> at 2020-12-30 14:34 UTC
+Nmap scan report <span class="k">for </span>scanme.nmap.org <span class="o">(</span>45.33.32.156<span class="o">)</span>
+Host is up <span class="o">(</span>0.17s latency<span class="o">)</span><span class="nb">.</span>
+Other addresses <span class="k">for </span>scanme.nmap.org <span class="o">(</span>not scanned<span class="o">)</span>: 2600:3c01::f03c:91ff:fe18:bb2f
+Not shown: 995 closed ports
+PORT      STATE    SERVICE
+22/tcp    open     ssh
+80/tcp    open     http
+1723/tcp  filtered pptp
+9929/tcp  open     nping-echo
+31337/tcp open     Elite
+
+Nmap <span class="k">done</span>: 1 IP address <span class="o">(</span>1 host up<span class="o">)</span> scanned <span class="k">in </span>11.06 seconds
+</code></pre></div></div>
+<p><br /></p>
+
+<p>From this we can see that ports 22, 80, 9929 and 31337 are open. So, let’s choose one of these to take a closer look at… let’s try port 80.</p>
+
+
+  </div><a class="u-url" href="/2020/12/30/penetration-testing.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">The DevOps Runbook</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name">The DevOps Runbook</li><li><a class="u-email" href="mailto:bobmclarke@gmail.com">bobmclarke@gmail.com</a></li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://github.com/bobclarke"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg> <span class="username">bobclarke</span></a></li></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p>Sharing personal notes about tech challenges and adventures just in case they&#39;re useful.</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

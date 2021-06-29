@@ -1,0 +1,78 @@
+I"�<p>I’m taking a pen testing course on Linux Accademy over the christmas holidays. It’s day two and I thought it would be useful to log my progress here…</p>
+
+<h2 id="lab-setup">Lab setup</h2>
+<p>I’m using two docker images as follows:</p>
+<ul>
+  <li><code class="language-html highlighter-rouge">kalilinux/kali-rolling</code> (the “attacker” machine)</li>
+  <li><code class="language-html highlighter-rouge">tleemcjr/metasploitable2</code> (the deliberately vulnerable target)</li>
+</ul>
+
+<p><br /></p>
+<h3 id="first-lets-set-up-kali">First, let’s set up Kali</h3>
+<p>The image I’m using doesn’t come pre-installed with any tools so we’ll need to install these ourselves. Here’s a Dockerfile for this</p>
+
+<figure class="highlight"><pre><code class="language-docker" data-lang="docker"><span class="k">FROM</span><span class="s"> kalilinux/kali-rolling</span>
+
+<span class="k">RUN </span>apt-get update <span class="o">&amp;&amp;</span> <span class="se">\
+</span>apt-get dist-upgrade <span class="nt">-y</span> <span class="o">&amp;&amp;</span> <span class="se">\
+</span>apt-get <span class="nb">install</span> <span class="nt">-y</span> <span class="se">\
+</span>metasploit-framework <span class="se">\
+</span>nmap <span class="se">\
+</span>curl <span class="se">\
+</span>vim <span class="se">\
+</span>netcat <span class="se">\
+</span>dirbuster <span class="se">\
+</span>theharvester <span class="se">\
+</span>nikto <span class="se">\
+</span>openvas <span class="se">\
+</span>gvm <span class="se">\
+</span>net-tools <span class="se">\
+</span>hping3 <span class="se">\
+</span>dnsutils <span class="se">\
+</span>proxychains <span class="se">\
+</span>tor</code></pre></figure>
+
+<p><br />
+Now start the image and exec into the container</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="syntax"><code>docker run <span class="nt">--name</span> kali_lab <span class="nt">-h</span> kali <span class="nt">-d</span> <span class="nt">-it</span> kali_lab <span class="o">&amp;&amp;</span> <span class="se">\</span>
+docker <span class="nb">exec</span> <span class="nt">-it</span> kali_lab bash
+</code></pre></div></div>
+
+<p><br />You should now be sitting at a kali prompt as root</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="syntax"><code><span class="o">(</span>root💀kali<span class="o">)</span>-[~]
+</code></pre></div></div>
+<p><br /></p>
+<h3 id="now-lets-set-up-our-exploitable-target">Now let’s set up our exploitable target</h3>
+<p><em>TBC</em></p>
+
+<h2 id="basic-target-scanning-with-nmap">Basic target scanning with nmap</h2>
+<p>Before we get into using our metasploitable target, let’s run throught some basic nmap scanning. <br /></p>
+
+<p>The simplest scan is as follows</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="syntax"><code>nmap &lt;IP address&gt;
+</code></pre></div></div>
+<p>This will scan the top 1000 ports on the provided IP address, for example</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="syntax"><code>nmap scanme.nmap.org
+</code></pre></div></div>
+<p>Will result in something like</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="syntax"><code>Starting Nmap 7.91 <span class="o">(</span> https://nmap.org <span class="o">)</span> at 2020-12-30 14:34 UTC
+Nmap scan report <span class="k">for </span>scanme.nmap.org <span class="o">(</span>45.33.32.156<span class="o">)</span>
+Host is up <span class="o">(</span>0.17s latency<span class="o">)</span><span class="nb">.</span>
+Other addresses <span class="k">for </span>scanme.nmap.org <span class="o">(</span>not scanned<span class="o">)</span>: 2600:3c01::f03c:91ff:fe18:bb2f
+Not shown: 995 closed ports
+PORT      STATE    SERVICE
+22/tcp    open     ssh
+80/tcp    open     http
+1723/tcp  filtered pptp
+9929/tcp  open     nping-echo
+31337/tcp open     Elite
+
+Nmap <span class="k">done</span>: 1 IP address <span class="o">(</span>1 host up<span class="o">)</span> scanned <span class="k">in </span>11.06 seconds
+</code></pre></div></div>
+<p><br /></p>
+
+<p>From this we can see that ports 22, 80, 9929 and 31337 are open. So, let’s choose one of these to take a closer look at… let’s try port 80.</p>
+
+:ET
