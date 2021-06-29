@@ -7,13 +7,15 @@ author:
 tags: []
 summary: 
 ---
-Reference doc
+
+### Reference doc
 ---
-ref https://docs.microsoft.com/en-us/cli/azure/keyvault?view=azure-cli-latest#az-keyvault-purge
+
+https://docs.microsoft.com/en-us/cli/azure/keyvault?view=azure-cli-latest#az-keyvault-purge
 
 ### deleting a key-vault 
-
 ---
+
 list
 ```
 az keyvault list --resource-type vault  --subscription my-test-keyvault
