@@ -163,7 +163,8 @@ pre,
 code {
   @include relative-font-size(0.9375);
   //border: 1px solid $grey-color-light;
-  //border-radius: 3px;
+  border: 1px solid rgba(0,0,0,.14902);
+  border-radius: 4px;
   background-color: #eef;
 }
 
