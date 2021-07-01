@@ -16,19 +16,19 @@ summary:
 ---
 
 
-list
+list all keyvaults of type vault (as opposed to hsm) in the subscription "my-test-subscription"
 ```
-az keyvault list --resource-type vault  --subscription my-test-keyvault
+az keyvault list --resource-type vault  --subscription my-test-subscription
 ```
 
 
-delete 
+delete the keyvault (this will delete it but it'll still be recoverable)
 ```
 az keyvault delete  --name my-test-keyvault  --subscription my-test-subscription
 ```
 
 
-purge 
+purge (this will actually delete it and it will no longer be recoverable)
 ```
 az keyvault purge  --name my-test-keyvault  --subscription my-test-subscription
 ```
