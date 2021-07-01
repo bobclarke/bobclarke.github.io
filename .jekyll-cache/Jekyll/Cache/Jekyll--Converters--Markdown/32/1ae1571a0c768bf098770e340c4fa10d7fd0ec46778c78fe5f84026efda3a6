@@ -1,0 +1,24 @@
+I"<h4 id="reference-doc">Reference doc</h4>
+<hr />
+<p>https://docs.microsoft.com/en-us/cli/azure/keyvault?view=azure-cli-latest#az-keyvault-purge</p>
+
+<h4 id="deleting-a-key-vault">deleting a key-vault</h4>
+<hr />
+
+<p>list</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>az keyvault list --resource-type vault  --subscription my-test-keyvault
+</code></pre></div></div>
+
+<p>delete</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>az keyvault delete  --name my-test-keyvault  --subscription my-test-subscription
+</code></pre></div></div>
+
+<p>purge</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>az keyvault purge  --name my-test-keyvault  --subscription my-test-subscription
+</code></pre></div></div>
+
+<p>make sure it’s not in a soft deleted / recoverable stage</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>az keyvault list-deleted --resource-type vault --subscription  my-test-subscription
+</code></pre></div></div>
+
+:ET
