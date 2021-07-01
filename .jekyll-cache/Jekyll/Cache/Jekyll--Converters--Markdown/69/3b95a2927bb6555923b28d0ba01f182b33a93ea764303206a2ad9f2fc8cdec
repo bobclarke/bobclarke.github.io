@@ -1,8 +1,0 @@
-I"z<p>This is because sshd has registered too many logins with the incorrect password.<br />
-To reset the incorrect password count, run the following command:</p>
-<pre>pam_tally2 --&lt;user&gt; --reset</pre>
-<p>This is configured under /etc/pam.d/sshd</p>
-<p>Original article at:</p>
-<p><a class="contentLink" style="background:#ffffff;border:0;margin:0;outline:0;padding:0;vertical-align:baseline;" href="http://www.tecmint.com/use-pam_tally2-to-lock-and-unlock-ssh-failed-login-attempts" target="_blank" rel="noopener noreferrer">http://www.tecmint.com/use-pam_tally2-to-lock-and-unlock-ssh-failed-login-attempts</a></p>
-<p>&nbsp;</p>
-:ET

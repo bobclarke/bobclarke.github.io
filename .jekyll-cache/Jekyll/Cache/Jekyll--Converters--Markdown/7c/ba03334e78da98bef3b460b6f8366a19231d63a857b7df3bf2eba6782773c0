@@ -1,4 +1,0 @@
-I"R
-<figure class="highlight"><pre><code class="language-bash" data-lang="bash">kubectl run <span class="nt">-it</span> test-pod <span class="nt">--rm</span> <span class="nt">--image</span> busybox <span class="nt">--restart</span> Never <span class="nt">-n</span> &lt;namespace&gt; <span class="nt">--</span> /bin/sh</code></pre></figure>
-
-:ET

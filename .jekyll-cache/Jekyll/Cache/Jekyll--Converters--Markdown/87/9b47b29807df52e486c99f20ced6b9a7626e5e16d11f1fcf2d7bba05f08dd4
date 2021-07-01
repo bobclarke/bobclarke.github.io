@@ -1,4 +1,0 @@
-I"k<p>curl has a --progress-bar option, however it appears that STDOUT overwrites it's output. A workaround for this is to redirect STDOUT to /dev/null as shown in the following example:</p>
-<pre class="code">curl -v -u 'my_username:my_pass' --upload-file myfile.tar.gz \
-  http://nexus.stack1.com/content/sites/binaries/golang/ --progress-bar  &gt; /dev/null</pre>
-:ET

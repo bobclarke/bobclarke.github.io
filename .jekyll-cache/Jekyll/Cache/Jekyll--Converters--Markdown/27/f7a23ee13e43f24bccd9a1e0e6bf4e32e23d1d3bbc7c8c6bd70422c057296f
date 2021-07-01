@@ -1,5 +1,0 @@
-I"î<p><span style="color:#444444;font-family:verdana;font-size:16px;"> Surprisingly, when using ikeycmd recently to manipulate IHS keystores (kdb), I had to specifically configure the CMS storetype as follows:  </span>
-<div style="background:#f8f8f8;overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;font-size:18px;"> ../jre/bin/ikeycmd  -DADD_CMS_SERVICE_PROVIDER_ENABLED=true -cert -details -label foo  -db plugin-key.kdb -stashed </div>
-<p></p>
-</p>
-:ET

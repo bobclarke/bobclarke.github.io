@@ -1,7 +1,0 @@
-I"„<p><span>Append proxy and credentials to your <b>/etc/yum.conf</b> file as follows</span><br /><!-- HTML generated using hilite.me -->
-<div style="background:#ffffff;border-width:.1em .1em .1em .8em;border:solid gray;overflow:auto;padding:.2em .6em;width:auto;">
-<pre style="line-height:125%;margin:0;"><span style="color:#996633;">proxy</span><span style="color:#333333;">=</span>http://proxy-host:proxy-port<br /><span style="color:#996633;">proxy_username</span><span style="color:#333333;">=</span>username<br /><span style="color:#996633;">proxy_password</span><span style="color:#333333;">=password</span><br /></pre>
-</div>
-<p></p>
-</p>
-:ET

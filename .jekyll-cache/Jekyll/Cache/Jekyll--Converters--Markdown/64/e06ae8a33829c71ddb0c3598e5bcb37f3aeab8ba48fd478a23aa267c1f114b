@@ -1,8 +1,0 @@
-I"+<p>When you ask the API server to retrieve pod logs (i.e. kubectl logs , it does this be connecting to kube-proxy on port <span style="color:#008000;"><strong>10250</strong></span> (not quite sure where this is defined yet but will find out and update this post)  on the node hosting the pod.  You can check this manually by ssh'ing to the node as follows and using curl as follows:</p>
-<pre>curl -k https://&lt;k8s node IP address&gt;:10250/containerLogs/&lt;pod namespace&gt;/&lt;pod name&gt;/&lt;container name&gt;</pre>
-<p>The <span style="color:#008000;"><strong>no route to host message</strong></span> is misleading because it implies that you have a IP routing problem, which is not the case, as you'll notice if you ping the host.</p>
-<p>The error is actually caused by the kube-proxy port being blocked by firewalld on the target hosting the pod in question. Not sure why the no route to host message is given because this is obviously not a routing issue. Allowing port 10250 on the host in question resolved the issue when I experienced this problem.<br />
-re-running the curl command above will show you the logs from the container in question (no authentication needed)</p>
-<p>&nbsp;</p>
-<p>NOTE: Make sure you don't have HTTP_PROXY and/or HTTPS_PROXY env vars set on the box you're running curl from</p>
-:ET

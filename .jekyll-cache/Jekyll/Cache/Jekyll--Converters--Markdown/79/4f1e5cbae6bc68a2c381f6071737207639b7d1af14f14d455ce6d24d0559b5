@@ -1,2 +1,0 @@
-I"�<p>Let’s say I’m contributing to Github projects at work and I’m also contributing to Github projects that are not work related. In all likelyhood I’ll do this using different Github accounts, however I may be working on the same machine for both work and personal projects for convenience. With this in mind, I need a way for my git cli to automatically detect which SSH key to use depending on the project.</p>
-:ET

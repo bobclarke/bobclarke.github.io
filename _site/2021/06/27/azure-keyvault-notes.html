@@ -7,8 +7,8 @@
 <meta name="generator" content="Jekyll v4.1.1" />
 <meta property="og:title" content="Azure Keyvault Notes" />
 <meta property="og:locale" content="en_US" />
-<meta name="description" content="Reference doc ref https://docs.microsoft.com/en-us/cli/azure/keyvault?view=azure-cli-latest#az-keyvault-purge" />
-<meta property="og:description" content="Reference doc ref https://docs.microsoft.com/en-us/cli/azure/keyvault?view=azure-cli-latest#az-keyvault-purge" />
+<meta name="description" content="Reference doc https://docs.microsoft.com/en-us/cli/azure/keyvault?view=azure-cli-latest#az-keyvault-purge" />
+<meta property="og:description" content="Reference doc https://docs.microsoft.com/en-us/cli/azure/keyvault?view=azure-cli-latest#az-keyvault-purge" />
 <link rel="canonical" href="http://localhost:4000/2021/06/27/azure-keyvault-notes.html" />
 <meta property="og:url" content="http://localhost:4000/2021/06/27/azure-keyvault-notes.html" />
 <meta property="og:site_name" content="The DevOps Runbook" />
@@ -17,7 +17,7 @@
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="Azure Keyvault Notes" />
 <script type="application/ld+json">
-{"headline":"Azure Keyvault Notes","dateModified":"2021-06-27T14:42:00+01:00","datePublished":"2021-06-27T14:42:00+01:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/2021/06/27/azure-keyvault-notes.html"},"description":"Reference doc ref https://docs.microsoft.com/en-us/cli/azure/keyvault?view=azure-cli-latest#az-keyvault-purge","url":"http://localhost:4000/2021/06/27/azure-keyvault-notes.html","@type":"BlogPosting","@context":"https://schema.org"}</script>
+{"headline":"Azure Keyvault Notes","dateModified":"2021-06-27T14:42:00+01:00","datePublished":"2021-06-27T14:42:00+01:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/2021/06/27/azure-keyvault-notes.html"},"description":"Reference doc https://docs.microsoft.com/en-us/cli/azure/keyvault?view=azure-cli-latest#az-keyvault-purge","url":"http://localhost:4000/2021/06/27/azure-keyvault-notes.html","@type":"BlogPosting","@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="The DevOps Runbook" /></head>
 <body><header class="site-header" role="banner">
@@ -47,19 +47,22 @@
   </header>
 
   <div class="post-content e-content" itemprop="articleBody">
-    <h2 id="reference-doc">Reference doc</h2>
-<p>ref https://docs.microsoft.com/en-us/cli/azure/keyvault?view=azure-cli-latest#az-keyvault-purge</p>
+    <h4 id="reference-doc">Reference doc</h4>
+<hr />
+<p><a href="https://docs.microsoft.com/en-us/cli/azure/keyvault?view=azure-cli-latest#az-keyvault-purge">https://docs.microsoft.com/en-us/cli/azure/keyvault?view=azure-cli-latest#az-keyvault-purge</a></p>
 
-<h2 id="deleting-a-key-vault">deleting a key-vault</h2>
-<p>list</p>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>az keyvault list --resource-type vault  --subscription my-test-keyvault
+<h4 id="deleting-a-key-vault">deleting a key-vault</h4>
+<hr />
+
+<p>list all keyvaults of type vault (as opposed to hsm) in the subscription “my-test-subscription”</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>az keyvault list --resource-type vault  --subscription my-test-subscription
 </code></pre></div></div>
 
-<p>delete</p>
+<p>delete the keyvault (this will delete it but it’ll still be recoverable)</p>
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>az keyvault delete  --name my-test-keyvault  --subscription my-test-subscription
 </code></pre></div></div>
 
-<p>purge</p>
+<p>purge (this will actually delete it and it will no longer be recoverable)</p>
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>az keyvault purge  --name my-test-keyvault  --subscription my-test-subscription
 </code></pre></div></div>
 

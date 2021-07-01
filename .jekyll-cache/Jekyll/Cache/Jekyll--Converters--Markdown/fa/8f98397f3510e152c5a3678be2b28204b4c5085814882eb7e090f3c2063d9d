@@ -1,6 +1,0 @@
-I"<p>This test will authenticate and download a single file</p>
-<p>Number of requests: 500</p>
-<p>Concurrency: 10</p>
-<pre>ab -n 500 -c 10 -A auth-username:password \
-    https://gitea.stack1.com/testing/benchmarking/raw/branch/develop/package-lock.json</pre>
-:ET

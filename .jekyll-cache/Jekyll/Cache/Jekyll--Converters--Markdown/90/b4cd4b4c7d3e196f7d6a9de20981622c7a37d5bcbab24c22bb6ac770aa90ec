@@ -1,4 +1,0 @@
-I"<p>Let’s say you’ve set up two listeners, one internal and one external as follows</p>
-<div class="language-html highlighter-rouge"><div class="highlight"><pre class="syntax"><code>KAFKA_LISTENERS=INTERNAL://0.0.0.0:9092,EXTERNAL://0.0.0.0:19092
-</code></pre></div></div>
-:ET

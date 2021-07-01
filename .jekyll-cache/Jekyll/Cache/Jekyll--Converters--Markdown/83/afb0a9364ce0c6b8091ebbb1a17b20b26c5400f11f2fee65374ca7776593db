@@ -1,2 +1,0 @@
-I"B<p>To inject a script into a Pod, it’s simple enough to use a config map, however if you try to chmod the script to make it executable you’ll get an error telling you that the file system is read-only.  This is easily solved by using <code class="language-plaintext highlighter-rouge">defaultMode</code> parameter</p>
-:ET

@@ -1,8 +1,0 @@
-I"e<p>edit your global git config as follows:</p>
-<pre>git config --global --edit</pre>
-<p>Add a credential entry as follows:</p>
-<pre>[credential]
-  helper =
-  helper = !gcloud auth git-helper --account=&lt;your email address&gt; --ignore-unknown $@</pre>
-<p>NOTE: Not sure why but this doesn't seem to work unless the first blank helper entry is present</p>
-:ET

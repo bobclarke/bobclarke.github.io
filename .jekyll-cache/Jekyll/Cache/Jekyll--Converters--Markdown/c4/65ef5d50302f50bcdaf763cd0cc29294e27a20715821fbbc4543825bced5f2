@@ -1,2 +1,0 @@
-I"ð<p>I had a slightly tricky issue recently whereby I needed to use a JQ expression as part of a local-exec.  The JQ expression needed quotes however Terraform wasnâ€™t happy with them.  It was a simple case of escaping with backslashes.</p>
-:ET

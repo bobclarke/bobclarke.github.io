@@ -5,10 +5,13 @@ body, h1, h2, h3, h4, h5, h6, p, blockquote, pre, hr, dl, dd, ol, ul, figure { m
 body { font: 400 16px/1.5 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"; color: #111; background-color: #fdfdfd; -webkit-text-size-adjust: 100%; -webkit-font-feature-settings: "kern" 1; -moz-font-feature-settings: "kern" 1; -o-font-feature-settings: "kern" 1; font-feature-settings: "kern" 1; font-kerning: normal; display: flex; min-height: 100vh; flex-direction: column; }
 
 /** Set `margin-bottom` to maintain vertical rhythm */
-/** h1, h2, h3, h4, h5, h6, p, blockquote, pre, ul, ol, dl, figure, .highlight { margin-bottom: 15px; } */
-h1, h2, h3, h4, h5, h6, p, blockquote, pre, ul, ol, dl, figure, .highlight { margin-bottom: 15px; } *
+h1, h2, h3, h5, h6, p, blockquote, pre, ul, ol, dl, figure, .highlight { margin-bottom: 24px; }
 
+p { margin-bottom: 2px; }
 
+h4 { margin-bottom: 2px; margin-top: 20px; }
+
+hr { margin-bottom: 10px; }
 
 /** `main` element */
 main { display: block; /* Default value of `display` of `main` element is 'inline' in IE 11. */ }
@@ -46,7 +49,7 @@ blockquote { color: #828282; border-left: 4px solid #e8e8e8; padding-left: 15px;
 blockquote > :last-child { margin-bottom: 0; }
 
 /** Code formatting */
-pre, code { font-size: 15px; border: 1px solid #e8e8e8; border-radius: 3px; background-color: #eef; }
+pre, code { font-size: 15px; border: 1px solid rgba(0, 0, 0, 0.14902); border-radius: 4px; background-color: #eef; }
 
 code { padding: 1px 5px; }
 
@@ -54,6 +57,7 @@ pre { padding: 8px 12px; overflow-x: auto; }
 
 pre > code { border: 0; padding-right: 0; padding-left: 0; }
 
+/* pre.hightlight {   display: block; padding: 8px; margin-bottom: 20px; background-color: #eee; font-family: monospace; box-sizing: border-box; font-family: Monaco,Menlo,Consolas,Courier New,monospace; font-size: 12px; color: #333; border-radius: 4px; background-color: #fbfaf8; border: 1px solid rgba(0,0,0,.14902); } */
 /** Wrapper */
 .wrapper { max-width: -webkit-calc(1000px - (30px * 2)); max-width: calc(1000px - (30px * 2)); margin-right: auto; margin-left: auto; padding-right: 30px; padding-left: 30px; }
 
@@ -276,5 +280,11 @@ table td { border: 1px solid #e8e8e8; }
 .highlight .vi { color: #008080; }
 
 .highlight .il { color: #099; }
+
+#hometable { border: 0px solid black; border-collapse: collapse; padding: 5px 20px 5px 5px; margin: 0px 0px 40px 0px; vertical-align: top; color: white; background-color: dodgerblue; }
+
+code { font-family: Monaco,Menlo,Consolas,Courier New,monospace; font-size: 12px; }
+
+p { font-size: 15px; }
 
 /*# sourceMappingURL=main.css.map */
