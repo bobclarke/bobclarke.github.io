@@ -281,7 +281,7 @@ table td { border: 1px solid #e8e8e8; }
 
 .highlight .il { color: #099; }
 
-#hometable { border: 0px solid black; border-collapse: collapse; padding: 5px 20px 5px 5px; margin: 0px 0px 40px 0px; vertical-align: top; color: white; background-color: dodgerblue; }
+#hometable { border: 0px solid black; border-collapse: collapse; padding: 8px 8px 8px 8px; margin: 0px 0px 5px 0px; vertical-align: top; color: white; background-color: dodgerblue; }
 
 code { font-family: Monaco,Menlo,Consolas,Courier New,monospace; font-size: 12px; }
 
