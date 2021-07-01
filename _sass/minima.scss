@@ -56,6 +56,12 @@ $on-laptop:        800px !default;
 
 // Customisations
 
+#home_table {
+  td {
+    border: 0px solid $grey-color-light;
+  }
+}
+
 
 
 
