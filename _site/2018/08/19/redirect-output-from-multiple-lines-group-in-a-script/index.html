@@ -17,7 +17,7 @@
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="Redirect output from multiple lines (group) in a script" />
 <script type="application/ld+json">
-{"headline":"Redirect output from multiple lines (group) in a script","datePublished":"2018-08-19T20:58:06+01:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/2018/08/19/redirect-output-from-multiple-lines-group-in-a-script/"},"description":"#/bin/bash timestamp=$(date +%d/%h/%y_%H:%M:%S) context_root=$1 https_port=31001 app=&quot;${1}-service&quot; status_code=$2 fake_host=$3 { echo -e &quot;${timestamp}\\nAPP: ${app}\\nPORT: $https_port\\nCONTEXT ROOT: $context_root\\nHTTP_STATUS_CODE: ${status_code}&quot;; echo -e &quot;Requesting https://$(hostname):${https_port}${context_root}/info&quot;; echo &#39;{ &quot;userId&quot;: 1, &quot;id&quot;: 1, &quot;title&quot;: &quot;testing&quot;, &quot;completed&quot;: false }&#39; echo -e &quot;\\n&quot;; } &gt;&gt; /logs/curl 2&gt;&amp;1","url":"http://localhost:4000/2018/08/19/redirect-output-from-multiple-lines-group-in-a-script/","dateModified":"2018-08-19T20:58:06+01:00","@type":"BlogPosting","@context":"https://schema.org"}</script>
+{"headline":"Redirect output from multiple lines (group) in a script","dateModified":"2018-08-19T20:58:06+01:00","datePublished":"2018-08-19T20:58:06+01:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/2018/08/19/redirect-output-from-multiple-lines-group-in-a-script/"},"description":"#/bin/bash timestamp=$(date +%d/%h/%y_%H:%M:%S) context_root=$1 https_port=31001 app=&quot;${1}-service&quot; status_code=$2 fake_host=$3 { echo -e &quot;${timestamp}\\nAPP: ${app}\\nPORT: $https_port\\nCONTEXT ROOT: $context_root\\nHTTP_STATUS_CODE: ${status_code}&quot;; echo -e &quot;Requesting https://$(hostname):${https_port}${context_root}/info&quot;; echo &#39;{ &quot;userId&quot;: 1, &quot;id&quot;: 1, &quot;title&quot;: &quot;testing&quot;, &quot;completed&quot;: false }&#39; echo -e &quot;\\n&quot;; } &gt;&gt; /logs/curl 2&gt;&amp;1","url":"http://localhost:4000/2018/08/19/redirect-output-from-multiple-lines-group-in-a-script/","@type":"BlogPosting","@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="The DevOps Runbook" /></head>
 <body><header class="site-header" role="banner">
@@ -75,14 +75,14 @@ fake_host=$3
     <div class="footer-col-wrapper">
       <div class="footer-col footer-col-1">
         <ul class="contact-list">
-          <li class="p-name">The DevOps Runbook</li></ul>
+          <li class="p-name">Bob Clarke</li><li><a class="u-email" href="mailto:bobmclarke@gmail.com">bobmclarke@gmail.com</a></li></ul>
       </div>
 
-      <div class="footer-col footer-col-2"><ul class="social-media-list"></ul>
+      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://github.com/bobclarke"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg> <span class="username">bobclarke</span></a></li><li><a href="https://www.linkedin.com/in/bobmclarke"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#linkedin"></use></svg> <span class="username">bobmclarke</span></a></li><li><a href="/feed.xml"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#rss"></use></svg> <span>feed.xml</span></a></li></ul>
 </div>
 
       <div class="footer-col footer-col-3">
-        <p></p>
+        <p>Notes about advantures in DevOps and infrastruture</p>
       </div>
     </div>
 

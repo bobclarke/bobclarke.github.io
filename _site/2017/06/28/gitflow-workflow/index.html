@@ -17,7 +17,7 @@
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="Gitflow workflow" />
 <script type="application/ld+json">
-{"headline":"Gitflow workflow","datePublished":"2017-06-28T16:03:00+01:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/2017/06/28/gitflow-workflow/"},"description":"My understanding of how this differs from simple feature branches: To start with, two branches exist named master and develop (the dev branch is derived from master) Developers create and work on feature branches from the develop branch in the usual way and these are merged back into the develop branch regularly via pull requests. If using semantic versioning, the minor number (2nd field) is incremented each time a backwards compatible feature is added. A non backwards compatible feature (breaking feature) would result in the major number (1st field) being incremented.  When it is decided that a release is due, a release branch is created from the develop branch. New features can still be added to the develop branch via feature branches in the usual way. A deployable artifact is built from the release branch and the artifact is deployed to the appropriate test environments. The deployed artifact is tested and any bug fixes are carried out on the release branch. Bug fixes increment the patch number (3rd field) of the semantic version number. NOTE: Only bug fixes can be carried out in the release branch. No features can be added to the release branch. When all bugs are resolved and the release is finalised, the release branch is merged into both develop and master branches and master is also tagged with the semantic version number. Official doc:  https://www.atlassian.com/git/tutorials/comparing-workflows","url":"http://localhost:4000/2017/06/28/gitflow-workflow/","dateModified":"2017-06-28T16:03:00+01:00","@type":"BlogPosting","@context":"https://schema.org"}</script>
+{"headline":"Gitflow workflow","dateModified":"2017-06-28T16:03:00+01:00","datePublished":"2017-06-28T16:03:00+01:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/2017/06/28/gitflow-workflow/"},"description":"My understanding of how this differs from simple feature branches: To start with, two branches exist named master and develop (the dev branch is derived from master) Developers create and work on feature branches from the develop branch in the usual way and these are merged back into the develop branch regularly via pull requests. If using semantic versioning, the minor number (2nd field) is incremented each time a backwards compatible feature is added. A non backwards compatible feature (breaking feature) would result in the major number (1st field) being incremented.  When it is decided that a release is due, a release branch is created from the develop branch. New features can still be added to the develop branch via feature branches in the usual way. A deployable artifact is built from the release branch and the artifact is deployed to the appropriate test environments. The deployed artifact is tested and any bug fixes are carried out on the release branch. Bug fixes increment the patch number (3rd field) of the semantic version number. NOTE: Only bug fixes can be carried out in the release branch. No features can be added to the release branch. When all bugs are resolved and the release is finalised, the release branch is merged into both develop and master branches and master is also tagged with the semantic version number. Official doc:  https://www.atlassian.com/git/tutorials/comparing-workflows","url":"http://localhost:4000/2017/06/28/gitflow-workflow/","@type":"BlogPosting","@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="The DevOps Runbook" /></head>
 <body><header class="site-header" role="banner">
@@ -78,14 +78,14 @@
     <div class="footer-col-wrapper">
       <div class="footer-col footer-col-1">
         <ul class="contact-list">
-          <li class="p-name">The DevOps Runbook</li></ul>
+          <li class="p-name">Bob Clarke</li><li><a class="u-email" href="mailto:bobmclarke@gmail.com">bobmclarke@gmail.com</a></li></ul>
       </div>
 
-      <div class="footer-col footer-col-2"><ul class="social-media-list"></ul>
+      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://github.com/bobclarke"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg> <span class="username">bobclarke</span></a></li><li><a href="https://www.linkedin.com/in/bobmclarke"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#linkedin"></use></svg> <span class="username">bobmclarke</span></a></li><li><a href="/feed.xml"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#rss"></use></svg> <span>feed.xml</span></a></li></ul>
 </div>
 
       <div class="footer-col footer-col-3">
-        <p></p>
+        <p>Notes about advantures in DevOps and infrastruture</p>
       </div>
     </div>
 

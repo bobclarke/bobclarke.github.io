@@ -17,7 +17,7 @@
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="Nginx - alias vs root" />
 <script type="application/ld+json">
-{"headline":"Nginx - alias vs root","datePublished":"2017-07-13T19:58:00+01:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/2017/07/13/nginx-alias-vs-root/"},"description":"Consider the following nginx config snippet: server { listen 80; server_name my_server; location /foo { root /var/html; autoindex on; allow all; } location /bar { alias /var/html; autoindex on; allow all; }} &lt;/div&gt; The root directive will map a request for http://myserver.stack1.com/foo to a directory /var/html/foo The alias directive will map a request for http://myserver.stack1.com/bar to a directory /var/html   (i.e. The rested URI is not appended to the file system location)","url":"http://localhost:4000/2017/07/13/nginx-alias-vs-root/","dateModified":"2017-07-13T19:58:00+01:00","@type":"BlogPosting","@context":"https://schema.org"}</script>
+{"headline":"Nginx - alias vs root","dateModified":"2017-07-13T19:58:00+01:00","datePublished":"2017-07-13T19:58:00+01:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/2017/07/13/nginx-alias-vs-root/"},"description":"Consider the following nginx config snippet: server { listen 80; server_name my_server; location /foo { root /var/html; autoindex on; allow all; } location /bar { alias /var/html; autoindex on; allow all; }} &lt;/div&gt; The root directive will map a request for http://myserver.stack1.com/foo to a directory /var/html/foo The alias directive will map a request for http://myserver.stack1.com/bar to a directory /var/html   (i.e. The rested URI is not appended to the file system location)","url":"http://localhost:4000/2017/07/13/nginx-alias-vs-root/","@type":"BlogPosting","@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="The DevOps Runbook" /></head>
 <body><header class="site-header" role="banner">
@@ -80,14 +80,14 @@
     <div class="footer-col-wrapper">
       <div class="footer-col footer-col-1">
         <ul class="contact-list">
-          <li class="p-name">The DevOps Runbook</li></ul>
+          <li class="p-name">Bob Clarke</li><li><a class="u-email" href="mailto:bobmclarke@gmail.com">bobmclarke@gmail.com</a></li></ul>
       </div>
 
-      <div class="footer-col footer-col-2"><ul class="social-media-list"></ul>
+      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://github.com/bobclarke"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg> <span class="username">bobclarke</span></a></li><li><a href="https://www.linkedin.com/in/bobmclarke"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#linkedin"></use></svg> <span class="username">bobmclarke</span></a></li><li><a href="/feed.xml"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#rss"></use></svg> <span>feed.xml</span></a></li></ul>
 </div>
 
       <div class="footer-col footer-col-3">
-        <p></p>
+        <p>Notes about advantures in DevOps and infrastruture</p>
       </div>
     </div>
 

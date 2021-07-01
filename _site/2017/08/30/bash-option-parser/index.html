@@ -17,7 +17,7 @@
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="bash option parser" />
 <script type="application/ld+json">
-{"headline":"bash option parser","datePublished":"2017-08-30T09:44:00+01:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/2017/08/30/bash-option-parser/"},"description":"A nice way of parsing options passed to a bash script without relying on position: #!/bin/bashfor i in &quot;$@&quot; do case $i in --node-port=*) NODEPORT=&quot;${i#*=}&quot; ;; --jjp-host=*) JJPHOST=&quot;${i#*=}&quot; ;; --jjp-port=*) JJPPORT=&quot;${i#*=}&quot; ;; --spp-host=*) SPPHOST=&quot;${i#*=}&quot; ;; --spp-port=*) SPPPORT=&quot;${i#*=}&quot; ;; --help) echo &quot;&quot; echo &quot;Usage example: start_app --spp-host=jupiter --spp-port=2000 --node-port=3000 --jjp-host=neptune --jjp-port=4000&quot; echo &quot;&quot; ;; *) ;; esacdone [ &quot;${NODEPORT}XXX&quot; == &quot;XXX&quot; ] &amp;&amp; { echo &quot;Warning: NODEPORT env var not set&quot;; }[ &quot;${JJPHOST}XXX&quot; == &quot;XXX&quot; ] &amp;&amp; { echo &quot;Warning: JJPHOST env var not set&quot;; }[ &quot;${JJPPORT}XXX&quot; == &quot;XXX&quot; ] &amp;&amp; { echo &quot;Warning: JJPPORT env var not set&quot;; }[ &quot;${SPPHOST}XXX&quot; == &quot;XXX&quot; ] &amp;&amp; { echo &quot;Warning: SPPHOST env var not set&quot;; }[ &quot;${SPPPORT}XXX&quot; == &quot;XXX&quot; ] &amp;&amp; { echo &quot;Warning: SPPPORT env var not set&quot;; } export NODEPORTexport JJPHOSTexport JJPPORTexport SPPHOSTexport SPPPORT cd /applications/my_appnohup npm run start &amp;","url":"http://localhost:4000/2017/08/30/bash-option-parser/","dateModified":"2017-08-30T09:44:00+01:00","@type":"BlogPosting","@context":"https://schema.org"}</script>
+{"headline":"bash option parser","dateModified":"2017-08-30T09:44:00+01:00","datePublished":"2017-08-30T09:44:00+01:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/2017/08/30/bash-option-parser/"},"description":"A nice way of parsing options passed to a bash script without relying on position: #!/bin/bashfor i in &quot;$@&quot; do case $i in --node-port=*) NODEPORT=&quot;${i#*=}&quot; ;; --jjp-host=*) JJPHOST=&quot;${i#*=}&quot; ;; --jjp-port=*) JJPPORT=&quot;${i#*=}&quot; ;; --spp-host=*) SPPHOST=&quot;${i#*=}&quot; ;; --spp-port=*) SPPPORT=&quot;${i#*=}&quot; ;; --help) echo &quot;&quot; echo &quot;Usage example: start_app --spp-host=jupiter --spp-port=2000 --node-port=3000 --jjp-host=neptune --jjp-port=4000&quot; echo &quot;&quot; ;; *) ;; esacdone [ &quot;${NODEPORT}XXX&quot; == &quot;XXX&quot; ] &amp;&amp; { echo &quot;Warning: NODEPORT env var not set&quot;; }[ &quot;${JJPHOST}XXX&quot; == &quot;XXX&quot; ] &amp;&amp; { echo &quot;Warning: JJPHOST env var not set&quot;; }[ &quot;${JJPPORT}XXX&quot; == &quot;XXX&quot; ] &amp;&amp; { echo &quot;Warning: JJPPORT env var not set&quot;; }[ &quot;${SPPHOST}XXX&quot; == &quot;XXX&quot; ] &amp;&amp; { echo &quot;Warning: SPPHOST env var not set&quot;; }[ &quot;${SPPPORT}XXX&quot; == &quot;XXX&quot; ] &amp;&amp; { echo &quot;Warning: SPPPORT env var not set&quot;; } export NODEPORTexport JJPHOSTexport JJPPORTexport SPPHOSTexport SPPPORT cd /applications/my_appnohup npm run start &amp;","url":"http://localhost:4000/2017/08/30/bash-option-parser/","@type":"BlogPosting","@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="The DevOps Runbook" /></head>
 <body><header class="site-header" role="banner">
@@ -68,14 +68,14 @@
     <div class="footer-col-wrapper">
       <div class="footer-col footer-col-1">
         <ul class="contact-list">
-          <li class="p-name">The DevOps Runbook</li></ul>
+          <li class="p-name">Bob Clarke</li><li><a class="u-email" href="mailto:bobmclarke@gmail.com">bobmclarke@gmail.com</a></li></ul>
       </div>
 
-      <div class="footer-col footer-col-2"><ul class="social-media-list"></ul>
+      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://github.com/bobclarke"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg> <span class="username">bobclarke</span></a></li><li><a href="https://www.linkedin.com/in/bobmclarke"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#linkedin"></use></svg> <span class="username">bobmclarke</span></a></li><li><a href="/feed.xml"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#rss"></use></svg> <span>feed.xml</span></a></li></ul>
 </div>
 
       <div class="footer-col footer-col-3">
-        <p></p>
+        <p>Notes about advantures in DevOps and infrastruture</p>
       </div>
     </div>
 

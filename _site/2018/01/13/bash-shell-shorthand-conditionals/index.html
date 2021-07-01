@@ -6,6 +6,7 @@
 <title>bash shell shorthand conditionals | The DevOps Runbook</title>
 <meta name="generator" content="Jekyll v4.1.1" />
 <meta property="og:title" content="bash shell shorthand conditionals" />
+<meta name="author" content="Bob Clarke" />
 <meta property="og:locale" content="en_US" />
 <meta name="description" content="This is a neat way in bash scripts to use conditionals. The basic syntax is: [ condition ] &amp;&amp; action [ condition ] || action counting files in a directory [ $(ls -1 | wc -l) -ne 1 ] &amp;&amp; echo “More than one file in this directory” checking the number of args passed [ $# -eq 1 ] || echo &quot;Expecting one argument&quot; you can also group multiple actions together as follows: [ $# -eq 1 ] || { echo &quot;Expecting one argument&quot;; exit 1; } &nbsp;" />
 <meta property="og:description" content="This is a neat way in bash scripts to use conditionals. The basic syntax is: [ condition ] &amp;&amp; action [ condition ] || action counting files in a directory [ $(ls -1 | wc -l) -ne 1 ] &amp;&amp; echo “More than one file in this directory” checking the number of args passed [ $# -eq 1 ] || echo &quot;Expecting one argument&quot; you can also group multiple actions together as follows: [ $# -eq 1 ] || { echo &quot;Expecting one argument&quot;; exit 1; } &nbsp;" />
@@ -17,7 +18,7 @@
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="bash shell shorthand conditionals" />
 <script type="application/ld+json">
-{"headline":"bash shell shorthand conditionals","datePublished":"2018-01-13T13:53:00+00:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/2018/01/13/bash-shell-shorthand-conditionals/"},"description":"This is a neat way in bash scripts to use conditionals. The basic syntax is: [ condition ] &amp;&amp; action [ condition ] || action counting files in a directory [ $(ls -1 | wc -l) -ne 1 ] &amp;&amp; echo “More than one file in this directory” checking the number of args passed [ $# -eq 1 ] || echo &quot;Expecting one argument&quot; you can also group multiple actions together as follows: [ $# -eq 1 ] || { echo &quot;Expecting one argument&quot;; exit 1; } &nbsp;","url":"http://localhost:4000/2018/01/13/bash-shell-shorthand-conditionals/","dateModified":"2018-01-13T13:53:00+00:00","@type":"BlogPosting","@context":"https://schema.org"}</script>
+{"headline":"bash shell shorthand conditionals","dateModified":"2018-01-13T13:53:00+00:00","datePublished":"2018-01-13T13:53:00+00:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/2018/01/13/bash-shell-shorthand-conditionals/"},"author":{"@type":"Person","name":"Bob Clarke"},"description":"This is a neat way in bash scripts to use conditionals. The basic syntax is: [ condition ] &amp;&amp; action [ condition ] || action counting files in a directory [ $(ls -1 | wc -l) -ne 1 ] &amp;&amp; echo “More than one file in this directory” checking the number of args passed [ $# -eq 1 ] || echo &quot;Expecting one argument&quot; you can also group multiple actions together as follows: [ $# -eq 1 ] || { echo &quot;Expecting one argument&quot;; exit 1; } &nbsp;","url":"http://localhost:4000/2018/01/13/bash-shell-shorthand-conditionals/","@type":"BlogPosting","@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="The DevOps Runbook" /></head>
 <body><header class="site-header" role="banner">
@@ -72,14 +73,14 @@
     <div class="footer-col-wrapper">
       <div class="footer-col footer-col-1">
         <ul class="contact-list">
-          <li class="p-name">The DevOps Runbook</li></ul>
+          <li class="p-name">Bob Clarke</li><li><a class="u-email" href="mailto:bobmclarke@gmail.com">bobmclarke@gmail.com</a></li></ul>
       </div>
 
-      <div class="footer-col footer-col-2"><ul class="social-media-list"></ul>
+      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://github.com/bobclarke"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg> <span class="username">bobclarke</span></a></li><li><a href="https://www.linkedin.com/in/bobmclarke"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#linkedin"></use></svg> <span class="username">bobmclarke</span></a></li><li><a href="/feed.xml"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#rss"></use></svg> <span>feed.xml</span></a></li></ul>
 </div>
 
       <div class="footer-col footer-col-3">
-        <p></p>
+        <p>Notes about advantures in DevOps and infrastruture</p>
       </div>
     </div>
 

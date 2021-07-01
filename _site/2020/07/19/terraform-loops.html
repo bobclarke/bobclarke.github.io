@@ -6,6 +6,7 @@
 <title>Terraform loops with templates | The DevOps Runbook</title>
 <meta name="generator" content="Jekyll v4.1.1" />
 <meta property="og:title" content="Terraform loops with templates" />
+<meta name="author" content="Bob Clarke" />
 <meta property="og:locale" content="en_US" />
 <meta name="description" content="One use case for looping in terraform is if you need to provide a list of values. The example below shows the installtion of the nginx-ingress Helm chart to a Kubernetes cluster. In this particular case we’re setting up TCP Services which requires a list of one of more arguments. We could just as easily provide a values file however the technique show below deomonstrates the use of a templating and looping nicely" />
 <meta property="og:description" content="One use case for looping in terraform is if you need to provide a list of values. The example below shows the installtion of the nginx-ingress Helm chart to a Kubernetes cluster. In this particular case we’re setting up TCP Services which requires a list of one of more arguments. We could just as easily provide a values file however the technique show below deomonstrates the use of a templating and looping nicely" />
@@ -17,7 +18,7 @@
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="Terraform loops with templates" />
 <script type="application/ld+json">
-{"headline":"Terraform loops with templates","datePublished":"2020-07-19T15:32:00+01:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/2020/07/19/terraform-loops.html"},"description":"One use case for looping in terraform is if you need to provide a list of values. The example below shows the installtion of the nginx-ingress Helm chart to a Kubernetes cluster. In this particular case we’re setting up TCP Services which requires a list of one of more arguments. We could just as easily provide a values file however the technique show below deomonstrates the use of a templating and looping nicely","url":"http://localhost:4000/2020/07/19/terraform-loops.html","dateModified":"2020-07-19T15:32:00+01:00","@type":"BlogPosting","@context":"https://schema.org"}</script>
+{"headline":"Terraform loops with templates","dateModified":"2020-07-19T15:32:00+01:00","datePublished":"2020-07-19T15:32:00+01:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/2020/07/19/terraform-loops.html"},"author":{"@type":"Person","name":"Bob Clarke"},"description":"One use case for looping in terraform is if you need to provide a list of values. The example below shows the installtion of the nginx-ingress Helm chart to a Kubernetes cluster. In this particular case we’re setting up TCP Services which requires a list of one of more arguments. We could just as easily provide a values file however the technique show below deomonstrates the use of a templating and looping nicely","url":"http://localhost:4000/2020/07/19/terraform-loops.html","@type":"BlogPosting","@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="The DevOps Runbook" /></head>
 <body><header class="site-header" role="banner">
@@ -110,14 +111,14 @@
     <div class="footer-col-wrapper">
       <div class="footer-col footer-col-1">
         <ul class="contact-list">
-          <li class="p-name">The DevOps Runbook</li></ul>
+          <li class="p-name">Bob Clarke</li><li><a class="u-email" href="mailto:bobmclarke@gmail.com">bobmclarke@gmail.com</a></li></ul>
       </div>
 
-      <div class="footer-col footer-col-2"><ul class="social-media-list"></ul>
+      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://github.com/bobclarke"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg> <span class="username">bobclarke</span></a></li><li><a href="https://www.linkedin.com/in/bobmclarke"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#linkedin"></use></svg> <span class="username">bobmclarke</span></a></li><li><a href="/feed.xml"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#rss"></use></svg> <span>feed.xml</span></a></li></ul>
 </div>
 
       <div class="footer-col footer-col-3">
-        <p></p>
+        <p>Notes about advantures in DevOps and infrastruture</p>
       </div>
     </div>
 

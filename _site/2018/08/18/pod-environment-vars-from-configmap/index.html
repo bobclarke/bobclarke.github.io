@@ -17,7 +17,7 @@
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="Pod environment vars from configmap" />
 <script type="application/ld+json">
-{"headline":"Pod environment vars from configmap","datePublished":"2018-08-18T14:52:45+01:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/2018/08/18/pod-environment-vars-from-configmap/"},"description":"Create a configmap: kubectl create configmap env-config \\ --from-literal=ENV_VAR_1=FOO --from-literal=ENV_VAR_2=BAR Create a pod to use this config map cat &lt;&lt;EOF | kubectl create -f - apiVersion: v1 kind: Pod metadata: name: test-pod spec: containers: - name: test-container image: k8s.gcr.io/busybox command: [ &quot;/bin/sh&quot;, &quot;-c&quot;, &quot;env&quot; ] envFrom: - configMapRef: name: env-config restartPolicy: Never EOF This pod will print it&#39;s env and then exit View the pod env variables with: kubectl logs test-pod -c test-container This will provide something similar to the following output: KUBERNETES_PORT=tcp://10.96.0.1:443 KUBERNETES_SERVICE_PORT=443 HOSTNAME=test-pod SHLVL=1 HOME=/root EXAMPLE_SERVICE_PORT_8080_TCP_ADDR=10.100.105.233 EXAMPLE_SERVICE_SERVICE_HOST=10.100.105.233 EXAMPLE_SERVICE_PORT_8080_TCP_PORT=8080 ENV_VAR_1=FOO ENV_VAR_2=BAR EXAMPLE_SERVICE_PORT_8080_TCP_PROTO=tcp KUBERNETES_PORT_443_TCP_ADDR=10.96.0.1 EXAMPLE_SERVICE_PORT=tcp://10.100.105.233:8080 EXAMPLE_SERVICE_SERVICE_PORT=8080 PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin KUBERNETES_PORT_443_TCP_PORT=443 KUBERNETES_PORT_443_TCP_PROTO=tcp EXAMPLE_SERVICE_PORT_8080_TCP=tcp://10.100.105.233:8080 KUBERNETES_SERVICE_PORT_HTTPS=443 KUBERNETES_PORT_443_TCP=tcp://10.96.0.1:443 PWD=/ KUBERNETES_SERVICE_HOST=10.96.0.1 &nbsp; &nbsp; &nbsp; &nbsp;","url":"http://localhost:4000/2018/08/18/pod-environment-vars-from-configmap/","dateModified":"2018-08-18T14:52:45+01:00","@type":"BlogPosting","@context":"https://schema.org"}</script>
+{"headline":"Pod environment vars from configmap","dateModified":"2018-08-18T14:52:45+01:00","datePublished":"2018-08-18T14:52:45+01:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/2018/08/18/pod-environment-vars-from-configmap/"},"description":"Create a configmap: kubectl create configmap env-config \\ --from-literal=ENV_VAR_1=FOO --from-literal=ENV_VAR_2=BAR Create a pod to use this config map cat &lt;&lt;EOF | kubectl create -f - apiVersion: v1 kind: Pod metadata: name: test-pod spec: containers: - name: test-container image: k8s.gcr.io/busybox command: [ &quot;/bin/sh&quot;, &quot;-c&quot;, &quot;env&quot; ] envFrom: - configMapRef: name: env-config restartPolicy: Never EOF This pod will print it&#39;s env and then exit View the pod env variables with: kubectl logs test-pod -c test-container This will provide something similar to the following output: KUBERNETES_PORT=tcp://10.96.0.1:443 KUBERNETES_SERVICE_PORT=443 HOSTNAME=test-pod SHLVL=1 HOME=/root EXAMPLE_SERVICE_PORT_8080_TCP_ADDR=10.100.105.233 EXAMPLE_SERVICE_SERVICE_HOST=10.100.105.233 EXAMPLE_SERVICE_PORT_8080_TCP_PORT=8080 ENV_VAR_1=FOO ENV_VAR_2=BAR EXAMPLE_SERVICE_PORT_8080_TCP_PROTO=tcp KUBERNETES_PORT_443_TCP_ADDR=10.96.0.1 EXAMPLE_SERVICE_PORT=tcp://10.100.105.233:8080 EXAMPLE_SERVICE_SERVICE_PORT=8080 PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin KUBERNETES_PORT_443_TCP_PORT=443 KUBERNETES_PORT_443_TCP_PROTO=tcp EXAMPLE_SERVICE_PORT_8080_TCP=tcp://10.100.105.233:8080 KUBERNETES_SERVICE_PORT_HTTPS=443 KUBERNETES_PORT_443_TCP=tcp://10.96.0.1:443 PWD=/ KUBERNETES_SERVICE_HOST=10.96.0.1 &nbsp; &nbsp; &nbsp; &nbsp;","url":"http://localhost:4000/2018/08/18/pod-environment-vars-from-configmap/","@type":"BlogPosting","@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="The DevOps Runbook" /></head>
 <body><header class="site-header" role="banner">
@@ -111,14 +111,14 @@ KUBERNETES_SERVICE_HOST=10.96.0.1</pre>
     <div class="footer-col-wrapper">
       <div class="footer-col footer-col-1">
         <ul class="contact-list">
-          <li class="p-name">The DevOps Runbook</li></ul>
+          <li class="p-name">Bob Clarke</li><li><a class="u-email" href="mailto:bobmclarke@gmail.com">bobmclarke@gmail.com</a></li></ul>
       </div>
 
-      <div class="footer-col footer-col-2"><ul class="social-media-list"></ul>
+      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://github.com/bobclarke"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg> <span class="username">bobclarke</span></a></li><li><a href="https://www.linkedin.com/in/bobmclarke"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#linkedin"></use></svg> <span class="username">bobmclarke</span></a></li><li><a href="/feed.xml"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#rss"></use></svg> <span>feed.xml</span></a></li></ul>
 </div>
 
       <div class="footer-col footer-col-3">
-        <p></p>
+        <p>Notes about advantures in DevOps and infrastruture</p>
       </div>
     </div>
 

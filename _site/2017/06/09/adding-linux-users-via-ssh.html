@@ -6,6 +6,7 @@
 <title>Adding Linux users via ssh | The DevOps Runbook</title>
 <meta name="generator" content="Jekyll v4.1.1" />
 <meta property="og:title" content="Adding Linux users via ssh" />
+<meta name="author" content="Bob Clarke" />
 <meta property="og:locale" content="en_US" />
 <meta name="description" content="bash script to add users via and set password via ssh #!/bin/bash USER_TO_ADD=ansibleUSER_TO_ADD_UID=30000USER_TO_ADD_GID=30000 [ $# -eq 1 ] || { echo &quot;please provide target host&quot; exit 1} TARGET_HOST=$1R=$(ping ${TARGET_HOST} 2&gt;&amp;1)[ $? -eq 0 ] || { echo &quot;Unable to ping ${TARGET_HOST}. Error is $R&quot; exit 1} ssh -t ${TARGET_HOST} &quot;sudo groupadd ${USER_TO_ADD} --gid ${USER_TO_ADD_GID}&quot; &amp;&amp; \ &quot;sudo useradd -m ${USER_TO_ADD} --uid ${USER_TO_ADD_GID} --gid ${USER_TO_ADD_GID}&quot; &amp;&amp; \ &quot;getent passwd ${USER_TO_ADD}&quot; &amp;&amp; \ &quot;usermod --groups wheel ${USER_TO_ADD}&quot; &amp;&amp; \ &quot;echo -e &#39;${USER_TO_ADD}\n${USER_TO_ADD}\n&#39; | sudo passwd ${USER_TO_ADD}&quot;" />
 <meta property="og:description" content="bash script to add users via and set password via ssh #!/bin/bash USER_TO_ADD=ansibleUSER_TO_ADD_UID=30000USER_TO_ADD_GID=30000 [ $# -eq 1 ] || { echo &quot;please provide target host&quot; exit 1} TARGET_HOST=$1R=$(ping ${TARGET_HOST} 2&gt;&amp;1)[ $? -eq 0 ] || { echo &quot;Unable to ping ${TARGET_HOST}. Error is $R&quot; exit 1} ssh -t ${TARGET_HOST} &quot;sudo groupadd ${USER_TO_ADD} --gid ${USER_TO_ADD_GID}&quot; &amp;&amp; \ &quot;sudo useradd -m ${USER_TO_ADD} --uid ${USER_TO_ADD_GID} --gid ${USER_TO_ADD_GID}&quot; &amp;&amp; \ &quot;getent passwd ${USER_TO_ADD}&quot; &amp;&amp; \ &quot;usermod --groups wheel ${USER_TO_ADD}&quot; &amp;&amp; \ &quot;echo -e &#39;${USER_TO_ADD}\n${USER_TO_ADD}\n&#39; | sudo passwd ${USER_TO_ADD}&quot;" />
@@ -17,7 +18,7 @@
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="Adding Linux users via ssh" />
 <script type="application/ld+json">
-{"headline":"Adding Linux users via ssh","datePublished":"2017-06-09T16:49:00+01:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/2017/06/09/adding-linux-users-via-ssh.html"},"description":"bash script to add users via and set password via ssh #!/bin/bash USER_TO_ADD=ansibleUSER_TO_ADD_UID=30000USER_TO_ADD_GID=30000 [ $# -eq 1 ] || { echo &quot;please provide target host&quot; exit 1} TARGET_HOST=$1R=$(ping ${TARGET_HOST} 2&gt;&amp;1)[ $? -eq 0 ] || { echo &quot;Unable to ping ${TARGET_HOST}. Error is $R&quot; exit 1} ssh -t ${TARGET_HOST} &quot;sudo groupadd ${USER_TO_ADD} --gid ${USER_TO_ADD_GID}&quot; &amp;&amp; \\ &quot;sudo useradd -m ${USER_TO_ADD} --uid ${USER_TO_ADD_GID} --gid ${USER_TO_ADD_GID}&quot; &amp;&amp; \\ &quot;getent passwd ${USER_TO_ADD}&quot; &amp;&amp; \\ &quot;usermod --groups wheel ${USER_TO_ADD}&quot; &amp;&amp; \\ &quot;echo -e &#39;${USER_TO_ADD}\\n${USER_TO_ADD}\\n&#39; | sudo passwd ${USER_TO_ADD}&quot;","url":"http://localhost:4000/2017/06/09/adding-linux-users-via-ssh.html","dateModified":"2017-06-09T16:49:00+01:00","@type":"BlogPosting","@context":"https://schema.org"}</script>
+{"headline":"Adding Linux users via ssh","dateModified":"2017-06-09T16:49:00+01:00","datePublished":"2017-06-09T16:49:00+01:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/2017/06/09/adding-linux-users-via-ssh.html"},"author":{"@type":"Person","name":"Bob Clarke"},"description":"bash script to add users via and set password via ssh #!/bin/bash USER_TO_ADD=ansibleUSER_TO_ADD_UID=30000USER_TO_ADD_GID=30000 [ $# -eq 1 ] || { echo &quot;please provide target host&quot; exit 1} TARGET_HOST=$1R=$(ping ${TARGET_HOST} 2&gt;&amp;1)[ $? -eq 0 ] || { echo &quot;Unable to ping ${TARGET_HOST}. Error is $R&quot; exit 1} ssh -t ${TARGET_HOST} &quot;sudo groupadd ${USER_TO_ADD} --gid ${USER_TO_ADD_GID}&quot; &amp;&amp; \\ &quot;sudo useradd -m ${USER_TO_ADD} --uid ${USER_TO_ADD_GID} --gid ${USER_TO_ADD_GID}&quot; &amp;&amp; \\ &quot;getent passwd ${USER_TO_ADD}&quot; &amp;&amp; \\ &quot;usermod --groups wheel ${USER_TO_ADD}&quot; &amp;&amp; \\ &quot;echo -e &#39;${USER_TO_ADD}\\n${USER_TO_ADD}\\n&#39; | sudo passwd ${USER_TO_ADD}&quot;","url":"http://localhost:4000/2017/06/09/adding-linux-users-via-ssh.html","@type":"BlogPosting","@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="The DevOps Runbook" /></head>
 <body><header class="site-header" role="banner">
@@ -66,14 +67,14 @@
     <div class="footer-col-wrapper">
       <div class="footer-col footer-col-1">
         <ul class="contact-list">
-          <li class="p-name">The DevOps Runbook</li></ul>
+          <li class="p-name">Bob Clarke</li><li><a class="u-email" href="mailto:bobmclarke@gmail.com">bobmclarke@gmail.com</a></li></ul>
       </div>
 
-      <div class="footer-col footer-col-2"><ul class="social-media-list"></ul>
+      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://github.com/bobclarke"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg> <span class="username">bobclarke</span></a></li><li><a href="https://www.linkedin.com/in/bobmclarke"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#linkedin"></use></svg> <span class="username">bobmclarke</span></a></li><li><a href="/feed.xml"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#rss"></use></svg> <span>feed.xml</span></a></li></ul>
 </div>
 
       <div class="footer-col footer-col-3">
-        <p></p>
+        <p>Notes about advantures in DevOps and infrastruture</p>
       </div>
     </div>
 

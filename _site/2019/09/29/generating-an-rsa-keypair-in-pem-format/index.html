@@ -17,7 +17,7 @@
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="Generating an RSA keypair in PEM format" />
 <script type="application/ld+json">
-{"headline":"Generating an RSA keypair in PEM format","datePublished":"2019-09-29T11:34:45+01:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/2019/09/29/generating-an-rsa-keypair-in-pem-format/"},"description":"By default, ssh-keygen generates a private key in PEM format and an associated public key in some other format (not sure what this format is). This is fine for SSH authentication however if you need a standard OpenSSL compliant keypair there are two ways to generate as follows: Using openssl: Generate the private key openssl genpkey -algorithm RSA -out private_key.pem -pkeyopt rsa_keygen_bits:2048 Extract the public key: openssl rsa -pubout -in private_key.pem -out public_key.pem Using ssh-keygen: Generate the keypair in the usual way: ssh-keygen -b 2048 -t rsa -f key Now generate a PEM version of the public key: ssh-keygen -f key.pub -m pem -e &gt; key.pub.pem","url":"http://localhost:4000/2019/09/29/generating-an-rsa-keypair-in-pem-format/","dateModified":"2019-09-29T11:34:45+01:00","@type":"BlogPosting","@context":"https://schema.org"}</script>
+{"headline":"Generating an RSA keypair in PEM format","dateModified":"2019-09-29T11:34:45+01:00","datePublished":"2019-09-29T11:34:45+01:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/2019/09/29/generating-an-rsa-keypair-in-pem-format/"},"description":"By default, ssh-keygen generates a private key in PEM format and an associated public key in some other format (not sure what this format is). This is fine for SSH authentication however if you need a standard OpenSSL compliant keypair there are two ways to generate as follows: Using openssl: Generate the private key openssl genpkey -algorithm RSA -out private_key.pem -pkeyopt rsa_keygen_bits:2048 Extract the public key: openssl rsa -pubout -in private_key.pem -out public_key.pem Using ssh-keygen: Generate the keypair in the usual way: ssh-keygen -b 2048 -t rsa -f key Now generate a PEM version of the public key: ssh-keygen -f key.pub -m pem -e &gt; key.pub.pem","url":"http://localhost:4000/2019/09/29/generating-an-rsa-keypair-in-pem-format/","@type":"BlogPosting","@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="The DevOps Runbook" /></head>
 <body><header class="site-header" role="banner">
@@ -97,14 +97,14 @@
     <div class="footer-col-wrapper">
       <div class="footer-col footer-col-1">
         <ul class="contact-list">
-          <li class="p-name">The DevOps Runbook</li></ul>
+          <li class="p-name">Bob Clarke</li><li><a class="u-email" href="mailto:bobmclarke@gmail.com">bobmclarke@gmail.com</a></li></ul>
       </div>
 
-      <div class="footer-col footer-col-2"><ul class="social-media-list"></ul>
+      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://github.com/bobclarke"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg> <span class="username">bobclarke</span></a></li><li><a href="https://www.linkedin.com/in/bobmclarke"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#linkedin"></use></svg> <span class="username">bobmclarke</span></a></li><li><a href="/feed.xml"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#rss"></use></svg> <span>feed.xml</span></a></li></ul>
 </div>
 
       <div class="footer-col footer-col-3">
-        <p></p>
+        <p>Notes about advantures in DevOps and infrastruture</p>
       </div>
     </div>
 

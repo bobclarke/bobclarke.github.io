@@ -17,7 +17,7 @@
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="Authenticate to an internal npm repository" />
 <script type="application/ld+json">
-{"headline":"Authenticate to an internal npm repository","datePublished":"2017-06-09T17:08:00+01:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/2017/06/09/authenticate-to-an-internal-npm-repository/"},"description":"Run the following commands: npm config set registry https://my_nexus_server/repositories/npm/npm config set strict-ssl falsenpm config set always-auth truenpm config set _auth bXktdXNlcjpteS1wYXNzd29yZA== Generate the base64 as follows (don&#39;t forget the -n otherwise the newline character will be added to the base64 string: echo -n &#39;my-user:my-password&#39; | openssl base64 Alternatively you can just create a ~/.npmrc file as follows: registry=https://my_nexus_server/repositories/npm/strict-ssl=falsealways-auth=true_auth=&quot;bXktdXNlcjpteS1wYXNzd29yZA==&quot; NOTE: any config keys starting with an underscore are hidden, therefore they will not be echoed to the screen when running  npm config --list","url":"http://localhost:4000/2017/06/09/authenticate-to-an-internal-npm-repository/","dateModified":"2017-06-09T17:08:00+01:00","@type":"BlogPosting","@context":"https://schema.org"}</script>
+{"headline":"Authenticate to an internal npm repository","dateModified":"2017-06-09T17:08:00+01:00","datePublished":"2017-06-09T17:08:00+01:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/2017/06/09/authenticate-to-an-internal-npm-repository/"},"description":"Run the following commands: npm config set registry https://my_nexus_server/repositories/npm/npm config set strict-ssl falsenpm config set always-auth truenpm config set _auth bXktdXNlcjpteS1wYXNzd29yZA== Generate the base64 as follows (don&#39;t forget the -n otherwise the newline character will be added to the base64 string: echo -n &#39;my-user:my-password&#39; | openssl base64 Alternatively you can just create a ~/.npmrc file as follows: registry=https://my_nexus_server/repositories/npm/strict-ssl=falsealways-auth=true_auth=&quot;bXktdXNlcjpteS1wYXNzd29yZA==&quot; NOTE: any config keys starting with an underscore are hidden, therefore they will not be echoed to the screen when running  npm config --list","url":"http://localhost:4000/2017/06/09/authenticate-to-an-internal-npm-repository/","@type":"BlogPosting","@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="The DevOps Runbook" /></head>
 <body><header class="site-header" role="banner">
@@ -75,14 +75,14 @@
     <div class="footer-col-wrapper">
       <div class="footer-col footer-col-1">
         <ul class="contact-list">
-          <li class="p-name">The DevOps Runbook</li></ul>
+          <li class="p-name">Bob Clarke</li><li><a class="u-email" href="mailto:bobmclarke@gmail.com">bobmclarke@gmail.com</a></li></ul>
       </div>
 
-      <div class="footer-col footer-col-2"><ul class="social-media-list"></ul>
+      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://github.com/bobclarke"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg> <span class="username">bobclarke</span></a></li><li><a href="https://www.linkedin.com/in/bobmclarke"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#linkedin"></use></svg> <span class="username">bobmclarke</span></a></li><li><a href="/feed.xml"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#rss"></use></svg> <span>feed.xml</span></a></li></ul>
 </div>
 
       <div class="footer-col footer-col-3">
-        <p></p>
+        <p>Notes about advantures in DevOps and infrastruture</p>
       </div>
     </div>
 

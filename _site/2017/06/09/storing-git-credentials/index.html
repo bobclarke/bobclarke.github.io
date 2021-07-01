@@ -17,7 +17,7 @@
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="storing git credentials" />
 <script type="application/ld+json">
-{"headline":"storing git credentials","datePublished":"2017-06-09T16:42:00+01:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/2017/06/09/storing-git-credentials/"},"description":"If you need to store git credentials so that you don&#39;t have to keep entering them when cloning a git repo over http(s) Add the following to ~/.gitconfig [user] email = bobmclarke@gmail.com name = Bob Clarke [credential] helper = store Then create ~/.git-credentials with the following contents https://your-username:your-password@github.com Now authentication to Git will work without prompting for credentials. Another way of generating these files is to run: git config --global user.email &quot;bobmclarke@gmail.com&quot; git config --global user.name &quot;Bob Clarke&quot; git config --global credential.helper store Then push to the repo at which point you&#39;ll be prompted for your username and password. After you enter them for the first time a ~/.git-credentials file will be generated as above. This can be useful if the developers in your team are using git as an npm repo for internal modules with something in the package.json like: &quot;some-npm-package-name&quot;: &quot;git+https://github.com/bobclarke/mymodule#v1.0&quot; The downside is that your Git credentials will be stored in PLAIN TEXT so be aware. Last thing to note, if you&#39;re doing this on an internal Github you may need to ignore ssl certs as follows: git config --global http.sslVerify false p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Monaco; color: #f5f5f5; background-color: #2f2f2f}","url":"http://localhost:4000/2017/06/09/storing-git-credentials/","dateModified":"2017-06-09T16:42:00+01:00","@type":"BlogPosting","@context":"https://schema.org"}</script>
+{"headline":"storing git credentials","dateModified":"2017-06-09T16:42:00+01:00","datePublished":"2017-06-09T16:42:00+01:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/2017/06/09/storing-git-credentials/"},"description":"If you need to store git credentials so that you don&#39;t have to keep entering them when cloning a git repo over http(s) Add the following to ~/.gitconfig [user] email = bobmclarke@gmail.com name = Bob Clarke [credential] helper = store Then create ~/.git-credentials with the following contents https://your-username:your-password@github.com Now authentication to Git will work without prompting for credentials. Another way of generating these files is to run: git config --global user.email &quot;bobmclarke@gmail.com&quot; git config --global user.name &quot;Bob Clarke&quot; git config --global credential.helper store Then push to the repo at which point you&#39;ll be prompted for your username and password. After you enter them for the first time a ~/.git-credentials file will be generated as above. This can be useful if the developers in your team are using git as an npm repo for internal modules with something in the package.json like: &quot;some-npm-package-name&quot;: &quot;git+https://github.com/bobclarke/mymodule#v1.0&quot; The downside is that your Git credentials will be stored in PLAIN TEXT so be aware. Last thing to note, if you&#39;re doing this on an internal Github you may need to ignore ssl certs as follows: git config --global http.sslVerify false p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Monaco; color: #f5f5f5; background-color: #2f2f2f}","url":"http://localhost:4000/2017/06/09/storing-git-credentials/","@type":"BlogPosting","@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="The DevOps Runbook" /></head>
 <body><header class="site-header" role="banner">
@@ -91,14 +91,14 @@ git config --global user.name <span style="color:#aa5500;">"Bob Clarke"</span></
     <div class="footer-col-wrapper">
       <div class="footer-col footer-col-1">
         <ul class="contact-list">
-          <li class="p-name">The DevOps Runbook</li></ul>
+          <li class="p-name">Bob Clarke</li><li><a class="u-email" href="mailto:bobmclarke@gmail.com">bobmclarke@gmail.com</a></li></ul>
       </div>
 
-      <div class="footer-col footer-col-2"><ul class="social-media-list"></ul>
+      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://github.com/bobclarke"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg> <span class="username">bobclarke</span></a></li><li><a href="https://www.linkedin.com/in/bobmclarke"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#linkedin"></use></svg> <span class="username">bobmclarke</span></a></li><li><a href="/feed.xml"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#rss"></use></svg> <span>feed.xml</span></a></li></ul>
 </div>
 
       <div class="footer-col footer-col-3">
-        <p></p>
+        <p>Notes about advantures in DevOps and infrastruture</p>
       </div>
     </div>
 

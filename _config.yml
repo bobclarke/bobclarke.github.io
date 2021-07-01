@@ -1,2 +1,8 @@
 theme: minima
 title: The DevOps Runbook
+author: Bob Clarke
+email: bobmclarke@gmail.com
+description: Notes about advantures in DevOps and infrastruture
+github_username: bobclarke
+rss: feed.xml
+linkedin_username: bobmclarke

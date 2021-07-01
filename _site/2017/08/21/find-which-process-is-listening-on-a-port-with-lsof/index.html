@@ -17,7 +17,7 @@
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="Find which process is listening on a port with LSOF" />
 <script type="application/ld+json">
-{"headline":"Find which process is listening on a port with LSOF","datePublished":"2017-08-21T19:04:00+01:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/2017/08/21/find-which-process-is-listening-on-a-port-with-lsof/"},"description":"You can usually use the -p option in netstat to find out which process is listening on a specific port as follows: netstat -anp | grep 22 This would provide something to the following which is telling you that port 22 has been opened for listening by process sshd who&#39;s PID is 954 tcp 0 0 0.0.0.0:22 0.0.0.0:* LISTEN 954/sshd If you&#39;re in a fix and need a different method, good old fashioned LSOF can do the job  lsof -i :22 Which would provide something similar to the following: COMMAND PID USER FD TYPE DEVICE SIZE/OFF NODE NAMEsshd 954 root 3u IPv4 16348 0t0 TCP *:ssh (LISTEN)sshd 954 root 4u IPv6 16357 0t0 TCP *:ssh (LISTEN) &lt;/p&gt; &lt;/span&gt;","url":"http://localhost:4000/2017/08/21/find-which-process-is-listening-on-a-port-with-lsof/","dateModified":"2017-08-21T19:04:00+01:00","@type":"BlogPosting","@context":"https://schema.org"}</script>
+{"headline":"Find which process is listening on a port with LSOF","dateModified":"2017-08-21T19:04:00+01:00","datePublished":"2017-08-21T19:04:00+01:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/2017/08/21/find-which-process-is-listening-on-a-port-with-lsof/"},"description":"You can usually use the -p option in netstat to find out which process is listening on a specific port as follows: netstat -anp | grep 22 This would provide something to the following which is telling you that port 22 has been opened for listening by process sshd who&#39;s PID is 954 tcp 0 0 0.0.0.0:22 0.0.0.0:* LISTEN 954/sshd If you&#39;re in a fix and need a different method, good old fashioned LSOF can do the job  lsof -i :22 Which would provide something similar to the following: COMMAND PID USER FD TYPE DEVICE SIZE/OFF NODE NAMEsshd 954 root 3u IPv4 16348 0t0 TCP *:ssh (LISTEN)sshd 954 root 4u IPv6 16357 0t0 TCP *:ssh (LISTEN) &lt;/p&gt; &lt;/span&gt;","url":"http://localhost:4000/2017/08/21/find-which-process-is-listening-on-a-port-with-lsof/","@type":"BlogPosting","@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="The DevOps Runbook" /></head>
 <body><header class="site-header" role="banner">
@@ -80,14 +80,14 @@
     <div class="footer-col-wrapper">
       <div class="footer-col footer-col-1">
         <ul class="contact-list">
-          <li class="p-name">The DevOps Runbook</li></ul>
+          <li class="p-name">Bob Clarke</li><li><a class="u-email" href="mailto:bobmclarke@gmail.com">bobmclarke@gmail.com</a></li></ul>
       </div>
 
-      <div class="footer-col footer-col-2"><ul class="social-media-list"></ul>
+      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://github.com/bobclarke"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg> <span class="username">bobclarke</span></a></li><li><a href="https://www.linkedin.com/in/bobmclarke"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#linkedin"></use></svg> <span class="username">bobmclarke</span></a></li><li><a href="/feed.xml"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#rss"></use></svg> <span>feed.xml</span></a></li></ul>
 </div>
 
       <div class="footer-col footer-col-3">
-        <p></p>
+        <p>Notes about advantures in DevOps and infrastruture</p>
       </div>
     </div>
 

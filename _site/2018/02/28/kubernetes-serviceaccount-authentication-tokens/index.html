@@ -17,7 +17,7 @@
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="Kubernetes - serviceaccount authentication tokens" />
 <script type="application/ld+json">
-{"headline":"Kubernetes - serviceaccount authentication tokens","datePublished":"2018-02-28T22:06:00+00:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/2018/02/28/kubernetes-serviceaccount-authentication-tokens/"},"description":"When pods communicate with the API server, they use a service account to authenticate. The token for this is defined in a secret, which is mounted as a volume into the pod in question. The token is signed by the key specified by the API servers --service-account-key-file property You can test this token by making a request to the API server with curl as follows: curl -H “Authorization: Bearer &lt;token&gt;&quot; https://&lt;master ip addr&gt;:6443/api/v1/namespaces/&lt;namespace&gt;/pods/&lt;pod name&gt; You can derive the token from the relevant secret as follows: kubectl describe secrets -n kube-system Name: default-token-jvrkf Namespace: kube-system Labels: Annotations: kubernetes.io/service-account.name=default kubernetes.io/service-account.uid=ba8add2d-12ab-11e8-9719-080027dd95a3","url":"http://localhost:4000/2018/02/28/kubernetes-serviceaccount-authentication-tokens/","dateModified":"2018-02-28T22:06:00+00:00","@type":"BlogPosting","@context":"https://schema.org"}</script>
+{"headline":"Kubernetes - serviceaccount authentication tokens","dateModified":"2018-02-28T22:06:00+00:00","datePublished":"2018-02-28T22:06:00+00:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/2018/02/28/kubernetes-serviceaccount-authentication-tokens/"},"description":"When pods communicate with the API server, they use a service account to authenticate. The token for this is defined in a secret, which is mounted as a volume into the pod in question. The token is signed by the key specified by the API servers --service-account-key-file property You can test this token by making a request to the API server with curl as follows: curl -H “Authorization: Bearer &lt;token&gt;&quot; https://&lt;master ip addr&gt;:6443/api/v1/namespaces/&lt;namespace&gt;/pods/&lt;pod name&gt; You can derive the token from the relevant secret as follows: kubectl describe secrets -n kube-system Name: default-token-jvrkf Namespace: kube-system Labels: Annotations: kubernetes.io/service-account.name=default kubernetes.io/service-account.uid=ba8add2d-12ab-11e8-9719-080027dd95a3","url":"http://localhost:4000/2018/02/28/kubernetes-serviceaccount-authentication-tokens/","@type":"BlogPosting","@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="The DevOps Runbook" /></head>
 <body><header class="site-header" role="banner">
@@ -103,14 +103,14 @@ _ug
     <div class="footer-col-wrapper">
       <div class="footer-col footer-col-1">
         <ul class="contact-list">
-          <li class="p-name">The DevOps Runbook</li></ul>
+          <li class="p-name">Bob Clarke</li><li><a class="u-email" href="mailto:bobmclarke@gmail.com">bobmclarke@gmail.com</a></li></ul>
       </div>
 
-      <div class="footer-col footer-col-2"><ul class="social-media-list"></ul>
+      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://github.com/bobclarke"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg> <span class="username">bobclarke</span></a></li><li><a href="https://www.linkedin.com/in/bobmclarke"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#linkedin"></use></svg> <span class="username">bobmclarke</span></a></li><li><a href="/feed.xml"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#rss"></use></svg> <span>feed.xml</span></a></li></ul>
 </div>
 
       <div class="footer-col footer-col-3">
-        <p></p>
+        <p>Notes about advantures in DevOps and infrastruture</p>
       </div>
     </div>
 
