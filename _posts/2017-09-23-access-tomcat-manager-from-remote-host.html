@@ -13,12 +13,6 @@ tags:
 meta:
   _publicize_pending: '1'
   restapi_import_id: 5b6f197fa2b75
-author:
-  login: bobmclarke915800472
-  email: bob.mclarke@gmail.com
-  display_name: Bob Clarke
-  first_name: ''
-  last_name: ''
 permalink: "/2017/09/23/access-tomcat-manager-from-remote-host/"
 ---
 <p><span style="color:#444444;font-family:verdana;font-size:16px;"> Alongside configuring access in $CATALINA_HOME/conf/tomcat-users.xml, an additional step is required if you want to access the manager application from a remote host. Edit the <b>$CATALINA_HOME/webapps/manager/META-INF/context.xml</b> file and ensure the <b>allow</b> attribute has a value of <b>^.*$</b>.   </p>

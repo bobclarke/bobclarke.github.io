@@ -15,12 +15,6 @@ tags:
 meta:
   _publicize_pending: '1'
   restapi_import_id: 5b6f197fa2b75
-author:
-  login: bobmclarke915800472
-  email: bob.mclarke@gmail.com
-  display_name: Bob Clarke
-  first_name: ''
-  last_name: ''
 permalink: "/2017/08/28/filter-git-events-within-a-jenkinsfile/"
 ---
 <p><span style="color:#444444;font-family:verdana;font-size:16px;"> Assuming you're using Git webhooks to trigger your Jenkins builds, let's say you want to trigger a different set of pipeline stages depending on whether the Git event is a push vs. a pull request. I.e for a push you may only wish to run static analysis and unit tests, whereas for a pull request you may want to add Selenium tests.  </span></p>

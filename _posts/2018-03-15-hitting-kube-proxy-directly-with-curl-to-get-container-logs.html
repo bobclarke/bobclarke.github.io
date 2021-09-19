@@ -13,12 +13,6 @@ tags:
 meta:
   _publicize_job_id: '21247049829'
   restapi_import_id: 5b6f197fa2b75
-author:
-  login: bobmclarke915800472
-  email: bob.mclarke@gmail.com
-  display_name: Bob Clarke
-  first_name: ''
-  last_name: ''
 permalink: "/2018/03/15/hitting-kube-proxy-directly-with-curl-to-get-container-logs/"
 ---
 <p>When you ask the API server to retrieve pod logs (i.e. kubectl logs , it does this be connecting to kube-proxy on port <span style="color:#008000;"><strong>10250</strong></span> (not quite sure where this is defined yet but will find out and update this post)  on the node hosting the pod.  You can check this manually by ssh'ing to the node as follows and using curl as follows:</p>

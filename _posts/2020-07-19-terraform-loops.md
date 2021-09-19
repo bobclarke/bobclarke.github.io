@@ -3,7 +3,6 @@ layout: post
 title: Terraform loops with templates
 date: 2020-07-19 15:32
 category: 
-author: 
 tags: [terraform]
 summary: 
 ---
