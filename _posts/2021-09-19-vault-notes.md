@@ -151,11 +151,6 @@ curl --header "X-Vault-Token: s.xxxxxxxxxxxxxxxx" -k --request LIST https://127.
 Re the other set of external group that were created by somebody, according to the docs the way these have to be mapped to an external backend like okta is via group alias within which the accessor for that backend is used as a "mount point" ... However I see no group aliases in our vault so I can only assume these groups are having no effect. (which was born out when I added a policy to one of these groups earlier) 
 
 
-Testing the theory 
----
-local user  with new external group that is properly mapped to okta
-
-
 Policies
 ---
 List 
