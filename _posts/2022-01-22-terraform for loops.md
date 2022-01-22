@@ -20,7 +20,7 @@ To solve this problem I needed to use the following logic
 - Create the PrivateLink service and associate it with front end ip config (and it's subnet) with the matching IP address
 
 
-The trick here was get the load balancer config using a datasource, build a map from it using the FE config IP's as key's, and then use that key to match the IP address on the Load Balancer service (which in my case were sitting in front of ingress controllers however this would with at k8s service of type LoadBalancer. 
+The trick here was get the load balancer config using a datasource, build a map from it using the FE config IP's as key's, and then use that key to match the IP address on my ingress controller.
 
 
 Here's the code ...
