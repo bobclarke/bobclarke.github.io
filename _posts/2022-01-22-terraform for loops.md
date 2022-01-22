@@ -30,31 +30,24 @@ Here's the code ...
 variable "subscription_id" {
   default = "xyz"
 }
-
 variable "client_id" {
   default = "xyz"
 }
-
 variable "client_secret" {
   default = "xyz"
 }
-
 variable "tenant_id" {
   default = "xyz"
 }
-
 variable "admin_password" {
   default = "xyz"
 }
-
 variable "context" {
   default = "xyz"
 }
-
 variable "location" {
   default = "xyz"
 }
-
 variable "resource_group_name" {
   default = "xyz"
 }
