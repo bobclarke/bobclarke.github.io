@@ -9,7 +9,7 @@ summary:
 ---
 
 I had a challenge recently whereby I had to automate creating an Azure Private Link Service and associate it with an existing AKS (Azure Kubernetes Service) load balancer.  What made this difficult is that the load balancer had multiple Front End IP configurations associated with it (this is because multiple k8s services of type LoadBalancer will often be associated with a single load balancer in the form of multiple Front End IP Configurations)
-</br>
+<br>
 
 
 To solve this problem I needed to use the following logic 
