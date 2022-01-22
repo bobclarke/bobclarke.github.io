@@ -10,12 +10,15 @@ summary:
 
 I had a challenge recently whereby I had to automate creating an Azure Private Link Service and associate it with an existing AKS (Azure Kubernetes Service) load balancer.  What made this difficult is that the load balancer had multiple Front End IP configurations associated with it (this is because multiple k8s services of type LoadBalancer will often be associated with a single load balancer in the form of multiple Front End IP Configurations)
 
+
 To solve this problem I needed to use the following logic 
-- Get the LoadBalancer IP address of the k8s service you're interested in
-- Get the list of front end IP configs from the load balancer
-- Create the PrivateLink  service and associate it with front end ip config (and it's subnet) with the matching IP address
+- Get the IP address of the kubernetes exteral service I needed (in my case this was sitting in front of my Ingress contoller)
+- Get the list of front end IP configs for that load balancer
+- Create the PrivateLink service and associate it with front end ip config (and it's subnet) with the matching IP address
+
 
 The trick here was get the load balancer config using a datasource, build a map from it using the FE config IP's as key's, and then use that key to match the IP address on the Load Balancer service (which in my case were sitting in front of ingress controllers however this would with at k8s service of type LoadBalancer. 
+
 
 Here's the code ...
 
